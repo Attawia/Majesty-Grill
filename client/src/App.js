@@ -1,10 +1,20 @@
 import react from 'react';
+import { BrowserRouter as Router, Route,Routes as Switch} from 'react-router-dom'
+import {} from '@material-ui/core';
+import FlightForm from "./components/FlightForm/FlightForm.js";
 
 const App =() => {
     return(
-        <div>
-            <h1>App</h1>
-        </div>
+        <Router>
+            <Switch>
+                <Route exact path="/">
+
+                </Route>
+                <Route exact path="/flights/createFlight" element = {<FlightForm />}>
+                    
+                </Route>
+            </Switch>
+        </Router>
     )
 }
 
