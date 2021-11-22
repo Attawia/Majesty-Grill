@@ -31,17 +31,7 @@ export const signIn = async (req,res) => {
                 res.send(false);
             }
 
-        })
+        });
 
-    }
-
-
-    try {
-        await newFlight.save();
-
-        res.status(201).json(newFlight);
-    } catch (error) {
-        res.status(409).json({message: error.message});
-        
     }
 }
