@@ -3,9 +3,7 @@ import bcrypt from 'bcrypt';
 
 
 export const register = async (req,res) => {
-    console.log("bada2t");
     const user = req.body;
-    console.log(user);
     user.password = await bcrypt.hash(user.password,10);
     const newUser = new User(user);
     const alreadyAccount = await User.find({username: newUser.username}); //need to check more attributes when deploying
