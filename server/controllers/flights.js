@@ -8,7 +8,6 @@ export const getCreate = (req,res) => {
 export const createFlight = async (req,res) => {
     const flight = req.body;
     const newFlight = new Flight(flight);
-    console.log('here');
 
     try {
         await newFlight.save();
