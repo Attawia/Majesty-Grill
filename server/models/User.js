@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import router from '../routes/flights';
 
 const Schema = mongoose.Schema;
 
@@ -21,4 +22,5 @@ const userSchema = new Schema(
 const User = mongoose.model('user', userSchema);
 
 module.exports = User;
+
 
