@@ -1,6 +1,8 @@
+
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import FlightDetails from './components/AllFlights';
+import UpdateFlight from './components/UpdateFlight';
 
 const App =() => {
 
@@ -42,6 +44,3 @@ const App =() => {
        </Router>
     )
 }
-
-
-export default App;
