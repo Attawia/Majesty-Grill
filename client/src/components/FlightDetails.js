@@ -23,7 +23,7 @@ const FlightDetails = () => {
     
     const deleteFlight = async() =>
     {
-     const resp =  await api.delete('http://localhost:5001/flights/' + id);
+     const resp =  await api.delete('http://localhost:5000/flights/' + id);
      navigate('/flights');
         // const data = await fetch('http://localhost:5001/flights/' + id,
         // {

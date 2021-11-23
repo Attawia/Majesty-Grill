@@ -18,7 +18,7 @@ import flightRoutes from './routes/flights.js';
 
 const CONNECTION_URL = "mongodb+srv://Attawia:durumallesalat@majestyairlines.xdpcb.mongodb.net/MajestyAirlines?retryWrites=true&w=majority";//
 
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 5000;
 
 mongoose.connect(CONNECTION_URL)
 .then(() => app.listen(PORT, () => console.log(`Server running on port:${PORT}`)))
