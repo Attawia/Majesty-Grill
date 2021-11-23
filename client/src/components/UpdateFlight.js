@@ -30,7 +30,7 @@ const UpdateFlight =  () => {
         console.log(flight);
         const updated = {_id:flight._id,flight:flight};
         const x = axios.patch('http://localhost:5000/flights/updateflight',updated);
-        history.push('/flights/:' + id);
+        history.push('/flights/' + id);
 
         
    }
