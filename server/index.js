@@ -12,6 +12,7 @@ app.use(cors());
 
 import flightRoutes from './routes/flights.js';
 
+
 app.use('/flights',flightRoutes)
 
 const CONNECTION_URL = "mongodb+srv://Attawia:durumallesalat@majestyairlines.xdpcb.mongodb.net/MajestyAirlines?retryWrites=true&w=majority";
