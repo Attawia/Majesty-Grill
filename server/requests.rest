@@ -1,0 +1,3 @@
+DELETE http://localhost:5001/flights/619b761ef040cde85c2203f3
+###
+GET http://localhost:5001/flights
