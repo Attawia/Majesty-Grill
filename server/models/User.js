@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import router from '../routes/flights';
 
 const Schema = mongoose.Schema;
 
