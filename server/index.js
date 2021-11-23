@@ -11,9 +11,12 @@ app.use(bodyParser.json({limit: "30mb", extended : true}))
 app.use(bodyParser.urlencoded({limit: "30mb", extended : true}))
 app.use(cors());
 
-
-
 import flightRoutes from './routes/flights.js';
+import indexRoutes from './routes/index.js';
+
+app.use('/flights',flightRoutes);
+app.use('/',indexRoutes);
+
 
 
 
