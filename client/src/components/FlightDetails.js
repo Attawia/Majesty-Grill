@@ -1,13 +1,14 @@
-import { useNavigate, useParams } from "react-router-dom";
+import {  useParams,Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { GetFlightById } from "../../../actions/index";
-import api from "../../../api/index";
+import { GetFlightById } from "../actions/index.js";
+
+import api from "../api/index.js";
 
 const FlightDetails = () => {
 
     const {id} = useParams();
     const [flight, setFlight] = useState(null);
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
 
 
     useEffect(()=>
@@ -24,7 +25,7 @@ const FlightDetails = () => {
     const deleteFlight = async() =>
     {
      const resp =  await api.delete('http://localhost:5000/flights/' + id);
-     navigate('/flights');
+     //navigate('/flights');
         // const data = await fetch('http://localhost:5001/flights/' + id,
         // {
         //     method : "DELETE"

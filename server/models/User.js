@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import router from '../routes/flights';
 
 const Schema = mongoose.Schema;
 
@@ -11,7 +10,7 @@ const userSchema = new Schema(
         lastName : {type: String, required: true,},
         address : {type: String, required: true,},
         countryCode : {type: String, required: true,},
-        telephoneNos : {type: [String], required: true,},
+        telephoneNo : {type: String, required: true,},
         email : {type: String, required: true,},
         passportNo : {type: String, required: true,},
         
@@ -21,6 +20,6 @@ const userSchema = new Schema(
 
 const User = mongoose.model('user', userSchema);
 
-module.exports = User;
+export default User;
 
 

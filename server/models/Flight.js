@@ -9,6 +9,7 @@ const flightSchema = new Schema(
         arrivalTime : {type: Date, required: true,},
         economySeats : {type: Number, required: true,},
         businessSeats : {type: Number, required: true,},
+        firstSeats : {type: Number, required: true},
         depAirport : {type: String, required: true,},
         arrAirport : {type: String, required: true,},
         
