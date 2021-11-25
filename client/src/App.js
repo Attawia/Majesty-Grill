@@ -39,6 +39,7 @@ const App =() => {
                         <Home/>
                 </Route>
 
+
                 <Route exact path = "/flights/:id">
                   <FlightDetails />
                 </Route>
