@@ -106,10 +106,12 @@ const Home = () => {
             </Link>
           ))}
           {searchedFlights.map(searchedFlight => (
-            <div className="flights-preview" key={searchedFlight._id} >
-                <h2>{searchedFlight.flightNo}</h2>
-                <p>{ searchedFlight.depAirport} =={">"} { searchedFlight.arrAirport} </p>
-            </div>
+              <Link to={`/flights/${searchedFlight._id}`}>
+                <div className="flights-preview" key={searchedFlight._id} >
+                    <h2>{searchedFlight.flightNo}</h2>
+                    <p>{ searchedFlight.depAirport} =={">"} { searchedFlight.arrAirport} </p>
+                </div>
+            </Link>
           ))}
         </div>
     );
