@@ -1,13 +1,13 @@
-import { useNavigate, useParams } from "react-router-dom";
+import {  useParams,Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { GetFlightById } from "../../../actions/index";
-import api from "../../../api/index";
+import { GetFlightById } from "../actions/index.js";
+
+import api from "../api/index.js";
 
 const FlightDetails = () => {
 
     const {id} = useParams();
     const [flight, setFlight] = useState(null);
-    const navigate = useNavigate();
 
 
     useEffect(()=>
@@ -24,22 +24,13 @@ const FlightDetails = () => {
     const deleteFlight = async() =>
     {
      const resp =  await api.delete('http://localhost:5000/flights/' + id);
-     navigate('/flights');
-        // const data = await fetch('http://localhost:5001/flights/' + id,
-        // {
-        //     method : "DELETE"
-        // })
-        // .then(res=>res.json());
-   
-        // // setFlight(flight => flight.filter(flight => flight._id !== data.result._id));
-        // console.log("inside DELETE!");
         
     }
 
     return ( 
     <div>
         {flight &&
-    <table>
+    <table border = '1'>
         <tr>
         <th>Flight Number</th>
         <td>{flight.flightNo}</td>
@@ -77,15 +68,18 @@ const FlightDetails = () => {
         </tr>
     </table>
 }
-
+<Link to='/flights'>
     <button onClick={()=>{if(window.confirm('Are you sure you wish to delete this item?')) deleteFlight()}} >
         DELETE
         </button>
-
-        <Link to={`/flights/updateflight/${flight._id}`}>
-            <button>Update</button>
-
         </Link>
+
+        <Link to={`/flights/updateflight/${id}`}>
+        <button>
+             Update 
+             </button>
+        </Link>
+        
     </div>
      );
 }
