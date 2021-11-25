@@ -10,19 +10,21 @@ const getPost = async (id) => {
     const flight = res.data
     return flight;
 }
+var done = false;
 const UpdateFlight =  () => {
     const history = useHistory();
     const {id} = useParams();
-    const [flight,updateFlight] = useState({_id:id,
-    flightNo:'',
-    departureTime:'',
-    arrivalTime:'',
-    economySeats:'',
-    businessSeats:'',
-    firstSeats:'',
-    depAirport:'',
-    arrAirport:''
+    const [flight,updateFlight] = useState({});
+    if(!done){
+    const flightd = async ()=>{const promise = await getPost(id); return promise;  }
+    const flightdetails = flightd();
+    flightdetails.then(function(result){
+    const flightdata = result;      
+    updateFlight(flightdata);
     });
+    }   
+    done = true;
+
     
    const Submit = (e) =>{
 
@@ -34,23 +36,10 @@ const UpdateFlight =  () => {
 
         
    }
-
-   const showData= (e)=>{
-       e.preventDefault();
-    const flightd = async ()=>{const promise = await getPost(id); return promise;  }
-    const flightdetails = flightd();
-    flightdetails.then(function(result){
-       const flightdata = result;      
-       updateFlight(flightdata);
-    })
-
-   }
-   
    
     return(
         <Paper>
         <form>
-            <button onClick = {showData}>Show Current Flight Data</button>
             <Typography variant="h6">FLIGHT DATA</Typography><br/>
             <TextField  name="Flight Number"  variant="outlined" label="Flight Number"  value={flight.flightNo} onChange={(e) => updateFlight({...flight, flightNo : e.target.value})}/><br/><br/>
             <TextField  name="Departure Time"  type="datetime-local" label="Departure Time" InputLabelProps={{ shrink: true }}  variant="outlined"  value={flight.departureTime} onChange={(e) => updateFlight({...flight, departureTime : e.target.value})}/><br/><br/>
