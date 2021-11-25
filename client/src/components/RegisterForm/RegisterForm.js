@@ -1,0 +1,2 @@
+//register not required this sprint so no code for the frontend , the backend is there though to register the admin user
+//admin user added with a postman post request, frontend code will be added in upcoming sprints
