@@ -29,7 +29,7 @@ const FlightForm = () => {
     return(
     <Paper>
         <form autoComplete="off" noValidate onSubmit={Submit}>
-            <Typography variant="h6">Sign In</Typography><br/><br/>
+            <h1>Sign In</h1>
             <Typography >{errorMessage}</Typography><br/>
             <TextField  name="Username"  variant="outlined" label="Username"  value={userData.username} onChange={(e) => setUserData({...userData, username : e.target.value})}/><br/><br/>
             <TextField  name="Password"  label="Password" type="password" variant="outlined"  value={userData.password} onChange={(e) => setUserData({...userData, password : e.target.value})}/><br/><br/>

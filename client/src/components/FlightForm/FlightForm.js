@@ -4,6 +4,7 @@ import useStyles from './styles';
 import { useDispatch } from 'react-redux';
 import { createFlight } from '../../actions/FlightForm.js'
 import axios from 'axios';
+import {Link} from "react-router-dom";
 
 const FlightForm = () => {
     const [flightData,setFlightData] = react.useState({
@@ -36,7 +37,12 @@ const FlightForm = () => {
     return(
     <Paper>
         <form autoComplete="off" noValidate onSubmit={Submit}>
-            <Typography variant="h6">Create a flight</Typography>
+        <Link to={`/flights/`}>
+            <button>
+                Back 
+                </button>
+            </Link>
+            <h1 variant="h6">Create a flight</h1>
             <TextField  name="Flight Number"  variant="outlined" label="Flight Number"  value={flightData.flightNo} onChange={(e) => setFlightData({...flightData, flightNo : e.target.value})}/><br/><br/>
             <TextField  name="Departure Time"  type="datetime-local" label="Departure Time" InputLabelProps={{ shrink: true }}  variant="outlined"  value={flightData.departureTime} onChange={(e) => setFlightData({...flightData, departureTime : e.target.value})}/><br/><br/>
             <TextField  name="Arrival Time" type="datetime-local"  label="Arrival Time" InputLabelProps={{ shrink: true }}  variant="outlined"  value={flightData.arrivalTime} onChange={(e) => setFlightData({...flightData, arrivalTime : e.target.value})}/><br/><br/>

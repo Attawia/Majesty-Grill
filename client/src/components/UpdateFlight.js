@@ -39,8 +39,13 @@ const UpdateFlight =  () => {
    
     return(
         <Paper>
-        <form>
-            <Typography variant="h6">FLIGHT DATA</Typography><br/>
+             <Link to={`/flights/${id}`}>
+            <button>
+                Back 
+                </button>
+            </Link>
+            <h1>Update Flight</h1>
+            <form>
             <TextField  name="Flight Number"  variant="outlined" label="Flight Number" InputLabelProps={{ shrink: true }}  variant="outlined" value={flight.flightNo} onChange={(e) => updateFlight({...flight, flightNo : e.target.value})}/><br/><br/>
             <TextField  name="Departure Time"  type="datetime-local" label="Departure Time" InputLabelProps={{ shrink: true }}  variant="outlined"  value={flight.departureTime} onChange={(e) => updateFlight({...flight, departureTime : e.target.value})}/><br/><br/>
             <TextField  name="Arrival Time" type="datetime-local"  label="Arrival Time" InputLabelProps={{ shrink: true }}  variant="outlined"  value={flight.arrivalTime} onChange={(e) => updateFlight({...flight, arrivalTime : e.target.value})}/><br/><br/>
