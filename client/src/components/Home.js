@@ -42,7 +42,14 @@ const Home = () => {
         }
 
     return (
+        
         <div className="home">
+            <Link to={`/`}>
+            <button>
+                Sign Out 
+                </button>
+            </Link>
+            <h1>HomePage</h1> 
         <form onSubmit={showSearchedFlights}>
             <label>Flight Number:      </label>
             <TextField 
@@ -94,6 +101,12 @@ const Home = () => {
             onChange={(e) => setCriteria({...criteria, arrAirport : e.target.value})}
             />
             <h2></h2>
+            <Link to={`/flights/createflight`}>
+            <button>
+                Create New Flight 
+                </button>
+            </Link>
+            <br></br>
             <button>Search Flights</button>
         </form>
            <button onClick= {showAll}>Show All Flights</button>
