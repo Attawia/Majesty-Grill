@@ -33,6 +33,13 @@ const Home = () => {
 
     const showSearchedFlights = (e) =>{
         e.preventDefault();
+
+        Object.keys(criteria).forEach(function(key){
+            if (criteria[key] === '') {
+              delete criteria[key];
+            }
+          });
+
         const searchedflights = async ()=>{const promise = await handleSearchButton(); return promise;}
         const flightsarr = searchedflights();
         flightsarr.then(function(result){
