@@ -61,7 +61,6 @@ export const searchAllFlights = async (req,res) => {
     try {
         const allFLights = await Flight.find();
         
-        console.log(allFLights);
     
         res.status(200).json(allFLights);
     } catch (error) {
