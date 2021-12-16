@@ -7,10 +7,7 @@ import Home from './components/Home.js';
 import FlightDetails from './components/FlightDetails.js';
 import RegisterForm from './components/RegisterForm/RegisterForm.js';
 import FlightForm from './components/FlightForm/FlightForm.js';
-
-
-
-
+import Try from './components/Try.js'; 
 
 
 const App =() => {
@@ -23,7 +20,7 @@ const App =() => {
             
 
             <Route exact path="/"> 
-                <SignInForm/>
+                <Try/>
             </Route>
 
           <Route exact path="/Register" >
@@ -56,3 +53,4 @@ const App =() => {
 }
 
 export default App;
+

@@ -1,0 +1,87 @@
+.popup {
+    position: fixed;
+    top: 0;
+    left : 0;
+    width: 100%;
+    height: 100vh;
+    background-color : rgba(0,0,0,0.2);
+    display : flex ;
+    justify-content : center ;
+    align-items : center;
+
+}
+
+
+.popup-inner{
+    position: relative ;
+    padding : 200px;
+    width: 100%;
+    max-width : 640px;
+    background-color : #FFF;
+
+}
+
+.popup-inner .close-btn{
+    position: absolute;
+    top: 16px;
+    right: 16px;
+}
+.popup-inner .economy-seat{
+    position: absolute;
+    top: 350px;
+    right: 350px;
+}
+.popup-inner .business-seat{
+    position: absolute;
+    top: 350px;
+    right: 550px;
+}
+#details {
+    position: absolute;
+    left: 40px;
+    top: -50px;
+    font-size: 50px;
+  }
+
+#number {
+    position: absolute;
+    left: 43px;
+    top: 70px;
+    font-size: 18px;
+  }
+  #departure {
+    position: absolute;
+    left: 43px;
+    top: 120px;
+    font-size: 18px;
+  }
+  #arrival {
+    position: absolute;
+    left: 43px;
+    top: 170px;
+    font-size: 18px;
+  }
+  #duration {
+    position: absolute;
+    left: 43px;
+    top: 220px;
+    font-size : 18px;
+  }
+  #depAirport {
+    position: absolute;
+    left: 623px;
+    top: 70px;
+    font-size : 18px;
+  }
+  #arrAirport {
+    position: absolute;
+    left: 623px;
+    top: 120px;
+    font-size : 18px;
+  }
+  #baggage {
+    position: absolute;
+    left: 623px;
+    top: 170px;
+    font-size : 18px;
+  }
