@@ -1,9 +1,7 @@
 import react from 'react';
 import {TextField, Button, Paper, Typography} from '@material-ui/core';
 import makeStyles from './styles';
-import { useDispatch } from 'react-redux';
 import {signIn} from '../../actions/SignInForm.js'
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 const FlightForm = () => {
