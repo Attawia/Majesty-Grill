@@ -23,9 +23,10 @@ const FlightForm = () => {
         else{
            window.location.href='/flights'; 
         }
+
         
     };
-
+    
     return(
     <Paper>
         <form autoComplete="off" noValidate onSubmit={Submit}>
