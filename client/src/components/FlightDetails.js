@@ -29,6 +29,13 @@ const FlightDetails = () => {
 
     return ( 
     <div>
+        
+        <Link to={`/flights/`}>
+            <button>
+                Back 
+                </button>
+            </Link>
+        <h1>Flight Details</h1>    
         {flight &&
     <table border = '1'>
         <tr>

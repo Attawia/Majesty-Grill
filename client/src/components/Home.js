@@ -33,6 +33,13 @@ const Home = () => {
 
     const showSearchedFlights = (e) =>{
         e.preventDefault();
+
+        Object.keys(criteria).forEach(function(key){
+            if (criteria[key] === '') {
+              delete criteria[key];
+            }
+          });
+
         const searchedflights = async ()=>{const promise = await handleSearchButton(); return promise;}
         const flightsarr = searchedflights();
         flightsarr.then(function(result){
@@ -42,7 +49,14 @@ const Home = () => {
         }
 
     return (
+        
         <div className="home">
+            <Link to={`/`}>
+            <button>
+                Sign Out 
+                </button>
+            </Link>
+            <h1>HomePage</h1> 
         <form onSubmit={showSearchedFlights}>
             <label>Flight Number:      </label>
             <TextField 
@@ -94,6 +108,12 @@ const Home = () => {
             onChange={(e) => setCriteria({...criteria, arrAirport : e.target.value})}
             />
             <h2></h2>
+            <Link to={`/flights/createflight`}>
+            <button>
+                Create New Flight 
+                </button>
+            </Link>
+            <br></br>
             <button>Search Flights</button>
         </form>
            <button onClick= {showAll}>Show All Flights</button>
@@ -106,10 +126,12 @@ const Home = () => {
             </Link>
           ))}
           {searchedFlights.map(searchedFlight => (
-            <div className="flights-preview" key={searchedFlight._id} >
-                <h2>{searchedFlight.flightNo}</h2>
-                <p>{ searchedFlight.depAirport} =={">"} { searchedFlight.arrAirport} </p>
-            </div>
+              <Link to={`/flights/${searchedFlight._id}`}>
+                <div className="flights-preview" key={searchedFlight._id} >
+                    <h2>{searchedFlight.flightNo}</h2>
+                    <p>{ searchedFlight.depAirport} =={">"} { searchedFlight.arrAirport} </p>
+                </div>
+            </Link>
           ))}
         </div>
     );

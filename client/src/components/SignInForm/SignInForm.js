@@ -1,9 +1,7 @@
 import react from 'react';
 import {TextField, Button, Paper, Typography} from '@material-ui/core';
 import makeStyles from './styles';
-import { useDispatch } from 'react-redux';
 import {signIn} from '../../actions/SignInForm.js'
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 const FlightForm = () => {
@@ -30,7 +28,7 @@ const FlightForm = () => {
     return(
     <Paper>
         <form autoComplete="off" noValidate onSubmit={Submit}>
-            <Typography variant="h6">Sign In</Typography><br/><br/>
+            <h1>Sign In</h1>
             <Typography >{errorMessage}</Typography><br/>
             <TextField  name="Username"  variant="outlined" label="Username"  value={userData.username} onChange={(e) => setUserData({...userData, username : e.target.value})}/><br/><br/>
             <TextField  name="Password"  label="Password" type="password" variant="outlined"  value={userData.password} onChange={(e) => setUserData({...userData, password : e.target.value})}/><br/><br/>
