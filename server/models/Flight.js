@@ -2,6 +2,10 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
+//Sprint #2
+//add properties trip duration and price 
+//buggage allowance
+//array of seats as objects has 2 properties (availability )
 const flightSchema = new Schema(
     {
         flightNo : {type: String, required: true,},
@@ -12,6 +16,7 @@ const flightSchema = new Schema(
         firstSeats : {type: Number, required: true},
         depAirport : {type: String, required: true,},
         arrAirport : {type: String, required: true,},
+        //seats : {type:Object,required:}
         
     }
 );

@@ -4,19 +4,26 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import Flight from './models/Flight.js';
 
+
+
 const app = express();
 
-
+//Engine Setup
 app.use(bodyParser.json({limit: "30mb", extended : true}))
 app.use(bodyParser.urlencoded({limit: "30mb", extended : true}))
 app.use(cors());
 
+
 import flightRoutes from './routes/flights.js';
 import indexRoutes from './routes/index.js';
+import Emails from './routes/emails.js'
+import Users from './routes/users.js'
 
 app.use('/flights',flightRoutes);
 app.use('/',indexRoutes);
-
+//Sprint #2
+app.use('/sendEmail', Emails);
+app.use('/users', Users);
 
 
 
@@ -48,3 +55,7 @@ app.get('/flights/:id', async(req, res)=>
 //ay request awelo "/flights" hyrooh hena
 app.use('/flights', flightRoutes);
 
+//Sprint #2
+//ay request awelo /sendEmails hyrooh el route da
+app.get('/sendEmail', Emails);
+app.get('/users', Users);
