@@ -1,26 +1,25 @@
 import axios from 'axios';
-import react from 'react';
 import {useState} from 'react';
 import {TextField,Button,Paper,Typography} from '@material-ui/core';
 import {useParams} from 'react-router-dom';
 import { Link,useHistory} from 'react-router-dom';
 
 const getPost = async (id) => {
-    const res = await axios.post('http://localhost:5000/flights/getupdateflight',{_id:id});
-    const flight = res.data;
-    return flight;
+    const res = await axios.post('http://localhost:5000/getUpdateUser',{_id:id});
+    const user = res.data;
+    return user;
 }
 var done = false;
-const UpdateFlight =  () => {
+const UpdateUser =  () => {
     const history = useHistory();
     const {id} = useParams();
-    const [flight,updateFlight] = useState({});
+    const [user,updateUser] = useState({});
     if(!done){
-    const flightd = async ()=>{const promise = await getPost(id); return promise;  }
-    const flightdetails = flightd();
-    flightdetails.then(function(result){
-    const flightdata = result;      
-    updateFlight(flightdata);
+    const userd = async ()=>{const promise = await getPost(id); return promise;  }
+    const userDetails = userd();
+    userDetails.then(function(result){
+    const userData = result;      
+    updateUser(userData);
     });
     }   
     done = true;
@@ -29,13 +28,14 @@ const UpdateFlight =  () => {
    const Submit = (e) =>{
 
         e.preventDefault(); 
-        console.log(flight);
-        const updated = {_id:flight._id,flight:flight};
-        const x = axios.patch('http://localhost:5000/flights/updateflight',updated);
-        history.push('/flights/' + id);
-
+        const updated = {_id:user._id,user:user};
+        const x = axios.patch('http://localhost:5000/flights/updateUser',updated);
+        //history.push('/flights/' + id);  //this should redirect to the user's page to display updated info. Unimplemented till now
+ 
         
    }
+
+   //TODO all above is done, change values in html below and implement a user profile page
    
     return(
         <Paper>
@@ -60,4 +60,4 @@ const UpdateFlight =  () => {
     </Paper>
     )
 }
-export default UpdateFlight;
+export default UpdateUser;

@@ -35,3 +35,27 @@ export const signIn = async (req,res) => {
 
     }
 }
+
+    export const updateUser = async (req,res) =>{
+        const _id = req.body._id; 
+        const updatedUser = req.body.user;
+        try{
+            await User.findByIdAndUpdate(_id,updatedUser);
+            res.status(201).json(updatedUser);
+        }
+        catch(error){
+            res.status(409).json({message:error.message});
+        }    
+    }
+    
+    
+    export const getUpdateUser = async (req,res) =>{
+        const _id = req.body;
+        try{
+            const user = await User.findById(_id);
+            res.send(user);
+        }
+        catch(error){
+            res.status(409).json({message:error.message});
+        }
+    }
