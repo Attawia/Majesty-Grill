@@ -27,7 +27,7 @@ const App =() => {
             
 
             <Route exact path="/"> 
-                <SigninForm/>
+                <SignInForm/>
             </Route>
 
             <Route exact path='/Summary'>
