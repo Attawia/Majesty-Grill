@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 import react from 'react';
 import {useState} from 'react';
 import {TextField,Button,Paper,Typography} from '@material-ui/core';
@@ -7,7 +8,7 @@ import { Link,useHistory} from 'react-router-dom';
 
 const getPost = async (id) => {
     const res = await axios.post('http://localhost:5000/flights/getupdateflight',{_id:id});
-    const flight = res.data
+    const flight = res.data;
     return flight;
 }
 var done = false;
