@@ -27,7 +27,9 @@ const Home = () => {
     const flightsarr = newflights();
     flightsarr.then(function(result){
         setFlights(result);
-    })}
+    })
+    setSearchedFlights([]);
+    }
 
     const showSearchedFlights = (e) =>{
         e.preventDefault();
