@@ -8,6 +8,8 @@ import FlightDetails from './components/FlightDetails.js';
 import RegisterForm from './components/RegisterForm/RegisterForm.js';
 import FlightForm from './components/FlightForm/FlightForm.js';
 import UserSearch from './components/ExistingUser/UserSearch.js';
+import UserSearchReturn from './components/ExistingUser/UserSearchReturn.js';
+import Popup from './components/Popup.js';
 import Summary from './components/Summary.js';
 import Try from './components/Try.js';
 import Popup from './components/Popup.js';
@@ -18,6 +20,7 @@ import Seats2 from './components/Seats/retSeats.js';
 import UserProfile from './components/UserProfile/UserProfile.js'
 import UpdateUser from './components/UpdateUser/UpdateUser.js'
 import PasswordForm from './components/UpdateUser/UpdateUserPassword.js';
+
 
 
 
@@ -39,6 +42,13 @@ const App =() => {
                 <SignInForm/>
             </Route>
 
+
+            <Route exact path="/UserSearch"> 
+                <UserSearch/>
+            </Route>
+
+            <Route exact path="/UserSearchReturn"> 
+                <UserSearchReturn/>
 
             <Route exact path='/Summary'>
                 <Summary/>

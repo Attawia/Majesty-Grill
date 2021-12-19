@@ -1,11 +1,12 @@
 import { useState, useEffect} from "react";
 import axios from "axios";
 import {TextField,Button,Paper,Typography} from '@material-ui/core';
-import {Link} from "react-router-dom";
-import Popup from '../Popup.js'
+import {Link, useLocation} from "react-router-dom";
+import Popup from './../Popup.js'
 
 let flag=false;
-const Home = () => {
+const UserSearch = () => {
+
 
     const [displayNumberOfAdullts,setDisplayNumberOfAdullts] = useState(1);
     const [displayNumberOfChildren,setDisplayNumberOfChildren] = useState(0);
@@ -185,17 +186,27 @@ const Home = () => {
           {searchedFlights.map(searchedFlight => (
             <div className="flights-preview" key={searchedFlight.flightNo} onClick={() => openPopUp(searchedFlight.flightNo)}>
                 <h2>{searchedFlight.flightNo}</h2>
-                <p>{ searchedFlight.depAirport} =={">"} { searchedFlight.arrAirport} </p>
+                <h4>{ searchedFlight.depAirport} ===={">"} { searchedFlight.arrAirport} </h4>
+                <h3>Price:  {searchedFlight.priceEconomy}€    ~    {searchedFlight.priceBusiness}€</h3>
             </div>
           ))}
 
 
         </div>
-        <Popup trigger={buttonPopup} setTrigger={setButtonPopup} depFlight = {passedFlight} flightType = {"dep"}/>
+        <Popup 
+        trigger={buttonPopup} 
+        setTrigger={setButtonPopup} 
+        depFlight = {passedFlight}
+        flightType = {"dep"} 
+        adultsNo= {displayNumberOfAdullts}
+        childrenNo= {displayNumberOfChildren}
+        />
         </div>
     );
       
   
 }
 
-export default Home;
+
+export default UserSearch;
+

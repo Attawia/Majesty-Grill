@@ -4,7 +4,7 @@ import {TextField,Button,Paper,Typography} from '@material-ui/core';
 import {Link} from "react-router-dom";
 
 
-const getFlights = async()=>{
+const getAllFlights = async()=>{
     const res = await axios.get('http://localhost:5000/flights/');
     return res.data;
 }
@@ -24,7 +24,7 @@ const Home = () => {
 
    const showAll = (e) =>{
     e.preventDefault();
-    const newflights = async ()=>{const promise = await getFlights(); return promise;}
+    const newflights = async ()=>{const promise = await getAllFlights(); return promise;}
     const flightsarr = newflights();
     flightsarr.then(function(result){
         setFlights(result);
@@ -39,7 +39,7 @@ const Home = () => {
             if (criteria[key] === '') {
               delete criteria[key];
             }
-          });
+        });
 
         const searchedflights = async ()=>{const promise = await handleSearchButton(); return promise;}
         const flightsarr = searchedflights();
@@ -47,7 +47,7 @@ const Home = () => {
             setSearchedFlights(result);
         })
         setFlights([]);
-        }
+    }
 
     return (
         
@@ -119,7 +119,7 @@ const Home = () => {
         </form>
            <button onClick= {showAll}>Show All Flights</button>
           {flights.map(flight => (
-              <Link to={`/flights/${flight._id}`}>
+              <Link to={`/flights/${flight._id+flight.flightNo}`}>
             <div className="flights-preview" key={flight._id} >
                 <h2>{flight.flightNo}</h2>
                 <p>{ flight.depAirport} =={">"} { flight.arrAirport} </p>

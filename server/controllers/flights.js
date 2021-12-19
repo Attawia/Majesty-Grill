@@ -137,3 +137,44 @@ export const searchAllFlights = async (req,res) => {
             res.status(404).json({message : error.message});
         }
         };
+
+
+        export const searchFlightsUser = async (req,res) => {
+            const wholeCriteria = req.body;
+            console.log(wholeCriteria);
+                const criteria = wholeCriteria.criteria
+            try {
+                
+                
+                 const searchedFLights = await Flight.find(criteria);
+
+                // for(let i = 0;i < searchedFLights.length;i++){
+                //     if(searchedFLights[i].freeEconomySeats < passengersNo && searchedFLights[i].freeBusinessSeats < passengersNo){
+                //         searchedFLights.splice(i,1);
+                //     }
+                // }
+            
+        
+                res.status(200).json(searchedFLights);
+            } catch (error) {
+                res.status(404).json({message : error.message});
+            }
+        };
+
+        export const searchReturnFlightsUser = async (req,res) => {
+            const depFlight = req.body;
+            const departureTime = depFlight.departureTime;
+            const depAirport = depFlight.depAirport;
+            const arrAirport = depFlight.arrAirport;
+            try {
+                const searchedFLights = await Flight.find({
+                    departureTime: { $gt: departureTime },
+                    depAirport: arrAirport,
+                    arrAirport: depAirport
+                });
+
+                res.status(200).json(searchedFLights);
+            } catch (error) {
+                res.status(404).json({message : error.message});
+            }
+        };

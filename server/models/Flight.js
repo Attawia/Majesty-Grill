@@ -22,8 +22,7 @@ const flightSchema = new Schema(
         tripDuration : {type: String, required: true},
         freeEconomySeats : {type: Number, required: true,},
         freeBusinessSeats : {type: Number, required: true,},
-
-
+        baggageAllowance : {type: Number, required: true,},
     }
 );
 
