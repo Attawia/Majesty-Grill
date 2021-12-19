@@ -16,10 +16,18 @@ app.use(cors());
 
 import flightRoutes from './routes/flights.js';
 import indexRoutes from './routes/index.js';
+
 import Emails from './routes/emails.js'
 import Users from './routes/users.js'
 
+import authRoutes from './routes/auth.js';
+import usersRoutes from './routes/users.js';
+
 app.use('/flights',flightRoutes);
+app.use('/',indexRoutes);
+app.use('/auth',authRoutes);
+app.use('/users',usersRoutes);
+
 
 app.use('/',indexRoutes);
 //Sprint #2
@@ -55,3 +63,7 @@ app.get('/flights/:id', async(req, res)=>
 })
 //ay request awelo "/flights" hyrooh hena
 
+//Sprint #2
+//ay request awelo /sendEmails hyrooh el route da
+app.get('/sendEmail', Emails);
+app.get('/users', Users);

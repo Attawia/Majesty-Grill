@@ -5,6 +5,7 @@ const reservationSchema = new Schema(
     {
         userName       : {type : String, required : true},
 
+
         timeDeparture  : {type: Date, required: true,},
         priceDeparture : {type: Number, required: true},
         cabinDeparture : {type: String, required: true,},
@@ -22,9 +23,12 @@ const reservationSchema = new Schema(
         passengers     : {type: Number, required: true,},
         from           : {type: String, required: true,},
         to             : {type: String, required: true,},
+
     }
 );
 
 const Reservation = mongoose.model('reservation', reservationSchema);
+
 export default Reservation;
+
 
