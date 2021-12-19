@@ -159,6 +159,9 @@ const Seat =  () => {
   });
   flag=true;
 }
+const back=(e)=>{
+  history.go(-1);
+}
 const Submit=(e)=>{
   e.preventDefault();
   let c = 0;
@@ -196,6 +199,7 @@ const Submit=(e)=>{
     
   return(
     <div>
+      <button onClick={back}>Back</button>
       <u><h1>Please Select Return Flight Seats</h1></u>
       {final}
       <button onClick={Submit}>Confirm and Proceed to Payment</button>
