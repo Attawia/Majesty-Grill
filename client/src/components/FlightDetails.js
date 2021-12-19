@@ -1,8 +1,10 @@
 import {  useParams,Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+
 import { GetFlightById } from "../actions/index.js";
 
 import api from "../api/index.js";
+
 
 const FlightDetails = () => {
 
@@ -15,9 +17,11 @@ const FlightDetails = () => {
      const getTheFlight = async () =>
      {
         const theFlight = await GetFlightById(id); 
+        console.log(theFlight);
         if(theFlight) setFlight(theFlight);
      }
         getTheFlight();
+        
     },[])
 
     
@@ -26,6 +30,7 @@ const FlightDetails = () => {
      const resp =  await api.delete('http://localhost:5000/flights/' + id);
         
     }
+
 
     return ( 
     <div>
