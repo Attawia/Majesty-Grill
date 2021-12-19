@@ -15,11 +15,12 @@ const FlightForm = () => {
         e.preventDefault();
         const promise = await signIn(userData);
         const flag = promise.data;
+        console.log(flag);
         if(!flag){
             setErrorMessage("Incorrect username or password");
         }
         else{
-           window.location.href='/flights'; 
+           //window.location.href='/flights'; 
         }
         
     };

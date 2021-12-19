@@ -1,5 +1,6 @@
 import User from '../models/User.js'
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 
 export const register = async (req,res) => {
@@ -21,11 +22,14 @@ export const signIn = async (req,res) => {
     const currUser = await User.findOne({username: user.username});
     if(!currUser){
         res.send(false);
+
     }
     else{
         bcrypt.compare(newUser.password,currUser.password).then(isCorrect =>{
             if(isCorrect){
-                res.send(true);
+                const accessToken = jwt.sign(user.username,'majesty');
+                //console.log(accessToken);
+                res.send(accessToken);
             }
             else{
                 res.send(false);
