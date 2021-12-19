@@ -50,6 +50,9 @@ const UserSearchReturn = () => {
 
     return(
         <div>
+            <Link to={`/UserSearch`}>
+                <button>Back</button>
+            </Link>
             <h6>Return Flights</h6>
             {loadReturnFlights()}
             

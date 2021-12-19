@@ -28,7 +28,15 @@ const App =() => {
             
 
             <Route exact path="/"> 
+                <SignInForm/>
+            </Route>
+
+            <Route exact path="/UserSearch"> 
                 <UserSearch/>
+            </Route>
+
+            <Route exact path="/UserSearchReturn"> 
+                <UserSearchReturn/>
             </Route>
 
           <Route exact path="/Register" >
