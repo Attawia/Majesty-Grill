@@ -49,13 +49,13 @@
     top: 70px;
     font-size: 18px;
   }
-  #departure {
+  #departureBgad {
     position: absolute;
     left: 43px;
     top: 120px;
     font-size: 18px;
   }
-  #arrival {
+  #arrivalBgad {
     position: absolute;
     left: 43px;
     top: 170px;

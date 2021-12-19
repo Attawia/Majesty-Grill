@@ -3,6 +3,7 @@ import Try from './Try';
 import {Link, useLocation,useHistory} from "react-router-dom";
 import './Popup.css'
 
+
 function Popup(props){
     const history = useHistory();
     const [clicked,setClicked]=useState(false);
