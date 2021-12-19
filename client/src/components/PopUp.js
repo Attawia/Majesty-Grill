@@ -18,18 +18,17 @@ function Popup(props){
                <div className="popup-inner">
                 <button className="close-btn" onClick={() => props.setTrigger(false)}>close</button>   
                 <h4 id="details">Flight details</h4>
-                <h6 id="number">Flight number:  {props.flight.flightNo}</h6>
-                <h6 id="departureBgad">Departure time:  {props.flight.departureTime}</h6>
-                <h6 id="arrivalBgad">Arrival time:  {props.flight.arrivalTime}</h6>
-                <h6 id="duration">Flight duration:  {props.flight.tripDuration} Hours</h6>
-                <h6 id="depAirport">Departure airport:  {props.flight.depAirport}</h6>
-                <h6 id="arrAirport">Arrival airport: {props.flight.arrAirport}</h6>
-                <h6 id="baggage">Baggage allowance:  {props.flight.baggageAllowance}</h6>
+                <h6 id="number">Flight number:  {props.depFlight.flightNo}</h6>
+                <h6 id="departureBgad">Departure time:  {props.depFlight.departureTime}</h6>
+                <h6 id="arrivalBgad">Arrival time:  {props.depFlight.arrivalTime}</h6>
+                <h6 id="duration">Flight duration:  {props.depFlight.tripDuration} Hours</h6>
+                <h6 id="depAirport">Departure airport:  {props.depFlight.depAirport}</h6>
+                <h6 id="arrAirport">Arrival airport: {props.depFlight.arrAirport}</h6>
+                <h6 id="baggage">Baggage allowance:  {props.depFlight.baggageAllowance}</h6>
                 <button className="business-seat">Reserve Business Seat</button>       
                 <button className="economy-seat">Reserve Economy Seat</button>     
                 </div> 
             </div>}
-            {clicked}
             </div>
 
     ) :"";

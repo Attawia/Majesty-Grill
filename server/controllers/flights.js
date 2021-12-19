@@ -102,3 +102,21 @@ export const searchAllFlights = async (req,res) => {
                 res.status(404).json({message : error.message});
             }
         };
+
+        export const searchReturnFlightsUser = async (req,res) => {
+            const depFlight = req.body;
+            const departureTime = depFlight.departureTime;
+            const depAirport = depFlight.depAirport;
+            const arrAirport = depFlight.arrAirport;
+            try {
+                const searchedFLights = await Flight.find({
+                    departureTime: { $gt: departureTime },
+                    depAirport: arrAirport,
+                    arrAirport: depAirport
+                });
+
+                res.status(200).json(searchedFLights);
+            } catch (error) {
+                res.status(404).json({message : error.message});
+            }
+        };

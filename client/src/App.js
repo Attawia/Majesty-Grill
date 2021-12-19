@@ -8,6 +8,7 @@ import FlightDetails from './components/FlightDetails.js';
 import RegisterForm from './components/RegisterForm/RegisterForm.js';
 import FlightForm from './components/FlightForm/FlightForm.js';
 import UserSearch from './components/ExistingUser/UserSearch.js';
+import UserSearchReturn from './components/ExistingUser/UserSearchReturn.js';
 
 import Try from './components/Try.js';
 import Popup from './components/Popup.js';
