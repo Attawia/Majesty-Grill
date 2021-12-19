@@ -13,3 +13,9 @@ export const GetFlightById = async(id)=>
     return response.data;
 
 }
+export const GetUserById = async(id)=>
+{
+    const response = await api.get('/users/'+id);
+    return response.data;
+
+}
