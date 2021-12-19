@@ -7,6 +7,10 @@ import Home from './components/Home.js';
 import FlightDetails from './components/FlightDetails.js';
 import RegisterForm from './components/RegisterForm/RegisterForm.js';
 import FlightForm from './components/FlightForm/FlightForm.js';
+import UserSearch from './components/ExistingUser/UserSearch.js';
+import Summary from './components/Summary.js';
+import Try from './components/Try.js';
+import Popup from './components/Popup.js';
 import ReservationSumm from './components/ReservationSummary/ReservationSumm.js';
 import ShowAllRes from './components/ShowAllReserved/ShowAllRes.js';
 import Seats from './components/Seats/Seats.js';
@@ -14,6 +18,7 @@ import Seats2 from './components/Seats/retSeats.js';
 import UserProfile from './components/UserProfile/UserProfile.js'
 import UpdateUser from './components/UpdateUser/UpdateUser.js'
 import PasswordForm from './components/UpdateUser/UpdateUserPassword.js';
+
 
 
 
@@ -34,6 +39,10 @@ const App =() => {
                 <SignInForm/>
             </Route>
 
+
+            <Route exact path='/Summary'>
+                <Summary/>
+            </Route>   
             <Route exact path='/departureSeats'>
                 <Seats/>
             </Route>
@@ -102,3 +111,4 @@ const App =() => {
 }
 
 export default App;
+
