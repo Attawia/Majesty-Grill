@@ -48,14 +48,14 @@ function Popup(props){
     const retBusiness=()=>{
         setreservation({...reservation,cabinReturn:'Business'});
         history.push({ 
-            pathname: "/Summary" ,
+            pathname: "/Summary/" ,
             state : depFlight,retFlight,reservation
             });
     }
     const retEco=()=>{
         setreservation({...reservation,cabinReturn:'Economy'});
         history.push({ 
-            pathname: "/Summary" ,
+            pathname: "/Summary/" ,
             state : depFlight,retFlight,reservation
             });
     }

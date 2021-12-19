@@ -85,3 +85,15 @@
     top: 170px;
     font-size : 18px;
   }
+  #priceEconomy {
+    position: absolute;
+    left: 389px;
+    top: 280px;
+    font-size : 18px;
+  }
+  #priceBusiness {
+    position: absolute;
+    left: 589px;
+    top: 280px;
+    font-size : 18px;
+  }
