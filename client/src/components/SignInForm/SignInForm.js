@@ -38,9 +38,10 @@ const FlightForm = () => {
             localStorage.setItem('token',flag.token);
             window.location.href='/users/profile/'+flag.id; 
         }
+
         
     };
-
+    
     return(
     <Paper>
         <form autoComplete="off" noValidate onSubmit={Submit}>

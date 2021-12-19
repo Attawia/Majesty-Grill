@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
+//for Sprint#2
 const userSchema = new Schema(
     {
         username : {type: String, required: true,},
@@ -13,6 +14,8 @@ const userSchema = new Schema(
         telephoneNo : {type: String, required: true,},
         email : {type: String, required: true,},
         passportNo : {type: String, required: true,},
+        //it is an array
+        reservations : {type: Object, required: true,},
         
     }
 );

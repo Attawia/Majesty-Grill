@@ -1,3 +1,8 @@
 GET http://localhost:5000/flights/updateflight
 
+#
 POST http://localhost:5000/flights/getupdateflight
+
+
+#
+GET http://localhost:5000/sendEmail/cancelResEmail
