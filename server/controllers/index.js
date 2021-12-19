@@ -15,7 +15,6 @@ export const register = async (req,res) => {
     }
 }
 
-
 export const signIn = async (req,res) => {
     const user = req.body;
     const newUser = new User(user);
@@ -29,7 +28,7 @@ export const signIn = async (req,res) => {
             if(isCorrect){
                 const accessToken = jwt.sign(user.username,'majesty');
                 //console.log(accessToken);
-                res.send(accessToken);
+                res.json({token:accessToken,id:currUser._id});
             }
             else{
                 res.send(false);

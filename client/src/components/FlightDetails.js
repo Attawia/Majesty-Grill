@@ -15,6 +15,7 @@ const FlightDetails = () => {
      const getTheFlight = async () =>
      {
         const theFlight = await GetFlightById(id); 
+        console.log(theFlight);
         if(theFlight) setFlight(theFlight);
      }
         getTheFlight();

@@ -14,10 +14,13 @@ app.use(cors());
 import flightRoutes from './routes/flights.js';
 import indexRoutes from './routes/index.js';
 import authRoutes from './routes/auth.js';
+import usersRoutes from './routes/users.js';
 
 app.use('/flights',flightRoutes);
 app.use('/',indexRoutes);
 app.use('/auth',authRoutes);
+app.use('/users',usersRoutes);
+
 
 
 

@@ -1,16 +1,19 @@
 import axios from 'axios';
-import {useState} from 'react';
+import { useState, useEffect } from "react";
 import {TextField,Button,Paper,Typography} from '@material-ui/core';
 import {useParams} from 'react-router-dom';
 import { Link,useHistory} from 'react-router-dom';
+import {validateID} from "../../api/auth.js"
+
 
 const getPost = async (id) => {
-    const res = await axios.post('http://localhost:5000/getUpdateUser',{_id:id});
+    const res = await axios.post('http://localhost:5000/users/getUpdateUser',{_id:id});
     const user = res.data;
     return user;
 }
 var done = false;
 const UpdateUser =  () => {
+    const [flag, setFlag] = useState(false);
     const history = useHistory();
     const {id} = useParams();
     const [user,updateUser] = useState({});
@@ -21,7 +24,17 @@ const UpdateUser =  () => {
     const userData = result;      
     updateUser(userData);
     });
-    }   
+    }
+    useEffect(()=>
+    {
+     const validateId = async () =>{
+        setFlag(await validateID(id));
+    }
+     
+        validateId();
+    },[])
+
+      
     done = true;
 
     
@@ -29,35 +42,38 @@ const UpdateUser =  () => {
 
         e.preventDefault(); 
         const updated = {_id:user._id,user:user};
-        const x = axios.patch('http://localhost:5000/flights/updateUser',updated);
-        //history.push('/flights/' + id);  //this should redirect to the user's page to display updated info. Unimplemented till now
- 
+        const x = axios.patch('http://localhost:5000/users/updateUser',updated);
+        window.location.href='/';  
         
    }
 
    //TODO all above is done, change values in html below and implement a user profile page
    
     return(
-        <Paper>
-             <Link to={`/flights/${id}`}>
+        <div>
+        {flag && <Paper>
+             <Link to={`/users/profile/${id}`}>
             <button>
                 Back 
                 </button>
             </Link>
-            <h1>Update Flight</h1>
+            <h1>Update User</h1>
             <form>
-            <TextField  name="Flight Number"  variant="outlined" label="Flight Number" InputLabelProps={{ shrink: true }}  variant="outlined" value={flight.flightNo} onChange={(e) => updateFlight({...flight, flightNo : e.target.value})}/><br/><br/>
-            <TextField  name="Departure Time"  type="datetime-local" label="Departure Time" InputLabelProps={{ shrink: true }}  variant="outlined"  value={flight.departureTime} onChange={(e) => updateFlight({...flight, departureTime : e.target.value})}/><br/><br/>
-            <TextField  name="Arrival Time" type="datetime-local"  label="Arrival Time" InputLabelProps={{ shrink: true }}  variant="outlined"  value={flight.arrivalTime} onChange={(e) => updateFlight({...flight, arrivalTime : e.target.value})}/><br/><br/>
-            <TextField  name="Economy Seats"  variant="outlined" label="Economy Seats" InputLabelProps={{ shrink: true }}  variant="outlined" value={flight.economySeats} onChange={(e) => updateFlight({...flight, economySeats : e.target.value})}/><br/><br/>
-            <TextField  name="Business Seats"  variant="outlined" label="Business Seats" InputLabelProps={{ shrink: true }}  variant="outlined"  value={flight.businessSeats} onChange={(e) => updateFlight({...flight,businessSeats : e.target.value})}/><br/><br/>
-            <TextField  name="First Class Seats"  variant="outlined" label="First Class Seats" InputLabelProps={{ shrink: true }}  variant="outlined" value={flight.firstSeats} onChange={(e) => updateFlight({...flight, firstSeats : e.target.value})}/><br/><br/>
-            <TextField  name="Departure Airport"  variant="outlined" label="Departure Airport" InputLabelProps={{ shrink: true }}  variant="outlined" value={flight.depAirport} onChange={(e) => updateFlight({...flight, depAirport : e.target.value})}/><br/><br/>
-            <TextField  name="Arrival Airport"  variant="outlined" label="Arrival Airport" InputLabelProps={{ shrink: true }}  variant="outlined" value={flight.arrAirport} onChange={(e) => updateFlight({...flight, arrAirport : e.target.value})}/><br/><br/>
+            <TextField  name="Username"  variant="outlined" label="Username" InputLabelProps={{ shrink: true }}  variant="outlined" value={user.username} onChange={(e) => updateUser({...user, username : e.target.value})}/><br/><br/>
+            <TextField  name="First Name"  label="First Name" InputLabelProps={{ shrink: true }}  variant="outlined"  value={user.firstName} onChange={(e) => updateUser({...user, firstName : e.target.value})}/><br/><br/>
+            <TextField  name="Last Name"  label="Last Name" InputLabelProps={{ shrink: true }}  variant="outlined"  value={user.lastName} onChange={(e) => updateUser({...user, lastName : e.target.value})}/><br/><br/>
+            <TextField  name="Address"  variant="outlined" label="Address" InputLabelProps={{ shrink: true }}  variant="outlined" value={user.address} onChange={(e) => updateUser({...user, address : e.target.value})}/><br/><br/>
+            <TextField  name="Country Code"  variant="outlined" label="Country Code" InputLabelProps={{ shrink: true }}  variant="outlined"  value={user.countryCode} onChange={(e) => updateUser({...user,CountryCode : e.target.value})}/><br/><br/>
+            <TextField  name="Telephone Number"  variant="outlined" label="Telephone Number" InputLabelProps={{ shrink: true }}  variant="outlined" value={user.telephoneNo} onChange={(e) => updateUser({...user, telephoneNo : e.target.value})}/><br/><br/>
+            <TextField  name="Email"  variant="outlined" label="Email" InputLabelProps={{ shrink: true }}  variant="outlined" value={user.email} onChange={(e) => updateUser({...user, email : e.target.value})}/><br/><br/>
+            <TextField  name="Passport Number"  variant="outlined" label="Passport Number" InputLabelProps={{ shrink: true }}  variant="outlined" value={user.passportNo} onChange={(e) => updateUser({...user, passportNo : e.target.value})}/><br/><br/>
+            
             <button onClick={Submit}>Update</button>
 
         </form>
-    </Paper>
+    </Paper>}
+    {!flag && <div>Forbidden</div>}
+    </div>
     )
 }
 export default UpdateUser;
