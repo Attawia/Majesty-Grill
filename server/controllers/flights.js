@@ -23,5 +23,34 @@ export const searchFlights = async (req,res) => {
     } catch (error) {
         res.status(404).json({message : error.message});
     }
+<<<<<<< Updated upstream
     };
 
+=======
+};
+    
+    export const searchFlights = async (req,res) => {
+        try {
+            const searchedFLights = await Flight.find(req.body);
+            
+            console.log(searchedFLights);
+        
+            res.status(200).json(searchedFLights);
+        } catch (error) {
+            res.status(404).json({message : error.message});
+        }
+        };
+
+
+        export const searchFlightsUser = async (req,res) => {
+            try {
+                const searchedFLights = await Flight.find(req.body);
+            
+                console.log(searchedFLights);
+        
+                res.status(200).json(searchedFLights);
+            } catch (error) {
+                res.status(404).json({message : error.message});
+            }
+        };
+>>>>>>> Stashed changes
