@@ -1,9 +1,16 @@
 import express from 'express';
-import {getAllReservations} from '../controllers/users.js'
+
+
+import {updateUser, getUpdateUser, getUserById,changePassword} from '../controllers/users.js'
 
 const router = express.Router();
 
-//router.get('/:id', getTheLastReservation);
-router.get('/AllReservations/:id', getAllReservations);
+
+router.patch('/updateUser',updateUser);
+router.post('/getupdateuser',getUpdateUser);
+router.get('/:id',getUserById);
+router.post('/changePassword',changePassword);
+
 
 export default router;
+

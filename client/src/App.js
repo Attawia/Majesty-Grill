@@ -7,6 +7,9 @@ import Home from './components/Home.js';
 import FlightDetails from './components/FlightDetails.js';
 import RegisterForm from './components/RegisterForm/RegisterForm.js';
 import FlightForm from './components/FlightForm/FlightForm.js';
+import UserProfile from './components/UserProfile/UserProfile.js'
+import UpdateUser from './components/UpdateUser/UpdateUser.js'
+import PasswordForm from './components/UpdateUser/UpdateUserPassword.js';
 
 
 
@@ -44,9 +47,24 @@ const App =() => {
                   <FlightDetails />
                 </Route>
 
+                <Route exact path = "/users/profile/:id">
+                  <UserProfile />
+                </Route>
+
+                <Route exact path = "/users/updateUser/:id">
+                  <UpdateUser />
+                </Route>
+
+                <Route exact path = "/users/changePassword/">
+                  <PasswordForm />
+                </Route>
+
+
                 <Route exact path = "/flights/updateflight/:id" >
                     <UpdateFlight />
                 </Route>
+
+
                     
             </Switch>                
             

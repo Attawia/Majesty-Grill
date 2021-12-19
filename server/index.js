@@ -16,14 +16,16 @@ app.use(cors());
 
 import flightRoutes from './routes/flights.js';
 import indexRoutes from './routes/index.js';
-import Emails from './routes/emails.js'
-import Users from './routes/users.js'
+import authRoutes from './routes/auth.js';
+import usersRoutes from './routes/users.js';
 
 app.use('/flights',flightRoutes);
 app.use('/',indexRoutes);
-//Sprint #2
-app.use('/sendEmail', Emails);
-app.use('/users', Users);
+app.use('/auth',authRoutes);
+app.use('/users',usersRoutes);
+
+
+
 
 
 
