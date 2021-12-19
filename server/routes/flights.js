@@ -11,6 +11,7 @@ router.post('/getupdateflight',getUpdateFlight);
 router.delete('/:id', flightDelete)
 router.get('/', searchAllFlights);
 router.post('/searchFlights', searchFlights);
+router.post('/searchFlightsUser', searchFlightsUser);
 
 export default router;
 

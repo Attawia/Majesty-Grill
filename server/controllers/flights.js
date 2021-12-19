@@ -79,3 +79,16 @@ export const searchAllFlights = async (req,res) => {
             res.status(404).json({message : error.message});
         }
         };
+
+
+        export const searchFlightsUser = async (req,res) => {
+            try {
+                const searchedFLights = await Flight.find(req.body);
+            
+                console.log(searchedFLights);
+        
+                res.status(200).json(searchedFLights);
+            } catch (error) {
+                res.status(404).json({message : error.message});
+            }
+        };

@@ -7,6 +7,10 @@ import Home from './components/Home.js';
 import FlightDetails from './components/FlightDetails.js';
 import RegisterForm from './components/RegisterForm/RegisterForm.js';
 import FlightForm from './components/FlightForm/FlightForm.js';
+import UserSearch from './components/ExistingUser/UserSearch.js';
+
+import Try from './components/Try.js';
+import PopUp from './components/PopUp.js';
 
 
 
@@ -23,7 +27,7 @@ const App =() => {
             
 
             <Route exact path="/"> 
-                <SignInForm/>
+                <UserSearch/>
             </Route>
 
           <Route exact path="/Register" >
