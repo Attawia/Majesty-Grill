@@ -7,6 +7,7 @@ import Popup from './../Popup.js'
 let flag=false;
 const UserSearch = () => {
 
+
     const [displayNumberOfAdullts,setDisplayNumberOfAdullts] = useState(1);
     const [displayNumberOfChildren,setDisplayNumberOfChildren] = useState(0);
 
@@ -206,4 +207,6 @@ const UserSearch = () => {
   
 }
 
+
 export default UserSearch;
+
