@@ -7,7 +7,8 @@ import Home from './components/Home.js';
 import FlightDetails from './components/FlightDetails.js';
 import RegisterForm from './components/RegisterForm/RegisterForm.js';
 import FlightForm from './components/FlightForm/FlightForm.js';
-
+import ReservationSumm from './components/ReservationSummary/ReservationSumm.js';
+import ShowAllRes from './components/ShowAllReserved/ShowAllRes.js';
 
 
 
@@ -47,6 +48,19 @@ const App =() => {
                 <Route exact path = "/flights/updateflight/:id" >
                     <UpdateFlight />
                 </Route>
+
+ 
+                <Route exact path = "/summaryReservation/:currUser" >
+                    <ReservationSumm />
+                </Route> 
+
+                <Route exact path = "/allReservations/:currUser" >
+                    <ShowAllRes />
+                </Route> 
+
+                
+                
+
                     
             </Switch>                
             

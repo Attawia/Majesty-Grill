@@ -20,6 +20,7 @@ import Emails from './routes/emails.js'
 import Users from './routes/users.js'
 
 app.use('/flights',flightRoutes);
+
 app.use('/',indexRoutes);
 //Sprint #2
 app.use('/sendEmail', Emails);
@@ -53,9 +54,4 @@ app.get('/flights/:id', async(req, res)=>
     res.json(flight);
 })
 //ay request awelo "/flights" hyrooh hena
-app.use('/flights', flightRoutes);
 
-//Sprint #2
-//ay request awelo /sendEmails hyrooh el route da
-app.get('/sendEmail', Emails);
-app.get('/users', Users);

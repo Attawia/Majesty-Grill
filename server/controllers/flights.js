@@ -33,6 +33,8 @@ export const createFlight = async (req,res) => {
       .catch(err=> console.log(err));
 }
 
+
+
 export const updateFlight = async (req,res) =>{
     const _id = req.body._id; 
     const updatedflight = req.body.flight;

@@ -1,8 +1,13 @@
 import nodemailer from 'nodemailer';
+import { cancelReservation } from './users.js';
 
 // create reusable transporter object using the default SMTP transport
-  export const  sendCancelEmail = ()=>
+  export const  sendCancelEmail = (req, res)=>
   {
+    const bookingNumber = req.body.bookingNumber;
+    const userEmail = req.body.userEmail;
+    const totalPrice = req.body.totalPrice;
+    console.log("el email fel server: " + userEmail)
     
   var transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -16,7 +21,7 @@ import nodemailer from 'nodemailer';
     from: 'zaki17281@gmail.com',
     to: 'zakimohamed380@yahoo.com',
     subject: 'Sending Email using Node.js',
-    text: 'Your Reservation has been Cancelled!'
+    text: `Unfortunately your booking number : ${bookingNumber} has been cancelled and the amount: ${totalPrice} is refunded.`
   };
   
   transporter.sendMail(mailOptions, function(error, info){
