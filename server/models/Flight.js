@@ -16,8 +16,13 @@ const flightSchema = new Schema(
         firstSeats : {type: Number, required: true},
         depAirport : {type: String, required: true,},
         arrAirport : {type: String, required: true,},
-        //seats : {type:Object,required:}
-        
+        seats : {type: Object ,required: true,},
+        priceEconomy : {type: Number , required: true},
+        priceBusiness : {type: Number, required: true},
+        tripDuration : {type: String, required: true},
+        freeEconomySeats : {type: Number, required: true,},
+        freeBusinessSeats : {type: Number, required: true,},
+
     }
 );
 
