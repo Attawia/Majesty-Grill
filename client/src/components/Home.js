@@ -38,7 +38,7 @@ const Home = () => {
             if (criteria[key] === '') {
               delete criteria[key];
             }
-          });
+        });
 
         const searchedflights = async ()=>{const promise = await handleSearchButton(); return promise;}
         const flightsarr = searchedflights();
@@ -46,7 +46,7 @@ const Home = () => {
             setSearchedFlights(result);
         })
         setFlights([]);
-        }
+    }
 
     return (
         
