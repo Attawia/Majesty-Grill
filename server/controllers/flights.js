@@ -57,6 +57,10 @@ export const createFlight = async (req,res) => {
       })
       .catch(err=> console.log(err));
 }
+
+
+
+
 export const reserveSeats= async(req,res)=>{
     const seats=req.body.seats;
     const _id= req.body._id;
@@ -86,6 +90,7 @@ export const reserveSeats= async(req,res)=>{
         res.status(409).json({message:error.message});
     }
 }
+
 export const updateFlight = async (req,res) =>{
     const _id = req.body._id; 
     const updatedflight = req.body.flight;

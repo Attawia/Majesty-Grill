@@ -7,6 +7,8 @@ import Home from './components/Home.js';
 import FlightDetails from './components/FlightDetails.js';
 import RegisterForm from './components/RegisterForm/RegisterForm.js';
 import FlightForm from './components/FlightForm/FlightForm.js';
+import ReservationSumm from './components/ReservationSummary/ReservationSumm.js';
+import ShowAllRes from './components/ShowAllReserved/ShowAllRes.js';
 import Seats from './components/Seats/Seats.js';
 import Seats2 from './components/Seats/retSeats.js';
 import UserProfile from './components/UserProfile/UserProfile.js'
@@ -74,6 +76,18 @@ const App =() => {
                     <UpdateFlight />
                 </Route>
 
+
+ 
+                <Route exact path = "/summaryReservation/:currUser" >
+                    <ReservationSumm />
+                </Route> 
+
+                <Route exact path = "/allReservations/:currUser" >
+                    <ShowAllRes />
+                </Route> 
+
+                
+                
 
                     
             </Switch>                
