@@ -3,7 +3,7 @@ import axios from "axios";
 import {TextField,Button,Paper,Typography} from '@material-ui/core';
 import {Link} from "react-router-dom";
 import React from "react";
-import PopUp from './PopUp.js'
+import Popup from './Popup.js'
 
 const Try = () => {
 
@@ -19,10 +19,10 @@ const Try = () => {
                 <br/><br/>
             </main>
 
-            <PopUp trigger={buttonPopup} setTrigger = {setButtonPopup}>
+            <Popup trigger={buttonPopup} setTrigger = {setButtonPopup}>
                 <h1>My PopUp</h1>
                 <p>ACL Majesty Grill</p>
-            </PopUp>
+            </Popup>
 
             {/*--------------------Tagrobaaaaaaaaaa-------------------*/}
 

@@ -2,6 +2,7 @@ import { useState, useEffect} from "react";
 import axios from "axios";
 import {TextField,Button,Paper,Typography} from '@material-ui/core';
 import {Link} from "react-router-dom";
+import Popup from './../Popup.js'
 
 let flag=false;
 const Home = () => {
@@ -9,7 +10,12 @@ const Home = () => {
     const [displayNumberOfAdullts,setDisplayNumberOfAdullts] = useState(1);
     const [displayNumberOfChildren,setDisplayNumberOfChildren] = useState(0);
 
-    const [criteria,setCriteria] = useState({adultsNo: 1,childrenNo: 0});
+    const [cabinClass,setCabinClass] = useState('');
+    const [buttonPopup, setButtonPopup ] = useState(false);
+    const [passedFlight, setPassedFlight ] = useState();
+
+    const [criteria,setCriteria] = useState();
+    const [wholeCriteria,setWholeCriteria] = useState({adultsNo: 1,childrenNo: 0, criteria: criteria});
 
     const[searchedFlights,setSearchedFlights] = useState([]);
 
@@ -42,6 +48,12 @@ const Home = () => {
         setDisplayNumberOfChildren(displayNumberOfChildren + 1);
     }
 
+    const handleSearchButton = async(e) => {
+        const res = await axios.post('http://localhost:5000/flights/searchFlightsUser',wholeCriteria);
+        console.log(res.data);
+        return res.data;
+    }
+
     const showSearchedFlights = (e) =>{
         e.preventDefault();
 
@@ -51,31 +63,71 @@ const Home = () => {
             }
         });
 
-        console.log(criteriaReady);
-        console.log(criteria);
+        // console.log(criteriaReady);
+        // console.log(criteria);
+        console.log(wholeCriteria);
+
+        const searchedflights = async ()=>{const promise = await handleSearchButton(); return promise;}
+        const flightsarr = searchedflights();
+        flightsarr.then(function(result){
+            for(let i = 0;i<result.length;i++){
+                if(result[i].freeEconomySeats < wholeCriteria['adultsNo'] && result[i].freeEconomySeats < wholeCriteria['childrenNo']){
+                    result.splice(i,1);
+                }
+            }
+            setSearchedFlights(result);
+            console.log(result);
+            console.log(searchedFlights);
+        })
+    }
+
+    function openPopUp(flightNo){
+
+        let neededFlight = searchedFlights[0];
+        for(let i = 0;i < searchedFlights.length;i++){
+            if(searchedFlights[i].flightNo === flightNo){
+                neededFlight = searchedFlights[i];
+                console.log(neededFlight);
+            }
+        }
+        setButtonPopup(true);
+        setPassedFlight(neededFlight);
 
     }
 
     //wait for variable to change
     useEffect(() => {
-        setCriteria({...criteria, adultsNo : displayNumberOfAdullts});
+        setWholeCriteria({...wholeCriteria, adultsNo : displayNumberOfAdullts});
 
     }, [displayNumberOfAdullts]);
 
     //wait for variable to change
     useEffect(() => {
-        setCriteria({...criteria, childrenNo : displayNumberOfChildren});
+        setWholeCriteria({...wholeCriteria, childrenNo : displayNumberOfChildren});
 
     }, [displayNumberOfChildren]);
 
-    // wait for whole criteria to change
     useEffect(() => {
-        criteriaReady = true;
+        setWholeCriteria({...wholeCriteria, criteria : criteria});
 
     }, [criteria]);
 
+    // useEffect(() => {
+    //     for(let i = 0;i<searchedFlights.length;i++){
+    //         if(searchedFlights[i].flightNo === "bbb"){
+    //             searchedFlights.splice(i,1);
+    //         }
+    //     }
+
+    // }, [searchedFlights]);
+
+
     return (
-        
+        <div>
+            <div>
+         
+
+        </div>
         <div className="home">
             <Link to={`/`}>
                 <button>
@@ -99,7 +151,7 @@ const Home = () => {
             required
             type="text"
             name="Departure Airport"
-            onChange={(e) => setCriteria({...criteria, depAirport : e.target.value})}
+            onChange={(e) => {setCriteria({...criteria, depAirport : e.target.value})}}
             />
             <label>      Arrival Airport:      </label>
             <TextField
@@ -124,18 +176,22 @@ const Home = () => {
             <TextField
             type="text"
             name="Cabin Class"
-            onChange={(e) => setCriteria({...criteria, cabinClass : e.target.value})}
+            onChange={(e) => setCabinClass(e.target.value)}
             />
             <h2></h2>
             <br></br>
             <button>Search Flights</button>
         </form>
           {searchedFlights.map(searchedFlight => (
-            <div className="flights-preview" key={searchedFlight._id} >
+            <div className="flights-preview" key={searchedFlight.flightNo} onClick={() => openPopUp(searchedFlight.flightNo)}>
                 <h2>{searchedFlight.flightNo}</h2>
                 <p>{ searchedFlight.depAirport} =={">"} { searchedFlight.arrAirport} </p>
             </div>
           ))}
+
+
+        </div>
+        <Popup trigger={buttonPopup} setTrigger={setButtonPopup} flight = {passedFlight} flightType = {"dep"}/>
         </div>
     );
       

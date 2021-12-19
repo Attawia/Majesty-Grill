@@ -82,10 +82,20 @@ export const searchAllFlights = async (req,res) => {
 
 
         export const searchFlightsUser = async (req,res) => {
+            const wholeCriteria = req.body;
+            console.log(wholeCriteria);
+                const criteria = wholeCriteria.criteria
             try {
-                const searchedFLights = await Flight.find(req.body);
+                
+                
+                 const searchedFLights = await Flight.find(criteria);
+
+                // for(let i = 0;i < searchedFLights.length;i++){
+                //     if(searchedFLights[i].freeEconomySeats < passengersNo && searchedFLights[i].freeBusinessSeats < passengersNo){
+                //         searchedFLights.splice(i,1);
+                //     }
+                // }
             
-                console.log(searchedFLights);
         
                 res.status(200).json(searchedFLights);
             } catch (error) {

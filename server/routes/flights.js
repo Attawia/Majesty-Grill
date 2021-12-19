@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { getCreate, createFlight,flightDelete,updateFlight, getUpdateFlight,searchAllFlights, searchFlights } from '../controllers/flights.js'
+import { getCreate, createFlight,flightDelete,updateFlight, getUpdateFlight,searchAllFlights, searchFlights, searchFlightsUser } from '../controllers/flights.js'
 
 const router = express.Router();
 

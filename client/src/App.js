@@ -10,7 +10,7 @@ import FlightForm from './components/FlightForm/FlightForm.js';
 import UserSearch from './components/ExistingUser/UserSearch.js';
 
 import Try from './components/Try.js';
-import PopUp from './components/PopUp.js';
+import Popup from './components/Popup.js';
 
 
 
