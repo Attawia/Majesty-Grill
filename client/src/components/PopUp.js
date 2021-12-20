@@ -13,7 +13,6 @@ function Popup(props){
   
     const [flightType,setFlightType] = useState(props.flightType);
     console.log(flightType);
-
     let passengersNo = props.adultNo + props.childrenNo;
 
     const [depFlight,setdepFlight] = useState(props.depFlight);
@@ -65,7 +64,6 @@ function Popup(props){
     return(props.trigger) ? (
         <div>
             {flag && <div className="popup">
-
                <div className="popup-inner">
                 <button className="close-btn" onClick={() => props.setTrigger(false)}>close</button>   
                 <h4 id="details">Flight details</h4>
@@ -76,7 +74,6 @@ function Popup(props){
                 <h6 id="depAirport">Departure airport:  {props.depFlight.depAirport}</h6>
                 <h6 id="arrAirport">Arrival airport: {props.depFlight.arrAirport}</h6>
                 <h6 id="baggage">Baggage allowance:  {props.depFlight.baggageAllowance}</h6>
-
                 <h6 id="priceEconomy">{props.depFlight.priceEconomy}€/Seat</h6>
                 <h6 id="priceBusiness">{props.depFlight.priceBusiness}€/Seat</h6>
                 
@@ -107,7 +104,6 @@ function Popup(props){
                 </div>
             }
         </div>
-
 
     ) :"";
     
