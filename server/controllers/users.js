@@ -1,14 +1,87 @@
 
-import User from '../models/User.js';
 import Reservation from '../models/Reservation.js';
+import User from '../models/User.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 
-export const getUserById = async(req, res)=>{
+export const getUserEmail = async (req, res)=>
+{
+    const currUser = req.params.user;
+    try
+    {
+        const user = await User.find({username:currUser});
+        const  email = user[0].email;
+        res.status(201).json(email);
+    }
+    catch(error)
+    {
+        res.status(409).json({message: error.message});
+    }
+}
+
+export const getTheLastReservation = async (req, res)=>
+{
+    //get the id of this specific flight from the database
+    //el mfrood currUser da yb2a gy mn el authentication token msh parameter mn el URL
+    const currUser = req.params.user;
+    try {
+        console.log(currUser);
+        const reservations = await Reservation.find({userName: currUser});
+        const lastReservation = reservations[reservations.length - 1];
+        console.log(lastReservation)
+    res.status(201).json(lastReservation);
+   
+        
+    } catch (error) {
+        res.status(409).json({message:error.message});
+    }
+    
+
+
+}
+
+
+export const getAllReservations = async (req, res)=>
+{
+    const currUser = req.params.user;
+    try
+    {
+    const reservations = await Reservation.find({userName: currUser});
+    res.status(200).json(reservations);
+    }
+    catch (error) 
+    {
+    res.status(404).json({message:error.message});
+    }
+
+}
+
+export const cancelReservation = async (req, res)=>
+{
     const id = req.params.id;
-    console.log("here "+id);
-    const user = await User.findById(id);
+
+    Reservation.findByIdAndDelete(id)
+      .then((result)=>
+      {
+          console.log("inside cancel reservation method: " + result);
+      })
+      .catch(err=> console.log(err));
+}
+
+
+
+export const getUserById = async(req, res)=>{
+    //const id = req.params.id;
+    const token = req.body.token;
+    let username = '';
+    try{
+         username = jwt.verify(token,'majesty');
+        }
+        catch(error){
+             username = "Guest";
+        }
+    const user = await User.findOne({username:username});
     res.json(user);
 }
 
@@ -46,53 +119,24 @@ const updateReservationUsername = async (oldUsername,newUsername) => {
 
 
 export const getUpdateUser = async (req,res) =>{
-    const _id = req.body;
+    const token = req.body.token;
+    let username = '';
     try{
-        const user = await User.findById(_id);
+         username = jwt.verify(token,'majesty');
+        }
+        catch(error){
+             username = "Guest";
+        }
+    try{
+        const user = await User.findOne({username:username});
         res.send(user);
     }
     catch(error){
         res.status(409).json({message:error.message});
     }
 }
-=======
-import User from '../models/User.js'
 
 
 
 
-export const getTheLastReservation = (req, res)=>
-{
-    const userID = req.params.id;
-    
-    User.findById(userID)
-        .then((result)=>
-        {
-            //sending the reservations
-            const reservations = (result.reservations);
-            
-            res.json(reservations.at(-1));
-            
-        })
-        .catch(err=>console.log(err));
-
-}
-
-
-export const getAllReservations = (req, res)=>
-{
-    const userID = req.params.id;
-    
-    User.findById(userID)
-        .then((result)=>
-        {
-            //sending the reservations
-           // res.json(result.reservations);
-            console.log(result.username);
-            
-        })
-        .catch(err=>console.log(err));
-
-
-}
 

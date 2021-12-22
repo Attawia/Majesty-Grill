@@ -9,3 +9,4 @@ export const createFlight = (flight) => async (dispatch) => {
         
     }
 }
+

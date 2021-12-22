@@ -2,7 +2,7 @@ import react from 'react';
 import {TextField, Button, Paper, Typography} from '@material-ui/core';
 import makeStyles from './styles';
 import {Register} from '../../actions/RegisterForm.js'
-import { Link } from 'react-router-dom';
+import { Link, useHistory,useLocation } from 'react-router-dom';
 
 /*
 ok so, registration is actually a requirement in sprint 3, but to avoid a hassle in registering users to use in testing all
@@ -13,6 +13,12 @@ input validation whatsoever exists, as it will be added in the next sprint
 
 
 const FlightForm = () => {
+    const history = useHistory();
+    const location = useLocation();
+    const {depFlight} = location.state;
+    const {retFlight} = location.state;
+    const {reservation} = location.state;
+
     
 //------------------------------------------------
     const [userData,setUserData] = react.useState({
@@ -29,6 +35,17 @@ const FlightForm = () => {
     })
     const [errorMessage, setErrorMessage] = react.useState('');
     const classes = makeStyles();
+
+    //if he finishes the registration process ? continue Seating process
+    const doneRegisterContinueSeating = () => {
+
+        history.push({ 
+            pathname: "/departureSeats/" ,
+            state : {depFlight,retFlight,reservation}
+        });
+
+        window.location.reload();
+    }
     
     const Submit = async (e) =>{
         e.preventDefault();
@@ -50,8 +67,8 @@ const FlightForm = () => {
                 passportNo : '',
                 
             })
-            window.location.href('/');
-            //here
+            //as2al touti howa beyhot data el account el gedid fen w bey-redirect lel next page fen
+            doneRegisterContinueSeating();
         }
         
     };
@@ -59,11 +76,15 @@ const FlightForm = () => {
     return(
         
     <Paper>
-        <Link to={`/`}>
-            <button>
+        <Link to={{ 
+            pathname: "/SignInform2" ,
+            state : {depFlight,retFlight,reservation}
+        }}>
+           <button>
                 Back 
-                </button>
-            </Link>
+            </button>
+        </Link>
+
         <form autoComplete="off" noValidate onSubmit={Submit}>
             <h1>Register</h1>
             <Typography >{errorMessage}</Typography><br/>
@@ -77,7 +98,6 @@ const FlightForm = () => {
             <TextField  name="Email"  label="Email" variant="outlined"  value={userData.email} onChange={(e) => setUserData({...userData, email : e.target.value})}/><br/><br/>
             <TextField  name="Passport Number"  variant="outlined" label="Passport Number"  value={userData.passportNo} onChange={(e) => setUserData({...userData, passportNo : e.target.value})}/><br/><br/>
             <Button onClick={Submit} className={classes.buttonSubmit}>Register</Button><br/><br/>
-            <Link to="/">Already a user? Sign In!</Link>
 
         </form>
     </Paper>
