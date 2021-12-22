@@ -22,16 +22,19 @@ const UserSearchReturn = () => {
         return res.data;
     }
 
-    function loadReturnFlights(){
 
+    useEffect(() => {
         const searchedflights = async ()=>{const promise = await handleSearchReturnFlights(); return promise;}
         const flightsarr = searchedflights();
         flightsarr.then(function(result){
             setResultedFlights(result);
         })
+    }, []);
 
-
-    }
+    useEffect(() => {
+        console.log(depFlight);
+        console.log(reservation);
+    }, [depFlight,reservation]);
 
     function openPopUp(flightNo){
 
@@ -43,6 +46,7 @@ const UserSearchReturn = () => {
             }
         }
         setButtonPopup(true);
+        console.log(buttonPopup);
         setPassedFlight(neededFlight);
 
 
@@ -54,24 +58,32 @@ const UserSearchReturn = () => {
                 <button>Back</button>
             </Link>
             <h6>Return Flights</h6>
-            {loadReturnFlights()}
             
-            {resultedFlights.map(resultedFlight => (
-            <div className="flights-preview" key={resultedFlight.flightNo} onClick={() => openPopUp(resultedFlight.flightNo)}>
-                <h2>{resultedFlight.flightNo}</h2>
-                <h4>{ resultedFlight.depAirport} ===={">"} { resultedFlight.arrAirport} </h4>
-                <h3>Price:  {resultedFlight.priceEconomy}€    ~    {resultedFlight.priceBusiness}€</h3>
+            {resultedFlights.map(retFlight => (
+                <Link to={{ 
+                    pathname: "/Popup2/" ,
+                    state : {depFlight,retFlight,reservation}
+                    }}>
+            <div className="flights-preview" key={retFlight.flightNo}>
+                <h2>{retFlight.flightNo}</h2>
+                <h4>{ retFlight.depAirport} ===={">"} { retFlight.arrAirport} </h4>
+                <h3>Price:  {retFlight.priceEconomy}€    ~    {retFlight.priceBusiness}€</h3>
             </div>
+             </Link>
           ))}
           <div>
-          <Popup 
+          {console.log('here')}
+          {buttonPopup && <Popup 
             trigger={buttonPopup} 
             setTrigger={setButtonPopup} 
             depFlight = {depFlight}
-            arrFlight = {passedFlight}
+            retFlight = {passedFlight}
             flightType = {"ret"}
             reservation = {reservation}
+            flag = {true}
             />
+          }
+          
           </div>
 
         </div>

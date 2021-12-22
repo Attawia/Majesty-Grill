@@ -3,16 +3,15 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import UpdateFlight from './components/UpdateFlight.js';
 import SignInForm from './components/SignInForm/SignInForm.js'
+import SignInForm2 from './components/SignInForm/SignInForm2.js'
 import Home from './components/Home.js';
 import FlightDetails from './components/FlightDetails.js';
 import RegisterForm from './components/RegisterForm/RegisterForm.js';
+import RegisterForm2 from './components/RegisterForm/RegisterForm2.js';
 import FlightForm from './components/FlightForm/FlightForm.js';
 import UserSearch from './components/ExistingUser/UserSearch.js';
 import UserSearchReturn from './components/ExistingUser/UserSearchReturn.js';
-import Popup from './components/Popup.js';
 import Summary from './components/Summary.js';
-import Try from './components/Try.js';
-import Popup from './components/Popup.js';
 import ReservationSumm from './components/ReservationSummary/ReservationSumm.js';
 import ShowAllRes from './components/ShowAllReserved/ShowAllRes.js';
 import Seats from './components/Seats/Seats.js';
@@ -20,6 +19,8 @@ import Seats2 from './components/Seats/retSeats.js';
 import UserProfile from './components/UserProfile/UserProfile.js'
 import UpdateUser from './components/UpdateUser/UpdateUser.js'
 import PasswordForm from './components/UpdateUser/UpdateUserPassword.js';
+import Popup from './components/Popup.js';
+import Popup2 from './components/Popup2.js';
 
 
 
@@ -42,14 +43,26 @@ const App =() => {
                 <SignInForm/>
             </Route>
 
+            <Route exact path="/SignInForm2"> 
+                <SignInForm2/>
+            </Route>
+
 
             <Route exact path="/UserSearch"> 
                 <UserSearch/>
             </Route>
 
+            <Route exact path="/Popup"> 
+                <Popup/>
+            </Route>
+
+            <Route exact path="/Popup2"> 
+                <Popup2/>
+            </Route>
+
             <Route exact path="/UserSearchReturn"> 
                 <UserSearchReturn/>
-
+            </Route>
             <Route exact path='/Summary'>
                 <Summary/>
             </Route>   
@@ -64,9 +77,14 @@ const App =() => {
                 <RegisterForm/>
           </Route>
 
-        <Route exact path="/flights/createFlight" >
+          <Route exact path="/Register2" >
+                <RegisterForm2/>
+          </Route>
+          
+
+            <Route exact path="/flights/createFlight" >
                 <FlightForm />
-        </Route>
+            </Route>
 
 
                 <Route exact path = "/flights">
@@ -78,11 +96,11 @@ const App =() => {
                   <FlightDetails />
                 </Route>
 
-                <Route exact path = "/users/profile/:id">
+                <Route exact path = "/users/profile/">
                   <UserProfile />
                 </Route>
 
-                <Route exact path = "/users/updateUser/:id">
+                <Route exact path = "/users/updateUser/">
                   <UpdateUser />
                 </Route>
 
@@ -97,11 +115,11 @@ const App =() => {
 
 
  
-                <Route exact path = "/summaryReservation/:currUser" >
+                <Route exact path = "/summaryReservation/" >
                     <ReservationSumm />
                 </Route> 
 
-                <Route exact path = "/allReservations/:currUser" >
+                <Route exact path = "/allReservations/" >
                     <ShowAllRes />
                 </Route> 
 

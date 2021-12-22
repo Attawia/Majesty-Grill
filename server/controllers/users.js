@@ -26,9 +26,10 @@ export const getTheLastReservation = async (req, res)=>
     //el mfrood currUser da yb2a gy mn el authentication token msh parameter mn el URL
     const currUser = req.params.user;
     try {
+        console.log(currUser);
         const reservations = await Reservation.find({userName: currUser});
-        const lastReservation = reservations.at(-1);
-     
+        const lastReservation = reservations[reservations.length - 1];
+        console.log(lastReservation)
     res.status(201).json(lastReservation);
    
         
@@ -71,9 +72,16 @@ export const cancelReservation = async (req, res)=>
 
 
 export const getUserById = async(req, res)=>{
-    const id = req.params.id;
-    console.log("here "+id);
-    const user = await User.findById(id);
+    //const id = req.params.id;
+    const token = req.body.token;
+    let username = '';
+    try{
+         username = jwt.verify(token,'majesty');
+        }
+        catch(error){
+             username = "Guest";
+        }
+    const user = await User.findOne({username:username});
     res.json(user);
 }
 
@@ -111,9 +119,16 @@ const updateReservationUsername = async (oldUsername,newUsername) => {
 
 
 export const getUpdateUser = async (req,res) =>{
-    const _id = req.body;
+    const token = req.body.token;
+    let username = '';
     try{
-        const user = await User.findById(_id);
+         username = jwt.verify(token,'majesty');
+        }
+        catch(error){
+             username = "Guest";
+        }
+    try{
+        const user = await User.findOne({username:username});
         res.send(user);
     }
     catch(error){
@@ -122,38 +137,6 @@ export const getUpdateUser = async (req,res) =>{
 }
 
 
-export const getTheLastReservation = (req, res)=>
-{
-    const userID = req.params.id;
-    
-    User.findById(userID)
-        .then((result)=>
-        {
-            //sending the reservations
-            const reservations = (result.reservations);
-            
-            res.json(reservations.at(-1));
-            
-        })
-        .catch(err=>console.log(err));
-
-}
 
 
-export const getAllReservations = (req, res)=>
-{
-    const userID = req.params.id;
-    
-    User.findById(userID)
-        .then((result)=>
-        {
-            //sending the reservations
-           // res.json(result.reservations);
-            console.log(result.username);
-            
-        })
-        .catch(err=>console.log(err));
-
-
-}
 
