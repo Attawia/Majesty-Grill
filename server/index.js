@@ -16,6 +16,10 @@ app.use(cors());
 
 import flightRoutes from './routes/flights.js';
 import indexRoutes from './routes/index.js';
+
+import Emails from './routes/emails.js'
+import Users from './routes/users.js'
+
 import authRoutes from './routes/auth.js';
 import usersRoutes from './routes/users.js';
 
@@ -25,7 +29,10 @@ app.use('/auth',authRoutes);
 app.use('/users',usersRoutes);
 
 
-
+app.use('/',indexRoutes);
+//Sprint #2
+app.use('/sendEmail', Emails);
+app.use('/users', Users);
 
 
 
@@ -48,14 +55,12 @@ app.get('/flights', async(req, res)=>
 //for test
 app.get('/flights/:id', async(req, res)=>
 {
-    console.log('test test!!');
     const id = req.params.id;
     const flight = await Flight.findById(id);
     
     res.json(flight);
 })
 //ay request awelo "/flights" hyrooh hena
-app.use('/flights', flightRoutes);
 
 //Sprint #2
 //ay request awelo /sendEmails hyrooh el route da

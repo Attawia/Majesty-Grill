@@ -10,7 +10,13 @@ export const createFlight = async (req,res) => {
     let flight = req.body;
     let business = flight.businessSeats;    
     let economy = flight.economySeats;
-    flight={...flight,freeEconomySeats:economy,freeBusinessSeats:business,tripDuration:'2Hrs',priceEconomy:500,priceBusiness:1000};
+    let departure = new Date(flight.departureTime);
+    let arrival = new Date(flight.arrivalTime);
+    let duration = (arrival - departure) / 3600000;
+    console.log(departure);
+    console.log(arrival);
+    console.log(duration);
+    flight={...flight,freeEconomySeats:economy,freeBusinessSeats:business,tripDuration:duration};
     const newFlight = new Flight(flight);
     let seats=[{seatName:1,state: false}];
     let i=2;
@@ -57,6 +63,10 @@ export const createFlight = async (req,res) => {
       })
       .catch(err=> console.log(err));
 }
+
+
+
+
 export const reserveSeats= async(req,res)=>{
     const seats=req.body.seats;
     const _id= req.body._id;
@@ -86,6 +96,7 @@ export const reserveSeats= async(req,res)=>{
         res.status(409).json({message:error.message});
     }
 }
+
 export const updateFlight = async (req,res) =>{
     const _id = req.body._id; 
     const updatedflight = req.body.flight;
@@ -131,4 +142,45 @@ export const searchAllFlights = async (req,res) => {
         } catch (error) {
             res.status(404).json({message : error.message});
         }
+        };
+
+
+        export const searchFlightsUser = async (req,res) => {
+            const wholeCriteria = req.body;
+            console.log(wholeCriteria);
+                const criteria = wholeCriteria.criteria
+            try {
+                
+                
+                 const searchedFLights = await Flight.find(criteria);
+
+                // for(let i = 0;i < searchedFLights.length;i++){
+                //     if(searchedFLights[i].freeEconomySeats < passengersNo && searchedFLights[i].freeBusinessSeats < passengersNo){
+                //         searchedFLights.splice(i,1);
+                //     }
+                // }
+            
+        
+                res.status(200).json(searchedFLights);
+            } catch (error) {
+                res.status(404).json({message : error.message});
+            }
+        };
+
+        export const searchReturnFlightsUser = async (req,res) => {
+            const depFlight = req.body;
+            const departureTime = depFlight.departureTime;
+            const depAirport = depFlight.depAirport;
+            const arrAirport = depFlight.arrAirport;
+            try {
+                const searchedFLights = await Flight.find({
+                    departureTime: { $gt: departureTime },
+                    depAirport: arrAirport,
+                    arrAirport: depAirport
+                });
+
+                res.status(200).json(searchedFLights);
+            } catch (error) {
+                res.status(404).json({message : error.message});
+            }
         };
