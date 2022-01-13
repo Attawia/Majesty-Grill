@@ -8,6 +8,7 @@ let seats = "";
 
 const ShowAllReserved = () => {
     
+const [isPending, setIsPending] = useState(true);
 const [currUser,setCurrUser] = useState(null);
 const [reservations, setReservations] = useState(null);
 const [cancel, setCancel] = useState(false);
@@ -111,8 +112,8 @@ if(loggedIN && flagAllowed)
  getAllCaller()
   .then((result)=>
   { 
-      if(result.length == 0) setEmpty(true);
-      else if(!flagSummary){ setReservations(result);setFlagSummary(true);setEmpty(false)};
+      if(result.length == 0) {setEmpty(true);setIsPending(true);}
+      else if(!flagSummary){ setIsPending(false); setReservations(result);setFlagSummary(true);setEmpty(false)};
     
   })
 
@@ -133,10 +134,9 @@ console.log("empty: "+empty)
         
          {!loggedIN && <Link to={'/'}> Log in please!</Link> }
         
-
         
-
-        { empty && !cancel &&
+         { isPending && <div>Loading...</div> }
+        { !isPending && empty && !cancel &&
         <div class = "Msg-Error">
             <div class="alert error">
                 <strong>!!</strong> No Current Reservations
