@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { getUsername, isGuest } from "../../api/auth";
 import axios from 'axios';
 import './style.css';
+import {getEmailCaller, cancelReservation, getAllCaller} from '../../actions/ShowAllRes'
 let seats = "";
 
 
@@ -18,10 +19,6 @@ const [userEmail, setUserEmail] = useState(null);
 const [flagAllowed, setAllowed] = useState(true);
 const [flagSummary,setFlagSummary] = useState(false);
 
-//-----------------------------
-//method that cancels reservation
-
-//-----------------------------
 
 const getTheUser = async () =>
     {
@@ -40,76 +37,25 @@ const getTheUser = async () =>
 
        useEffect(()=>
        {
-            const getEmail = async()=>
-            {
-            const resp = await axios.get('http://localhost:5000/users/getEmail/' + currUser);
-            console.log('hee'+currUser);
-            return resp.data;
-            }
-            const getEmailCaller = async()=>
-            {
-            const Email = await getEmail(); 
-            return Email;
-            }
-            getEmailCaller()
-             .then((result)=>
-            {
-         setUserEmail(result);
-         console.log("fel useEffect: " + userEmail)
-         
-     })
+         getEmailCaller(currUser)
+             .then((result)=>{
+                setUserEmail(result);
+            })
         },[currUser])
-const cancelReservation = async(id, x)=>
-{
-    const {bookingNumber, totalPrice} = x;
-    console.log("inside cancelReservation: " + userEmail);    
 
-    axios.all([
-        
-      axios.post('http://localhost:5000/sendEmail/cancelResEmail', {userEmail, bookingNumber, totalPrice }),
-      axios.delete('http://localhost:5000/users/cancelRes/'+id)
-        
-    ])
-    .then(axios.spread((data1, data2)=>
-    {
-       console.log("data1: " + data1, "data2: " + data2);
-    }));
-
-    setCancel(true);
-
-    setInterval(() => {
-        //setCancel(false);
-        window.location.reload();
-    }, 3000);
-
-    
-}
 useEffect(()=>
 {
     
 },[])
 
 
-const getAll = async() =>
-{
-        const resp =  await axios.get('http://localhost:5000/users/AllReservations/' + currUser);
-        
-        return resp.data;
-}
-const getAllCaller = async () =>
-{
-   const Reservations = await getAll(); 
-   
-return Reservations;
-
-}
 
 useEffect(()=>
 {
 if(loggedIN && flagAllowed)
 {
 
- getAllCaller()
+ getAllCaller(currUser)
   .then((result)=>
   { 
       if(result.length == 0) {setEmpty(true);setIsPending(true);}
@@ -269,8 +215,11 @@ console.log("empty: "+empty)
                             cancelReservation(reservation._id, {
                                    bookingNumber : reservation.bookingNumber,
                                    totalPrice: reservation.totalPrice
-                                }
+                                }, userEmail
                                 );
+
+                                setIsPending(false);
+                                setCancel(true);
                              
                           //   console.log(x);
                             //setCancelledReservation(x);
