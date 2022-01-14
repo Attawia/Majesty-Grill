@@ -1,6 +1,6 @@
 import {  Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-
+import { getUsername, isGuest } from "../../api/auth";
 import axios from 'axios';
 import './style.css';
 let seats = "";
@@ -8,70 +8,56 @@ let seats = "";
 
 const ShowAllReserved = () => {
     
-const { currUser } = useParams();
-
+const [currUser,setCurrUser] = useState(null);
 const [reservations, setReservations] = useState(null);
 const [cancel, setCancel] = useState(false);
 const [empty, setEmpty] = useState(false);
 const [loggedIN, setLogged] = useState(true);
 const [userEmail, setUserEmail] = useState(null);
+const [flagAllowed, setAllowed] = useState(true);
+const [flagSummary,setFlagSummary] = useState(false);
+
 //-----------------------------
 //method that cancels reservation
 
 //-----------------------------
 
-const getEmail = async()=>
-{
- const resp = await axios.get('http://localhost:5000/users/getEmail/' + currUser);
- return resp.data;
-}
-const getEmailCaller = async()=>
-{
- const Email = await getEmail(); 
- return Email;
-}
+const getTheUser = async () =>
+    {
+        const theUser = await getUsername(); 
+        setCurrUser(theUser);
+    }
+    
+    const guestUserCheck = async () => {
 
-useEffect(()=>
-{
-    getEmailCaller()
-     .then((result)=>
-     {
+    const guestUser = await isGuest();
+    if(guestUser){setLogged(false)};
+     }
+       getTheUser();
+       guestUserCheck();
+
+
+       useEffect(()=>
+       {
+            const getEmail = async()=>
+            {
+            const resp = await axios.get('http://localhost:5000/users/getEmail/' + currUser);
+            console.log('hee'+currUser);
+            return resp.data;
+            }
+            const getEmailCaller = async()=>
+            {
+            const Email = await getEmail(); 
+            return Email;
+            }
+            getEmailCaller()
+             .then((result)=>
+            {
          setUserEmail(result);
          console.log("fel useEffect: " + userEmail)
          
      })
-},[])
-
-
-const getAll = async() =>
-{
-        const resp =  await axios.get('http://localhost:5000/users/AllReservations/' + currUser);
-        
-        return resp.data;
-}
-const getAllCaller = async () =>
-{
-   const Reservations = await getAll(); 
-   
-return Reservations;
-
-}
-
-
-if(loggedIN)
-{
-
- getAllCaller()
-  .then((result)=>
-  { 
-      if(result.length == 0) setEmpty(true);
-      else setReservations(result);
-    
-  })
-
-}
-
-//----------------------
+        },[currUser])
 const cancelReservation = async(id, x)=>
 {
     const {bookingNumber, totalPrice} = x;
@@ -97,17 +83,63 @@ const cancelReservation = async(id, x)=>
 
     
 }
+useEffect(()=>
+{
+    
+},[])
 
+
+const getAll = async() =>
+{
+        const resp =  await axios.get('http://localhost:5000/users/AllReservations/' + currUser);
+        
+        return resp.data;
+}
+const getAllCaller = async () =>
+{
+   const Reservations = await getAll(); 
+   
+return Reservations;
+
+}
+
+useEffect(()=>
+{
+if(loggedIN && flagAllowed)
+{
+
+ getAllCaller()
+  .then((result)=>
+  { 
+      if(result.length == 0) setEmpty(true);
+      else if(!flagSummary){ setReservations(result);setFlagSummary(true);setEmpty(false)};
+    
+  })
+
+}
+console.log('here');
+//----------------------
+
+},[flagAllowed,loggedIN,currUser])
+
+console.log("empty: "+empty)
 
     return ( 
     <div>
+
+        <Link to={`/UserSearch`}>
+             <button>Back</button>
+        </Link>
         
          {!loggedIN && <Link to={'/'}> Log in please!</Link> }
         
+
+        
+
         { empty && !cancel &&
         <div class = "Msg-Error">
             <div class="alert error">
-                <strong>!!</strong> No Current Reservation
+                <strong>!!</strong> No Current Reservations
             </div>
         </div>
          }

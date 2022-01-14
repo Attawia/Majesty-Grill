@@ -13,9 +13,10 @@ export const GetFlightById = async(id)=>
     return response.data;
 
 }
-export const GetUserById = async(id)=>
+export const GetUserById = async()=>
 {
-    const response = await api.get('/users/'+id);
+    const request = {token:localStorage.getItem('token')};
+    const response = await api.post('/users/',request);
     return response.data;
 
 }

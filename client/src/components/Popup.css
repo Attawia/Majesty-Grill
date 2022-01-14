@@ -16,7 +16,7 @@
     position: relative ;
     padding : 200px;
     width: 100%;
-    max-width : 640px;
+    max-width : 900px;
     background-color : #FFF;
 
 }
@@ -87,13 +87,13 @@
   }
   #priceEconomy {
     position: absolute;
-    left: 389px;
+    left: 250px;
     top: 280px;
     font-size : 18px;
   }
   #priceBusiness {
     position: absolute;
-    left: 589px;
+    left: 440px;
     top: 280px;
     font-size : 18px;
   }

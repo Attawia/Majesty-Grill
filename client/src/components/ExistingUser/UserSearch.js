@@ -3,6 +3,7 @@ import axios from "axios";
 import {TextField,Button,Paper,Typography} from '@material-ui/core';
 import {Link, useLocation} from "react-router-dom";
 import Popup from './../Popup.js'
+import {getUsername} from './../../api/auth.js'
 
 let flag=false;
 const UserSearch = () => {
@@ -21,6 +22,7 @@ const UserSearch = () => {
     const[searchedFlights,setSearchedFlights] = useState([]);
 
     let criteriaReady = false;
+    let flightType = 'dep'
 
     const decAdults = (e) =>{
         e.preventDefault();
@@ -51,7 +53,6 @@ const UserSearch = () => {
 
     const handleSearchButton = async(e) => {
         const res = await axios.post('http://localhost:5000/flights/searchFlightsUser',wholeCriteria);
-        console.log(res.data);
         return res.data;
     }
 
@@ -96,6 +97,10 @@ const UserSearch = () => {
 
     }
 
+    const showAllReservations = async() =>{
+        return await getUsername();
+    }
+
     //wait for variable to change
     useEffect(() => {
         setWholeCriteria({...wholeCriteria, adultsNo : displayNumberOfAdullts});
@@ -133,6 +138,18 @@ const UserSearch = () => {
             <Link to={`/`}>
                 <button>
                     Sign Out 
+                </button>
+            </Link>
+            <p>      </p>
+            <Link to={`/users/profile/`}>
+                <button>
+                    View My Profile 
+                </button>
+            </Link>
+            &nbsp;&nbsp;&nbsp;
+            <Link to={`/allReservations`}>
+                <button>
+                    View All My Reservations 
                 </button>
             </Link>
             <h1>Flights Search</h1> 
@@ -183,24 +200,23 @@ const UserSearch = () => {
             <br></br>
             <button>Search Flights</button>
         </form>
-          {searchedFlights.map(searchedFlight => (
-            <div className="flights-preview" key={searchedFlight.flightNo} onClick={() => openPopUp(searchedFlight.flightNo)}>
-                <h2>{searchedFlight.flightNo}</h2>
-                <h4>{ searchedFlight.depAirport} ===={">"} { searchedFlight.arrAirport} </h4>
-                <h3>Price:  {searchedFlight.priceEconomy}€    ~    {searchedFlight.priceBusiness}€</h3>
-            </div>
+          {searchedFlights.map(depFlight => (
+              <Link to={{ 
+                pathname: "/Popup/" ,
+                state : {depFlight,flightType,displayNumberOfAdullts,displayNumberOfChildren}
+                }}>
+                <div className="flights-preview" key={depFlight.flightNo}>
+                    <h2>{depFlight.flightNo}</h2>
+                    <h4>{ depFlight.depAirport} ===={">"} { depFlight.arrAirport} </h4>
+                    <h3>Price:  {depFlight.priceEconomy}€    ~    {depFlight.priceBusiness}€</h3>
+                </div>
+            </Link>
           ))}
 
 
         </div>
-        <Popup 
-        trigger={buttonPopup} 
-        setTrigger={setButtonPopup} 
-        depFlight = {passedFlight}
-        flightType = {"dep"} 
-        adultsNo= {displayNumberOfAdullts}
-        childrenNo= {displayNumberOfChildren}
-        />
+        {console.log(displayNumberOfAdullts)}
+        {console.log(displayNumberOfChildren)}
         </div>
     );
       

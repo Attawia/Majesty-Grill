@@ -55,7 +55,6 @@ app.get('/flights', async(req, res)=>
 //for test
 app.get('/flights/:id', async(req, res)=>
 {
-    console.log('test test!!');
     const id = req.params.id;
     const flight = await Flight.findById(id);
     

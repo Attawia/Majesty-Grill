@@ -10,7 +10,13 @@ export const createFlight = async (req,res) => {
     let flight = req.body;
     let business = flight.businessSeats;    
     let economy = flight.economySeats;
-    flight={...flight,freeEconomySeats:economy,freeBusinessSeats:business,tripDuration:'2Hrs',priceEconomy:500,priceBusiness:1000};
+    let departure = new Date(flight.departureTime);
+    let arrival = new Date(flight.arrivalTime);
+    let duration = (arrival - departure) / 3600000;
+    console.log(departure);
+    console.log(arrival);
+    console.log(duration);
+    flight={...flight,freeEconomySeats:economy,freeBusinessSeats:business,tripDuration:duration};
     const newFlight = new Flight(flight);
     let seats=[{seatName:1,state: false}];
     let i=2;
