@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import {TextField,Button,Paper,Typography} from '@material-ui/core';
 import {Link} from "react-router-dom";
+import { authorize } from "../api/auth";
+
 
 const getAllFlights = async()=>{
     const res = await axios.get('http://localhost:5000/flights/');
@@ -16,10 +18,30 @@ const Home = () => {
 
     const[searchedFlights,setSearchedFlights] = useState([]);
 
+    const [allowed,setAllowed] = useState(false);
+    const [alreadyChecked,setAlreadyChecked] = useState(false);
+
+    useEffect(()=>
+    {
+    const isAllowed = async () =>{
+        const flag = await authorize("/flights");
+        console.log(flag);
+        if(!alreadyChecked){
+            setAllowed(flag);
+            setAlreadyChecked(true);
+        }
+
+    }
+
+    isAllowed();
+    },[alreadyChecked])
+
     const handleSearchButton = async(e) => {
         const res = await axios.post('http://localhost:5000/flights/searchFlights',criteria);
         return res.data;
     }
+
+
 
    const showAll = (e) =>{
     e.preventDefault();
@@ -33,14 +55,37 @@ const Home = () => {
 
     const showSearchedFlights = (e) =>{
         e.preventDefault();
+
+        Object.keys(criteria).forEach(function(key){
+            if (criteria[key] === '') {
+              delete criteria[key];
+            }
+        });
+
         const searchedflights = async ()=>{const promise = await handleSearchButton(); return promise;}
         const flightsarr = searchedflights();
         flightsarr.then(function(result){
             setSearchedFlights(result);
-        })}
+        })
+        setFlights([]);
+    }
 
     return (
-        <div className="home">
+        <div>
+        {allowed && <div className="home">
+            <Link to={`/`}>
+            <button>
+                Sign Out 
+                </button>
+            </Link>
+            <p>      </p>
+            <Link to={`/users/profile/`}>
+                <button>
+                    View My Profile 
+                </button>
+            </Link>
+            &nbsp;&nbsp;&nbsp;
+            <h1>HomePage</h1> 
         <form onSubmit={showSearchedFlights}>
             <label>Flight Number:      </label>
             <TextField 
@@ -92,11 +137,17 @@ const Home = () => {
             onChange={(e) => setCriteria({...criteria, arrAirport : e.target.value})}
             />
             <h2></h2>
+            <Link to={`/flights/createflight`}>
+            <button>
+                Create New Flight 
+                </button>
+            </Link>
+            <br></br>
             <button>Search Flights</button>
         </form>
            <button onClick= {showAll}>Show All Flights</button>
           {flights.map(flight => (
-              <Link to={`/flights/${flight._id+flight.flightNo}`}>
+              <Link to={`/flights/${flight._id}`}>
             <div className="flights-preview" key={flight._id} >
                 <h2>{flight.flightNo}</h2>
                 <p>{ flight.depAirport} =={">"} { flight.arrAirport} </p>
@@ -104,11 +155,15 @@ const Home = () => {
             </Link>
           ))}
           {searchedFlights.map(searchedFlight => (
-            <div className="flights-preview" key={searchedFlight._id} >
-                <h2>{searchedFlight.flightNo}</h2>
-                <p>{ searchedFlight.depAirport} =={">"} { searchedFlight.arrAirport} </p>
-            </div>
+              <Link to={`/flights/${searchedFlight._id}`}>
+                <div className="flights-preview" key={searchedFlight._id} >
+                    <h2>{searchedFlight.flightNo}</h2>
+                    <p>{ searchedFlight.depAirport} =={">"} { searchedFlight.arrAirport} </p>
+                </div>
+            </Link>
           ))}
+        </div>}
+        {!allowed && <h3>Forbidden</h3>}
         </div>
     );
       

@@ -1,0 +1,28 @@
+GET http://localhost:5000/flights/updateflight
+
+
+###
+POST http://localhost:5000/flights/getupdateflight
+
+
+###
+GET http://localhost:5000/sendEmail/cancelResEmail
+
+###
+GET http://localhost:5000/users/SummaryReservation/7amo el joe y3yat a7a
+
+###
+GET http://localhost:5000/users/AllReservations/7amo el zika
+
+###
+DELETE http://localhost:5000/users/cancelRes/61bd28df942d08f786aeae7f
+
+
+###
+GET http://localhost:5000/users/getEmail/Disha
+#
+POST http://localhost:5000/flights/getupdateflight
+
+
+#
+GET http://localhost:5000/sendEmail/cancelResEmail
