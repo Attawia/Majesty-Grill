@@ -16,6 +16,7 @@ import ReservationSumm from './components/ReservationSummary/ReservationSumm.js'
 import ShowAllRes from './components/ShowAllReserved/ShowAllRes.js';
 import Seats from './components/Seats/Seats.js';
 import Seats2 from './components/Seats/retSeats.js';
+import ChangeSeat from './components/Seats/changSeat.js';
 import UserProfile from './components/UserProfile/UserProfile.js'
 import UpdateUser from './components/UpdateUser/UpdateUser.js'
 import PasswordForm from './components/UpdateUser/UpdateUserPassword.js';
@@ -71,6 +72,10 @@ const App =() => {
             </Route>
             <Route exact path='/returnSeats'>
                 <Seats2/>
+            </Route>
+
+            <Route exact path='/changeSeat'>
+                <ChangeSeat/>
             </Route>
 
           <Route exact path="/Register" >

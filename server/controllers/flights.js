@@ -52,6 +52,19 @@ export const createFlight = async (req,res) => {
 
 }
 
+export const updateReservation = async(req,res)=>{
+    const _id=req.body._id;
+    const reservation = req.body.res;
+    try{
+        await Reservation.findByIdAndUpdate(_id,reservation);
+        res.status(201).json(newReservation);
+    }
+    catch(error){
+        res.status(409).json({message: error.message});
+    }
+
+}
+
  export const flightDelete=(req, res)=>
 {
     const id = req.params.id;
@@ -91,6 +104,29 @@ export const reserveSeats= async(req,res)=>{
         flight.seats=seatarray;
         console.log(flight);
         await Flight.findByIdAndUpdate(_id,flight);
+    }
+    catch(error){
+        res.status(409).json({message:error.message});
+    }
+}
+
+export const emptySeats = async(req,res)=>{
+    const _id= req.body._id;
+    const seats = req.body.seats;
+    try{
+        const flight =  await Flight.findById(_id);
+        let seatarray = flight.seats;
+        console.log(seatarray);
+        for(const seat of seats){
+            for(const seat2 of seatarray){
+                if(seat==seat2.seatName){
+                    seat2.state=false;
+                }
+            }
+        }
+        flight.seats=seatarray;
+         await Flight.findByIdAndUpdate(_id,flight);
+
     }
     catch(error){
         res.status(409).json({message:error.message});
