@@ -53,6 +53,7 @@ const getAll = async(currUser) =>
 }
 const getAllCaller = async (currUser) =>
 {
+
    const Reservations = await getAll(currUser); 
    
 return Reservations;
@@ -60,6 +61,7 @@ return Reservations;
 }
 
 
+
 export{
-    getEmail, getEmailCaller, cancelReservation, getAllCaller, getAll
+    getEmail, getEmailCaller, cancelReservation, getAll, getAllCaller
 }

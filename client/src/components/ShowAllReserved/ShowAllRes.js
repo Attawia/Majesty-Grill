@@ -1,78 +1,156 @@
 import {  Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { getUsername, isGuest } from "../../api/auth";
-import axios from 'axios';
-import './style.css';
-import {getEmailCaller, cancelReservation, getAllCaller} from '../../actions/ShowAllRes'
-let seats = "";
+import { changePassword, getUsername, isGuest } from "../../api/auth";
+import SelectedFlight from "../SelectedFlight/SelectedFlight";
 
+import './style.css';
+import {getEmailCaller, cancelReservation, getAllCaller, getAll, } from '../../actions/ShowAllRes'
+let seats = "";
+let count = 1;
 
 const ShowAllReserved = () => {
-    
-const [isPending, setIsPending] = useState(true);
-const [currUser,setCurrUser] = useState(null);
-const [reservations, setReservations] = useState(null);
-const [cancel, setCancel] = useState(false);
-const [empty, setEmpty] = useState(false);
-const [loggedIN, setLogged] = useState(true);
-const [userEmail, setUserEmail] = useState(null);
-const [flagAllowed, setAllowed] = useState(true);
-const [flagSummary,setFlagSummary] = useState(false);
 
+
+
+// const [empty, setEmpty] = useState(false);
+//const [cancel, setCancel] = useState(false);
+
+// const [flagSummary,setFlagSummary] = useState(false);
+// const [reservations, setReservations] = useState(null);
+// const [userEmail, setUserEmail] = useState(null);
+
+
+
+const [data, setData] = useState({
+    empty : false,
+    cancel: false,
+    userEmail : null
+});
+
+const [resAndF, setRestAndF] = useState({
+    reservations : null,
+    flagSummary : false  
+})
+
+const [currUser,setCurrUser] = useState(null);
+const [loggedIN, setLogged] = useState(true);
+const [selected, setSelected] = useState(false);
+const [isPending, setIsPending] = useState(true);
+const [flagAllowed, setAllowed] = useState(true);
+
+const [flag, setFlag] = useState(false);
 
 const getTheUser = async () =>
     {
         const theUser = await getUsername(); 
-        setCurrUser(theUser);
+         setCurrUser(theUser);
+         console.log("after setCurrUser: " + count);
     }
     
     const guestUserCheck = async () => {
 
     const guestUser = await isGuest();
+
     if(guestUser){setLogged(false)};
+    console.log("after setLogged: " + count);
      }
-       getTheUser();
-       guestUserCheck();
+
+     if(!flag){
+        getTheUser();
+        guestUserCheck();
+        setFlag(true);
+     }
+
+       //btb2a rendered mara wa7da bs lma el curr user byeegy
+       //lazem tstna el curr user yeegy el awl 3shan mtb3tsh request b null
+    //    useEffect(()=>
+    //    {
+    //         if(currUser){
+    //              getEmailCaller(currUser)
+    //                 .then((result)=>{
+    //                 setUserEmail(result);
+    //         })
+            
+    //      }
+         
+    //     },[currUser])
 
 
-       useEffect(()=>
-       {
-         getEmailCaller(currUser)
-             .then((result)=>{
-                setUserEmail(result);
-            })
-        },[currUser])
+
 
 useEffect(()=>
 {
+    let email;
     
-},[])
-
-
-
-useEffect(()=>
-{
-if(loggedIN && flagAllowed)
-{
-
- getAllCaller(currUser)
-  .then((result)=>
-  { 
-      if(result.length == 0) {setEmpty(true);setIsPending(true);}
-      else if(!flagSummary){ setIsPending(false); setReservations(result);setFlagSummary(true);setEmpty(false)};
-    
-  })
-
+    if(currUser){
+        getEmailCaller(currUser)
+           .then((result)=>{
+        //    setUserEmail(result);
+             email = result;
+   })
+   
 }
-console.log('here');
+
+if(loggedIN && flagAllowed && currUser)
+{
+setAllowed(false);
+console.log("after setAllowed: " + count);
+
+  getAllCaller(currUser).
+  then((result)=>{
+
+  
+  console.log(result);
+ 
+          //btkhosh el etnen dy fe render w dy fel ba3dha!!
+      if( result.length == 0) {
+        //   setEmpty(true);setIsPending(true);
+
+        console.log("if then: "+ count);
+        
+        setIsPending(false);
+        console.log("after setIsPending: " + count);
+        setData({empty : true});
+        console.log("after setData: " + count);
+    }
+      else if(!resAndF.flagSummary){ 
+        console.log("if else: " + count);
+        
+          //setIsPending(false);setEmpty(false);
+          //setReservations(result);setFlagSummary(true);
+          setIsPending(false);
+          console.log("after setIsPending: " + count);
+          setData({empty : false, 
+            
+            userEmail : email
+        });
+        console.log("after setCurrUser: " + count);
+
+          setRestAndF({reservations : result, flagSummary : true});
+        };
+        console.log("after setRest: " + count);
+          
+        
+    })
+    
+ 
+}
+
 //----------------------
 
 },[flagAllowed,loggedIN,currUser])
 
-console.log("empty: "+empty)
+
+//console.log("empty: "+empty)
+const change = ()=>{
+    setSelected(!selected);
+}
+
+console.log('here: ' + count++);
 
     return ( 
     <div>
+        
 
         <Link to={`/UserSearch`}>
              <button>Back</button>
@@ -81,8 +159,9 @@ console.log("empty: "+empty)
          {!loggedIN && <Link to={'/'}> Log in please!</Link> }
         
         
-         { isPending && <div>Loading...</div> }
-        { !isPending && empty && !cancel &&
+          { isPending && <div>Loading...</div> }
+          
+        { !isPending && data.empty && !data.cancel &&
         <div class = "Msg-Error">
             <div class="alert error">
                 <strong>!!</strong> No Current Reservations
@@ -90,7 +169,7 @@ console.log("empty: "+empty)
         </div>
          }
 
-        { cancel && 
+        { data.cancel && 
             <div class = "Msg-Info">
      
 
@@ -105,18 +184,25 @@ console.log("empty: "+empty)
       </div>
       }
 
+
         
-        {reservations&& 
+        {resAndF.reservations&& 
             <div>
+
+
+
+
                 <h1 class = "centerElement">All Reservations </h1>  
                         
-                {reservations.map(reservation=>
+                {resAndF.reservations.map(reservation=>
                     (
                         
                         
                         <div> 
                          
+                        
                      <div class = "row">
+                     
                         <div class = "column">
                          <table border = '1'>
                              <caption>Departure Flight Details</caption>
@@ -215,19 +301,64 @@ console.log("empty: "+empty)
                             cancelReservation(reservation._id, {
                                    bookingNumber : reservation.bookingNumber,
                                    totalPrice: reservation.totalPrice
-                                }, userEmail
+                                }, data.userEmail
                                 );
 
-                                setIsPending(false);
-                                setCancel(true);
+                                 setIsPending(false);
+                                setData({
+                                cancel: true});
+                                // setCancel(true);
+
                              
-                          //   console.log(x);
-                            //setCancelledReservation(x);
-                            
+                          
                         }
                         }}>Cancel Reservation</button>
+
+<Link to={{
+    pathname: "/allReservations/selectedFlight",
+    state: {
+            type : "Departure",
+            reservation,
+            edited : false,
+
+            flightNumber : reservation.flightDeparture,
+            from : reservation.from,
+            to: reservation.to,
+            time : reservation.timeDeparture,
+            price : reservation.priceDeparture,
+            cabin : reservation.cabinDeparture,
+            seats : reservation.seatDeparture,
+            criteria : {flightNo: reservation.flightDeparture}
+
+    }
+        }}>
+        <button >Select Departure Flight </button>
+</Link>
+
+<Link to={{
+    pathname: "/allReservations/selectedFlight",
+    state: {
+            type : "Return",
+            reservation,
+            edited : false,
+
+            flightNumber : reservation.flightReturn,
+            from : reservation.to,
+            to: reservation.from,
+            time : reservation.timeReturn,
+            price : reservation.priceReturn,
+            cabin : reservation.cabinReturn,
+            seats : reservation.seatReturn,
+            criteria : {flightNo: reservation.flightReturn}
+    }
+        }}>
+        <button >Select Return Flight </button>
+</Link>
+
+                     
                         
-                          
+                        
+
                     <br />
                     <hr />
                     <br />
@@ -240,6 +371,8 @@ console.log("empty: "+empty)
 
 
 }
+
+
 
     </div> );
 }
