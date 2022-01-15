@@ -22,9 +22,9 @@ import UpdateUser from './components/UpdateUser/UpdateUser.js'
 import PasswordForm from './components/UpdateUser/UpdateUserPassword.js';
 import Popup from './components/Popup.js';
 import Popup2 from './components/Popup2.js';
+import SelectedFlight from './components/SelectedFlight/SelectedFlight.js';
 
-
-
+import Test from './components/Tesst/test.js'
 
 
 
@@ -39,6 +39,9 @@ const App =() => {
             <Switch>
             
             
+            <Route exact path="/test"> 
+                <Test/>
+            </Route>
 
             <Route exact path="/"> 
                 <SignInForm/>
@@ -128,7 +131,10 @@ const App =() => {
                     <ShowAllRes />
                 </Route> 
 
-                
+                <Route exact path = "/allReservations/selectedFlight" >
+                    <SelectedFlight />
+                </Route> 
+
                 
 
                     
