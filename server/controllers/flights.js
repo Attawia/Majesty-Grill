@@ -13,9 +13,6 @@ export const createFlight = async (req,res) => {
     let departure = new Date(flight.departureTime);
     let arrival = new Date(flight.arrivalTime);
     let duration = (arrival - departure) / 3600000;
-    console.log(departure);
-    console.log(arrival);
-    console.log(duration);
     flight={...flight,freeEconomySeats:economy,freeBusinessSeats:business,tripDuration:duration};
     const newFlight = new Flight(flight);
     let seats=[{seatName:1,state: false}];
@@ -89,7 +86,6 @@ export const reserveSeats= async(req,res)=>{
             }
         }
         flight.seats=seatarray;
-        console.log(flight);
         await Flight.findByIdAndUpdate(_id,flight);
     }
     catch(error){
@@ -136,7 +132,6 @@ export const searchAllFlights = async (req,res) => {
         try {
             const searchedFLights = await Flight.find(req.body);
             
-            console.log(searchedFLights);
         
             res.status(200).json(searchedFLights);
         } catch (error) {
@@ -147,7 +142,6 @@ export const searchAllFlights = async (req,res) => {
 
         export const searchFlightsUser = async (req,res) => {
             const wholeCriteria = req.body;
-            console.log(wholeCriteria);
                 const criteria = wholeCriteria.criteria
             try {
                 
@@ -184,3 +178,62 @@ export const searchAllFlights = async (req,res) => {
                 res.status(404).json({message : error.message});
             }
         };
+
+        export const editReservationDep = async (req,res) => {
+            try {
+                if(req.body.type === 'Departure'){
+                    if(req.body.departureTime == ''){
+                        const searchedFLights = await Flight.find({
+                            departureTime: { $lt: req.body.timeRes }
+                        });
+                        
+                        res.status(200).json(searchedFLights);
+                    }
+                    else{
+                        let date = req.body;
+                        let part1 = date.departureTime.substring(0,8);
+                        let num = parseInt(date.departureTime.substring(8,10));
+                        num += 1;
+                        let part2 = date.departureTime.substring(10,24);
+                        let otherDate = part1 + '' + num + '' + part2;
+    
+                        const searchedFLights = await Flight.find({
+                            $or: [ { departureTime: { $gt: date.departureTime } }, { departureTime: date.departureTime } ],
+                            departureTime: { $lt: otherDate }
+                        });
+                        
+                    
+                        res.status(200).json(searchedFLights);
+                    }
+                }
+                else{
+                    if(req.body.departureTime == ''){
+                        const searchedFLights = await Flight.find({
+                            departureTime: { $gt: req.body.timeRes }
+                        });
+                        
+                        res.status(200).json(searchedFLights);
+                    }
+                    else{
+                        let date = req.body;
+                        let part1 = date.departureTime.substring(0,8);
+                        let num = parseInt(date.departureTime.substring(8,10));
+                        num += 1;
+                        let part2 = date.departureTime.substring(10,24);
+                        let otherDate = part1 + '' + num + '' + part2;
+    
+                        const searchedFLights = await Flight.find({
+                            $or: [ { departureTime: { $gt: date.departureTime } }, { departureTime: date.departureTime } ],
+                            departureTime: { $lt: otherDate }
+                        });
+                        
+                    
+                        res.status(200).json(searchedFLights);
+                    }
+                }
+                
+            } 
+            catch (error) {
+                res.status(404).json({message : error.message});
+            }
+            };
