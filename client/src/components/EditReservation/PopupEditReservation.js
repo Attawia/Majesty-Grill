@@ -77,7 +77,7 @@ function PopupEditReservation(){
         if(difference > 0){
             let to = "/newflightseats"
             history.push({ 
-                pathname: "/newflightseats",
+                pathname: "/payment",
                 state : {flight,type,reservation,difference,to}
             });
         }
@@ -99,7 +99,7 @@ function PopupEditReservation(){
         if(difference > 0){
             let to = "/newflightseats"
             history.push({
-                pathname: "/newflightseats",
+                pathname: "/payment",
                 state : {flight,type,reservation,difference,to}
             });
         }

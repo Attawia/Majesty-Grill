@@ -138,16 +138,22 @@ export const emptySeats = async(req,res)=>{
 export const emptySeats2 = async(req,res)=>{
     const flightNo = req.body.flightNo;
     const seats = req.body.seats;
+    console.log(flightNo);
+    console.log(seats);
     try{
         const flightarray = await Flight.find({flightNo : flightNo});
         const flight = flightarray[0];
         let seatarray=flight.seats;
         const _id = flight._id;
+        console.log(seatarray)
         for(const seat of seatarray){
-            if(seats.includes(seat.seatName)){
-                seat.state=false;
+            for(const seat2 of seats){
+                if(seat2==seat.seatName){
+                    seat.state=false;
+                }
             }
         }
+        console.log(seatarray);
         flight.seats=seatarray;
         await Flight.findByIdAndUpdate(_id,flight);
         res.status(200);
