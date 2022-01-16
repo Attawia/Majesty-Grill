@@ -11,10 +11,11 @@ const amountE = amount + '€';
 const PaymentForm = () => {
     const history = useHistory();
     const location = useLocation();
-    const {flight} = location.state;
-    const {type} = location.state;
+    const {depFlight} = location.state;
+    const {retFlight} = location.state;
     const {reservation} = location.state;
-    const {difference} = location.state;
+    const {price} = location.state;
+    const difference = price;
     const {to} = location.state;
 
     const [amount,setAmount] = react.useState(0);
@@ -70,7 +71,7 @@ const PaymentForm = () => {
         await timeout(1000);
         history.push({
             pathname: to,
-            state:{reservation,type,flight}
+            state:{reservation,depFlight,retFlight}
           });
           window.location.reload();
         }
