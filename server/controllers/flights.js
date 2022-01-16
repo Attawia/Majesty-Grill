@@ -75,8 +75,39 @@ export const updateReservation = async(req,res)=>{
 }
 
 
-
-
+export const changeSeats=async(req,res)=>{
+    console.log('hi');
+   const _id=req.body._id;
+   const seats = req.body.seats;
+   const delseats = req.body.delseats;
+   console.log(seats);
+   console.log(delseats);
+   try{
+       const flight = await Flight.findById(_id);
+       const seatarray=flight.seats;
+       for(const seat of seatarray){
+           for(const seat1 of delseats){
+               if(seat1==seat.seatName){
+                   console.log('delete :' + seat1)
+                   seat.state=false;
+               }
+           }
+           for(const seat1 of seats){
+            if(seat1==seat.seatName){
+                console.log('add :' + seat1)
+                seat.state=true;    
+            }
+        }
+    }
+       flight.seats=seatarray;
+       console.log(flight);
+       await Flight.findByIdAndUpdate(_id,flight);
+       res.sendStatus(200);
+   }
+   catch(error){
+    res.status(409).json({message:error.message});
+   }  
+}
 export const reserveSeats= async(req,res)=>{
     const seats=req.body.seats;
     const _id= req.body._id;
@@ -109,7 +140,7 @@ export const reserveSeats= async(req,res)=>{
 
 export const emptySeats = async(req,res)=>{
     const _id= req.body._id;
-    const seats = req.body.seats;
+    const seats = req.body.delseats;
     console.log(seats);
     try{
         const flight =  await Flight.findById(_id);

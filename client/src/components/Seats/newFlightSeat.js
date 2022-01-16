@@ -211,8 +211,7 @@ const Submit=(e)=>{
     history.push({
       pathname: '/allreservations/selectedflight',
       state:{reservation,type,edited}
-    }); 
-    
+    });     
   }
 }
 
