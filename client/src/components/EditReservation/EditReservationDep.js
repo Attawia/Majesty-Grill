@@ -10,20 +10,10 @@ const EditReservationDep = () => {
     const history = useHistory();
     const location = useLocation();
 
-    //dool 3shan el test
-    const [reservation,setReservation] = useState({
-        timeReturn:"2025-12-11T16:03:00.000Z", 
-        priceDeparture:400, 
-        passengers:2,
-        timeDeparture:"2020-12-11T16:03:00.000Z",
-        priceReturn:400
-    });
     
-        const [type,setType] = useState('Departure');
-
     //hakhod el data mn ziko hena fi variable esmo reservation
-    //const {reservation} = location.state;
-    //const {type} = location.state;
+    const {reservation} = location.state;
+    const {type} = location.state;
 
     //true --> Departure
     //false --> Return
@@ -65,16 +55,12 @@ const EditReservationDep = () => {
                 window.confirm("Please choose a Date before your Return Flight Date");
             }
             else{
-                console.log("rayeh backend");
-                console.log(criteria);
+
                 const searchedflights = async ()=>{const promise = await handleSearchButton(); return promise;}
                 const flightsarr = searchedflights();
                 flightsarr.then(function(result){
         
                     setSearchedFlights(result);
-                    console.log(criteria);
-                    console.log(result);
-                    console.log(searchedFlights);
                 })
             }
          }
@@ -86,15 +72,11 @@ const EditReservationDep = () => {
                 window.confirm("Please choose a Date After your Departure Flight Date");
             }
             else{
-                console.log("rayeh backend");
                 const searchedflights = async ()=>{const promise = await handleSearchButton(); return promise;}
                 const flightsarr = searchedflights();
                 flightsarr.then(function(result){
         
                     setSearchedFlights(result);
-                    console.log(criteria);
-                    console.log(result);
-                    console.log(searchedFlights);
                 })
             }
          }

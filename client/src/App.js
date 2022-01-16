@@ -17,6 +17,7 @@ import ShowAllRes from './components/ShowAllReserved/ShowAllRes.js';
 import Seats from './components/Seats/Seats.js';
 import Seats2 from './components/Seats/retSeats.js';
 import ChangeSeat from './components/Seats/changSeat.js';
+import NewFlightSeats from './components/Seats/newFlightSeat';
 import UserProfile from './components/UserProfile/UserProfile.js'
 import UpdateUser from './components/UpdateUser/UpdateUser.js'
 import PasswordForm from './components/UpdateUser/UpdateUserPassword.js';
@@ -31,6 +32,7 @@ import SelectedFlight from './components/SelectedFlight/SelectedFlight.js';
 
 
 
+
 const App =() => {
 
     return(
@@ -39,14 +41,9 @@ const App =() => {
             
             <Switch>
             
-            
-            <Route exact path="/test"> 
-                <Test/>
-            </Route>
 
             <Route exact path="/">
-                <EditReservationDep/>
-                {/*<SignInForm/>*/}
+                <SignInForm/>
             </Route>
 
             <Route exact path="/SignInForm2"> 
@@ -81,6 +78,10 @@ const App =() => {
 
             <Route exact path='/changeSeat'>
                 <ChangeSeat/>
+            </Route>
+
+            <Route exact path='/newflightseats'>
+                <NewFlightSeats/>
             </Route>
 
           <Route exact path="/Register" >
