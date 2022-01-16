@@ -147,8 +147,8 @@ const EditReservationDep = () => {
 
             { !flagType && searchedFlights.map(flight => (
               <Link to={{ 
-                pathname: "/Popup/" ,
-                state : {flight}//hahot hena el flight elly howa ekhtarha
+                pathname: "/PopupEditReservation/" ,
+                state : {flight,type,reservation}//hahot hena el flight elly howa ekhtarha
                 }}>
                 <div className="flights-preview" key={flight.flightNo}>
                     <h2>{flight.flightNo}</h2>
