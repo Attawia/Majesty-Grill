@@ -41,8 +41,7 @@ const App =() => {
             
 
             <Route exact path="/">
-                <EditReservationDep/>
-                {/*<SignInForm/>*/}
+                <SignInForm/>
             </Route>
 
             <Route exact path="/SignInForm2"> 

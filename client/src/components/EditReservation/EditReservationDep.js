@@ -11,19 +11,21 @@ const EditReservationDep = () => {
     const location = useLocation();
 
     //dool 3shan el test
-    const [reservation,setReservation] = useState({
+    /*const [reservation,setReservation] = useState({
         timeReturn:"2025-12-11T16:03:00.000Z", 
         priceDeparture:400, 
         passengers:2,
         timeDeparture:"2020-12-11T16:03:00.000Z",
-        priceReturn:400
+        priceReturn:400,
+        from:"BERLIN",
+        to:"CAIRO"
     });
     
-        const [type,setType] = useState('Departure');
+    const [type,setType] = useState('Departure');*/
 
     //hakhod el data mn ziko hena fi variable esmo reservation
-    //const {reservation} = location.state;
-    //const {type} = location.state;
+    const {reservation} = location.state;
+    const {type} = location.state;
 
     //true --> Departure
     //false --> Return
@@ -39,11 +41,11 @@ const EditReservationDep = () => {
     useEffect(() => {
         if(type === 'Departure'){
             setFlagType(true);
-            setCriteria({...criteria, type : 'Departure',timeRes : reservation.timeReturn});
+            setCriteria({...criteria, type : 'Departure',timeRes : reservation.timeReturn, depAirport: reservation.from, arrAirport: reservation.to});
         }
         else{
             setFlagType(false);
-            setCriteria({...criteria, type : 'Return', timeRes : reservation.timeDeparture});
+            setCriteria({...criteria, type : 'Return', timeRes : reservation.timeDeparture, depAirport: reservation.to, arrAirport: reservation.from});
         }
 
     }, [type,reservation]);
