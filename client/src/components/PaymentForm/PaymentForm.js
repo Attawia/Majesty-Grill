@@ -50,7 +50,7 @@ const PaymentForm = () => {
         
         await timeout(1000);
         history.push({
-            pathname: '/allreservations/selectedflight',
+            pathname: '/newflightseats',
             state:{reservation,type,flight}
           });
           window.location.reload();
