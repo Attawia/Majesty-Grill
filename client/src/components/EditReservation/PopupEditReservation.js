@@ -29,8 +29,9 @@ function PopupEditReservation(){
         axios.patch("http://localhost:5000/flights/emptyseats2/",{flightNo: reservation.flightDeparture ,seats: reservation.seatDeparture});
 
         let price = flight.priceBusiness * reservation.passengers
-        reservation = {...reservation,cabinDeparture:'Business', timeDeparture: flight.departureTime, priceDeparture: price, flightDeparture: flight.flightNo};
         let difference = (flight.priceBusiness * reservation.passengers) - reservation.priceDeparture;
+        reservation = {...reservation,cabinDeparture:'Business', timeDeparture: flight.departureTime, priceDeparture: price, flightDeparture: flight.flightNo};
+        console.log(difference);
         if(difference > 0){
             let to = "/newflightseats"
             history.push({ 
@@ -50,8 +51,8 @@ function PopupEditReservation(){
         axios.patch("http://localhost:5000/flights/emptyseats2/",{flightNo: reservation.flightDeparture ,seats: reservation.seatDeparture});
 
         let price = flight.priceEconomy * reservation.passengers
+        let difference = (flight.priceEconomyce * reservation.passengers) - reservation.priceDeparture;
         reservation = {...reservation,cabinDeparture:'Economy', timeDeparture: flight.departureTime, priceDeparture: price, flightDeparture: flight.flightNo};
-        let difference = (flight.priceEconomy * reservation.passengers) - reservation.priceDeparture;
         if(difference > 0){
             let to = "/newflightseats"
             history.push({
@@ -72,12 +73,13 @@ function PopupEditReservation(){
         axios.patch("http://localhost:5000/flights/emptyseats2/",{flightNo: reservation.flightReturn ,seats: reservation.seatReturn});
 
         let price = flight.priceBusiness * reservation.passengers
-        reservation = {...reservation,cabinReturn:'Business', timeReturn: flight.departureTime, priceReturn: price, flightReturn: flight.flightNo};
         let difference = (flight.priceBusiness * reservation.passengers) - reservation.priceReturn;
+        reservation = {...reservation,cabinReturn:'Business', timeReturn: flight.departureTime, priceReturn: price, flightReturn: flight.flightNo};
+        console.log(difference)
         if(difference > 0){
             let to = "/newflightseats"
             history.push({ 
-                pathname: "/newflightseats",
+                pathname: "/payment",
                 state : {flight,type,reservation,difference,to}
             });
         }
@@ -94,12 +96,12 @@ function PopupEditReservation(){
         axios.patch("http://localhost:5000/flights/emptyseats2/",{flightNo: reservation.flightReturn ,seats: reservation.seatReturn});
 
         let price = flight.priceEconomy * reservation.passengers
-        reservation = {...reservation,cabinReturn:'Economy', timeReturn: flight.departureTime, priceReturn: price, flightReturn: flight.flightNo};
         let difference = (flight.priceEconomy * reservation.passengers) - reservation.priceReturn;
+        reservation = {...reservation,cabinReturn:'Economy', timeReturn: flight.departureTime, priceReturn: price, flightReturn: flight.flightNo};
         if(difference > 0){
             let to = "/newflightseats"
             history.push({
-                pathname: "/newflightseats",
+                pathname: "/payment",
                 state : {flight,type,reservation,difference,to}
             });
         }

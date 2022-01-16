@@ -22,11 +22,13 @@ import Users from './routes/users.js'
 
 import authRoutes from './routes/auth.js';
 import usersRoutes from './routes/users.js';
+import paymentRoutes from './routes/payments.js';
 
 app.use('/flights',flightRoutes);
 app.use('/',indexRoutes);
 app.use('/auth',authRoutes);
 app.use('/users',usersRoutes);
+app.use('/payment/',paymentRoutes);
 
 
 app.use('/',indexRoutes);
