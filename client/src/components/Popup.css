@@ -93,13 +93,13 @@
   }
   #priceEconomy {
     position: absolute;
-    left: 250px;
+    left: 440px;
     top: 280px;
     font-size : 18px;
   }
   #priceBusiness {
     position: absolute;
-    left: 440px;
+    left: 250px;
     top: 280px;
     font-size : 18px;
   }
