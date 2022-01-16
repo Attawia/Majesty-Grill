@@ -49,6 +49,19 @@ export const createFlight = async (req,res) => {
 
 }
 
+export const updateReservation = async(req,res)=>{
+    const _id=req.body._id;
+    const reservation = req.body.res;
+    try{
+        await Reservation.findByIdAndUpdate(_id,reservation);
+        res.status(201).json(newReservation);
+    }
+    catch(error){
+        res.status(409).json({message: error.message});
+    }
+
+}
+
  export const flightDelete=(req, res)=>
 {
     const id = req.params.id;
@@ -86,7 +99,58 @@ export const reserveSeats= async(req,res)=>{
             }
         }
         flight.seats=seatarray;
+
         await Flight.findByIdAndUpdate(_id,flight);
+    }
+    catch(error){
+        res.status(409).json({message:error.message});
+    }
+}
+
+export const emptySeats = async(req,res)=>{
+    const _id= req.body._id;
+    const seats = req.body.seats;
+    console.log(seats);
+    try{
+        const flight =  await Flight.findById(_id);
+        let seatarray = flight.seats;
+        console.log('before');
+        console.log(seatarray);
+        for(const seat of seatarray){
+            for(const seat2 of seats){
+                if(seat2==seat.seatName){
+                    seat.state=false;
+                }
+            }
+        }
+        console.log('after');
+        console.log(seatarray);
+        flight.seats=seatarray;
+        console.log(flight);
+        await Flight.findByIdAndUpdate(_id,flight);
+        res.status(201);
+    }
+    catch(error){
+        res.status(409).json({message:error.message});
+    }
+}
+
+export const emptySeats2 = async(req,res)=>{
+    const flightNo = req.body.flightNo;
+    const seats = req.body.seats;
+    try{
+        const flightarray = await Flight.find({flightNo : flightNo});
+        const flight = flightarray[0];
+        let seatarray=flight.seats;
+        const _id = flight._id;
+        for(const seat of seatarray){
+            if(seats.includes(seat.seatName)){
+                seat.state=false;
+            }
+        }
+        flight.seats=seatarray;
+        await Flight.findByIdAndUpdate(_id,flight);
+        res.status(200);
     }
     catch(error){
         res.status(409).json({message:error.message});
@@ -131,8 +195,6 @@ export const searchAllFlights = async (req,res) => {
     export const searchFlights = async (req,res) => {
         try {
             const searchedFLights = await Flight.find(req.body);
-            
-        
             res.status(200).json(searchedFLights);
         } catch (error) {
             res.status(404).json({message : error.message});
