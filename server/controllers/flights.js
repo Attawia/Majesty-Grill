@@ -246,7 +246,9 @@ export const searchAllFlights = async (req,res) => {
                 if(req.body.type === 'Departure'){
                     if(req.body.departureTime == ''){
                         const searchedFLights = await Flight.find({
-                            departureTime: { $lt: req.body.timeRes }
+                            departureTime: { $lt: req.body.timeRes },
+                            depAirport: req.body.depAirport,
+                            arrAirport: req.body.arrAirport
                         });
                         
                         res.status(200).json(searchedFLights);
@@ -257,11 +259,19 @@ export const searchAllFlights = async (req,res) => {
                         let num = parseInt(date.departureTime.substring(8,10));
                         num += 1;
                         let part2 = date.departureTime.substring(10,24);
+                        if(num < 10){
+                            num = '0' + '' + num
+                        }
                         let otherDate = part1 + '' + num + '' + part2;
+
+                        console.log(date);
+                        console.log(otherDate);
     
                         const searchedFLights = await Flight.find({
                             $or: [ { departureTime: { $gt: date.departureTime } }, { departureTime: date.departureTime } ],
-                            departureTime: { $lt: otherDate }
+                            departureTime: { $lt: otherDate },
+                            depAirport: req.body.depAirport,
+                            arrAirport: req.body.arrAirport
                         });
                         
                     
@@ -271,7 +281,9 @@ export const searchAllFlights = async (req,res) => {
                 else{
                     if(req.body.departureTime == ''){
                         const searchedFLights = await Flight.find({
-                            departureTime: { $gt: req.body.timeRes }
+                            departureTime: { $gt: req.body.timeRes },
+                            depAirport: req.body.depAirport,
+                            arrAirport: req.body.arrAirport
                         });
                         
                         res.status(200).json(searchedFLights);
@@ -282,11 +294,16 @@ export const searchAllFlights = async (req,res) => {
                         let num = parseInt(date.departureTime.substring(8,10));
                         num += 1;
                         let part2 = date.departureTime.substring(10,24);
+                        if(num < 10){
+                            num = '0' + '' + num
+                        }
                         let otherDate = part1 + '' + num + '' + part2;
     
                         const searchedFLights = await Flight.find({
                             $or: [ { departureTime: { $gt: date.departureTime } }, { departureTime: date.departureTime } ],
-                            departureTime: { $lt: otherDate }
+                            departureTime: { $lt: otherDate },
+                            depAirport: req.body.depAirport,
+                            arrAirport: req.body.arrAirport
                         });
                         
                     
