@@ -71,6 +71,7 @@ const ReservationSumm = () =>
 
     },[flagAllowed,loggedIN,currUser])
 
+
     return(
         
         <div>
@@ -179,7 +180,9 @@ const ReservationSumm = () =>
                 <p >Number Of Passengers: {summary.passengers}</p>
                 </div>
                 
+                <Link to={'/usersearch'}>
                 <button>Back</button>
+                </Link>
                </div> 
                 
                 }
