@@ -243,12 +243,12 @@
 //   //  reservation = {...reservation,seatDeparture:reserved};
 //     const x = axios.patch('http://localhost:5000/flights/reserveseats/',sent);
 //     const z = axios.patch('http://localhost:5000/flights/emptyseats/',{_id:"61bf39afb234bd9e865af8fa", seats:['1','2','3','4','5']})
- //   const y = axios.patch('http://localhost:5000/flights/updateSeat',{_id:resid ,res:reservation});
-    // history.push({
-    //   pathname: '/returnSeats',
-    //   state:{depFlight,retFlight,reservation}
-   // }); 
-   // window.location.reload();
+//    const y = axios.patch('http://localhost:5000/flights/updateSeat',{_id:resid ,res:reservation});
+//     history.push({
+//       pathname: '/returnSeats',
+//       state:{depFlight,retFlight,reservation}
+//    }); 
+//    window.location.reload();
     
     
   
@@ -290,13 +290,13 @@ let final=[];
 let row=1;
 let dakhal = false;
 
-
 const Seat =  () => {
   const history = useHistory();
   const location = useLocation();
   const [display,setDisplay]=useState();
   const[flag,setflag]=useState(false);
-  const{flight}=location.state;
+  let{flight}=location.state;
+  flight=flight[0];
   const{type}=location.state;
   let{edited}=location.state;
   let {reservation} = location.state;  
@@ -306,15 +306,22 @@ const Seat =  () => {
   let limit = 0;
   let seatarray=[];
   let total;
+  let typestr="";
   useEffect(()=>{
-   
-   economy = flight.economySeats;
-   business = flight.businessSeats;
-   total = economy + business;
-   seatarray=flight.seats;
-   limit = reservation.passengers;
+    console.log(type);
+    id=flight._id;
+    console.log(id);
+    console.log(flight);
+    economy = flight.economySeats;
+    console.log(flight.economySeats);
+    business = flight.businessSeats;
+    total = economy + business;
+    seatarray=flight.seats;
+    limit = reservation.passengers;
+
   
   if(!flag){
+    console.log(business);
   for(let i=1;i<=economy+business;i++){
     if(i<=business && business-i+1>=6){
       if(i==1)final.push(<u><h2>Business Class</h2></u>);
@@ -417,12 +424,13 @@ const Seat =  () => {
   }
     setDisplay(final);
   setflag(true);
-
 }
+
+
   },[flight,reservation,type,edited,display]);
 
 useEffect(()=>{
-    
+
   function setflag2func(){
     let j=1;
     console.log(reservation.cabinDeparture);
@@ -437,7 +445,6 @@ useEffect(()=>{
       console.log(total);
       for(let i=business+1;i<=total;i++){
         document.getElementById(""+i).disabled="disabled";
-        console.log(document.getElementById(""+i))
       }
     }
     for(const seat of seatarray){
@@ -453,6 +460,7 @@ useEffect(()=>{
     setflag2func();
   }
 
+
 },[flag]);
 const back=(e)=>{
   history.go(-1);
@@ -461,7 +469,7 @@ const Submit=(e)=>{
   e.preventDefault();
   let c = 0;
   let reserved=[];
-  const oldseats=[];
+  let oldseats=[];
   for(let j=1;j<=business+economy;j++){
     const checkbox = document.getElementById(j+"");
     if(checkbox.checked){
@@ -480,7 +488,7 @@ const Submit=(e)=>{
       }
     }
     const sent={_id:id,seats:reserved};
-    if(type=='dep'){
+    if(type=='Departure'){
         oldseats=reservation.seatDeparture;
         reservation = {...reservation,seatDeparture:reserved};
     }
@@ -488,32 +496,26 @@ const Submit=(e)=>{
         oldseats= reservation.seatReturn;
         reservation = {...reservation,seatReturn:reserved};
     }
-    const z = axios.patch('http://localhost:5000/flights/emptyseats/',{_id:reservation._id,seats:oldseats});
+    console.log(oldseats);
+    const z = axios.patch('http://localhost:5000/flights/emptyseats/',{_id:id,seats:oldseats});
     const x = axios.patch('http://localhost:5000/flights/reserveseats/',sent);
     edited = true;
     history.push({
-      pathname: '/returnSeats',
-      state:{flight,reservation,type,edited}
+      pathname: '/allReservations/selectedFlight',
+      state:{reservation,edited}
     }); 
-    window.location.reload();
     
   }
 }
-
-
-
-
-   
-    
+  
   return(
     <div>
       <button onClick={back}>Back</button>
-      <u><h1>Please Select Departure Flight Seats</h1></u>
+      <u><h1>Please Select New {type} Flight Seats</h1></u>
       {display}
-      <button onClick={Submit}>Confirm Departure Flight Seats</button>
+      <button onClick={Submit}>Update {type} Flight Seats</button>
     </div>
   )
-
 }  
 
 export default Seat;
