@@ -23,7 +23,7 @@ const FlightForm = () => {
         }
         else{
             localStorage.setItem('token',flag);
-            window.location.href='/flights'; 
+            window.location.href='/userSearch'; 
         }
         
     }
@@ -36,8 +36,12 @@ const FlightForm = () => {
         }
         else{
             localStorage.setItem('token',flag.token);
-            window.location.href='/users/profile/'+flag.id; 
+            if(userData.username == 'Administrator')
+                window.location.href='/flights/';
+            else
+            window.location.href='/userSearch/';
         }
+        //sheel el if else w here
 
         
     };

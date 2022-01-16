@@ -27,7 +27,8 @@ export const signIn = async (req,res) => {
         bcrypt.compare(newUser.password,currUser.password).then(isCorrect =>{
             if(isCorrect){
                 const accessToken = jwt.sign(user.username,'majesty');
-                //console.log(accessToken);
+                console.log(accessToken);
+                console.log(jwt.verify(accessToken,'majesty'));
                 res.json({token:accessToken,id:currUser._id});
             }
             else{

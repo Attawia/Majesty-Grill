@@ -1,8 +1,10 @@
 import {  useParams,Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { authorize } from "../api/auth";
 import { GetFlightById } from "../actions/index.js";
 
 import api from "../api/index.js";
+
 
 const FlightDetails = () => {
 
@@ -19,8 +21,27 @@ const FlightDetails = () => {
         if(theFlight) setFlight(theFlight);
      }
         getTheFlight();
+        
     },[])
 
+
+    const [allowed,setAllowed] = useState(false);
+    const [alreadyChecked,setAlreadyChecked] = useState(false);
+
+    useEffect(()=>
+    {
+    const isAllowed = async () =>{
+        const flag = await authorize("/flights");
+        console.log(flag);
+        if(!alreadyChecked){
+            setAllowed(flag);
+            setAlreadyChecked(true);
+        }
+
+    }
+
+    isAllowed();
+    },[alreadyChecked])
     
     const deleteFlight = async() =>
     {
@@ -28,8 +49,10 @@ const FlightDetails = () => {
         
     }
 
+
     return ( 
-    <div>
+        <div>
+    {allowed && <div>
         
         <Link to={`/flights/`}>
             <button>
@@ -88,6 +111,8 @@ const FlightDetails = () => {
              </button>
         </Link>
         
+    </div>}
+    {!allowed && <h3>Forbidden</h3>}
     </div>
      );
 }

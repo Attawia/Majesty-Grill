@@ -11,11 +11,14 @@
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.24.0",
+    "node-sass": "^6.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-file-base64": "^1.0.3",
+    "react-native-counters": "^1.2.0",
     "react-redux": "^7.2.6",
     "react-router-dom": "^5.3.0",
+    "react-script-tag": "^1.1.2",
     "react-scripts": "4.0.3",
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.0",
@@ -44,5 +47,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/plugin-syntax-jsx": "^7.16.5",
+    "@babel/preset-react": "^7.16.5"
   }
 }

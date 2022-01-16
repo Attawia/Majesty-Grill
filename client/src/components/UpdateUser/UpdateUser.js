@@ -3,20 +3,23 @@ import { useState, useEffect } from "react";
 import {TextField,Button,Paper,Typography} from '@material-ui/core';
 import {useParams} from 'react-router-dom';
 import { Link,useHistory} from 'react-router-dom';
-import {validateID} from "../../api/auth.js"
+import {isGuest, validateID} from "../../api/auth.js";
 
 
-const getPost = async (id) => {
-    const res = await axios.post('http://localhost:5000/users/getUpdateUser',{_id:id});
-    const user = res.data;
-    return user;
-}
+
 var done = false;
 const UpdateUser =  () => {
     const [flag, setFlag] = useState(false);
     const history = useHistory();
     const {id} = useParams();
     const [user,updateUser] = useState({});
+
+    const getPost = async (id) => {
+        const res = await axios.post('http://localhost:5000/users/getUpdateUser',{token:localStorage.getItem('token')});
+        const user = res.data;
+        if(user.username!=="Guest")setFlag(true);
+        return user;
+    }
     if(!done){
     const userd = async ()=>{const promise = await getPost(id); return promise;  }
     const userDetails = userd();
@@ -25,17 +28,25 @@ const UpdateUser =  () => {
     updateUser(userData);
     });
     }
+
+    done = true;
+
+    const [allowed,setAllowed] = useState(false);
+    const [alreadyChecked,setAlreadyChecked] = useState(false);
+
     useEffect(()=>
     {
-     const validateId = async () =>{
-        setFlag(await validateID(id));
-    }
-     
-        validateId();
-    },[])
+    const isAllowed = async () =>{
+        const flag = await isGuest();
+        if(!alreadyChecked){
+            setAllowed(!flag);
+            setAlreadyChecked(true);
+        }
 
-      
-    done = true;
+    }
+
+    isAllowed();
+    },[alreadyChecked])
 
     
    const Submit = (e) =>{
@@ -51,8 +62,9 @@ const UpdateUser =  () => {
    
     return(
         <div>
+        {allowed && <div>
         {flag && <Paper>
-             <Link to={`/users/profile/${id}`}>
+             <Link to={`/users/profile/`}>
             <button>
                 Back 
                 </button>
@@ -73,6 +85,8 @@ const UpdateUser =  () => {
         </form>
     </Paper>}
     {!flag && <div>Forbidden</div>}
+    </div>}
+    {!allowed && <h3>Forbidden</h3>}
     </div>
     )
 }

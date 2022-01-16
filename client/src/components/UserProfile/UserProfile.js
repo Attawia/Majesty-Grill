@@ -1,40 +1,80 @@
 import {  useParams,Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { GetUserById } from "../../actions/index.js";
-import {validateID} from "../../api/auth.js"
+import {isGuest,validateID} from "../../api/auth.js"
+import {getUsername} from './../../api/auth.js'
 
 import api from "../../api/index.js";
 
 const UserProfile = () => {
-    const [flag, setFlag] = useState(false);
+    const [flag, setFlag] = useState(true);
     const {id} = useParams();
     const [user, setUser] = useState(null);
 
+    const [backButtonAdmin, setBackButtonAdmin] = useState(false);
 
+    const getUserNameHere = async() =>{
+        const promise = await getUsername();
+        return promise;
+    }
+
+
+
+    const [allowed,setAllowed] = useState(false);
+    const [alreadyChecked,setAlreadyChecked] = useState(false);
+
+    useEffect(()=>
+    {
+    const isAllowed = async () =>{
+        const flag = await isGuest();
+        console.log(flag);
+        if(!alreadyChecked){
+            setAllowed(!flag);
+            setAlreadyChecked(true);
+        }
+
+    }
+
+    isAllowed();
+    },[alreadyChecked])
+    //const [userName,setUserName] = useState('useeerrr');
+
+
+    
+    
     useEffect(()=>
     {
      const getTheUser = async () =>
      {
-        const theUser = await GetUserById(id); 
+        const theUser = await GetUserById(); 
         if(theUser) setUser(theUser);
-     }
-     const validateId = async () =>{
-        setFlag(await validateID(id));
-    }
-     
+     }     
         getTheUser();
-        validateId();
     },[])
 
-    
+    useEffect(()=>
+    {
+        if(user && user.username === 'Administrator'){
+            setBackButtonAdmin(true);
+         }
+        
+    },[user])
+
 
     return ( 
-    <div> {flag && <div>
-        <Link to={`/flights/`}>
+    <div> {allowed && <div>
+        { backButtonAdmin && <Link to={`/flights/`}>
             <button>
-                Back 
+                Back
                 </button>
-            </Link>
+            </Link>}
+
+            { (!backButtonAdmin) && <Link to={`/UserSearch`}>
+            <button>
+                Back
+                </button>
+            </Link>}
+
         <h1>Your Profile</h1>    
         {user &&
     <table border = '1'>
@@ -76,7 +116,7 @@ const UserProfile = () => {
     </table>
 }
 
-<Link to={`/users/updateUser/${id}`}>
+<Link to={`/users/updateUser/`}>
         <button>
              Update Details
              </button>
@@ -87,7 +127,12 @@ const UserProfile = () => {
              </button>
         </Link>
     </div>}
-    {!flag && <div> Forbidden </div>}
+    {!allowed && <div> <Link to={`/`}>
+            <button>
+                Sign In
+                </button>
+            </Link>
+            <h3>Forbidden</h3> </div>}
     </div>
      );
 }

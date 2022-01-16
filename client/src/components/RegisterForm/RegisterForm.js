@@ -13,6 +13,8 @@ input validation whatsoever exists, as it will be added in the next sprint
 
 
 const FlightForm = () => {
+    
+//------------------------------------------------
     const [userData,setUserData] = react.useState({
         username :'',
         password :'',
@@ -23,9 +25,11 @@ const FlightForm = () => {
         telephoneNo : '',
         email : '',
         passportNo : '',
+        
     })
     const [errorMessage, setErrorMessage] = react.useState('');
     const classes = makeStyles();
+    
     const Submit = async (e) =>{
         e.preventDefault();
         const promise = await Register(userData);
@@ -44,7 +48,10 @@ const FlightForm = () => {
                 telephoneNo : '',
                 email : '',
                 passportNo : '',
+                
             })
+            window.location.href('/');
+            //here
         }
         
     };
