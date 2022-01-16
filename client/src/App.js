@@ -10,6 +10,11 @@ import FlightForm from './components/FlightForm/FlightForm.js';
 import UserProfile from './components/UserProfile/UserProfile.js'
 import UpdateUser from './components/UpdateUser/UpdateUser.js'
 import PasswordForm from './components/UpdateUser/UpdateUserPassword.js';
+import Popup from './components/Popup.js';
+import Popup2 from './components/Popup2.js';
+import PaymentForm from './components/PaymentForm/PaymentForm.js'
+
+
 
 
 
@@ -33,7 +38,17 @@ const App =() => {
                 <RegisterForm/>
           </Route>
 
-        <Route exact path="/flights/createFlight" >
+          <Route exact path="/Register2" >
+                <RegisterForm2/>
+          </Route>
+
+          <Route exact path="/payment" >
+                <PaymentForm/>
+          </Route>
+          
+          
+
+            <Route exact path="/flights/createFlight" >
                 <FlightForm />
         </Route>
 

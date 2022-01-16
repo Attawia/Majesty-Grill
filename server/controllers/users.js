@@ -55,8 +55,6 @@ export const getUpdateUser = async (req,res) =>{
         res.status(409).json({message:error.message});
     }
 }
-=======
-import User from '../models/User.js'
 
 
 
