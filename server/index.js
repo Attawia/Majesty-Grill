@@ -23,6 +23,8 @@ import Users from './routes/users.js'
 import authRoutes from './routes/auth.js';
 import usersRoutes from './routes/users.js';
 
+import reservationRoutes from './routes/reservation.js'
+
 app.use('/flights',flightRoutes);
 app.use('/',indexRoutes);
 app.use('/auth',authRoutes);
@@ -34,6 +36,7 @@ app.use('/',indexRoutes);
 app.use('/sendEmail', Emails);
 app.use('/users', Users);
 
+app.use('/reservaitons', reservationRoutes)
 
 
 const CONNECTION_URL = "mongodb+srv://Attawia:durumallesalat@majestyairlines.xdpcb.mongodb.net/MajestyAirlines?retryWrites=true&w=majority";//
