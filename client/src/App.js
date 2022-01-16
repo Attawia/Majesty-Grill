@@ -16,6 +16,7 @@ import ReservationSumm from './components/ReservationSummary/ReservationSumm.js'
 import ShowAllRes from './components/ShowAllReserved/ShowAllRes.js';
 import Seats from './components/Seats/Seats.js';
 import Seats2 from './components/Seats/retSeats.js';
+import ChangeSeat from './components/Seats/changSeat.js';
 import UserProfile from './components/UserProfile/UserProfile.js'
 import UpdateUser from './components/UpdateUser/UpdateUser.js'
 import PasswordForm from './components/UpdateUser/UpdateUserPassword.js';
@@ -23,7 +24,7 @@ import Popup from './components/Popup.js';
 import Popup2 from './components/Popup2.js';
 import EditReservationDep from './components/EditReservation/EditReservationDep.js';
 import PopupEditReservation from './components/EditReservation/PopupEditReservation.js';
-
+import SelectedFlight from './components/SelectedFlight/SelectedFlight.js';
 
 
 
@@ -39,6 +40,9 @@ const App =() => {
             <Switch>
             
             
+            <Route exact path="/test"> 
+                <Test/>
+            </Route>
 
             <Route exact path="/">
                 <EditReservationDep/>
@@ -73,6 +77,10 @@ const App =() => {
             </Route>
             <Route exact path='/returnSeats'>
                 <Seats2/>
+            </Route>
+
+            <Route exact path='/changeSeat'>
+                <ChangeSeat/>
             </Route>
 
           <Route exact path="/Register" >
@@ -132,6 +140,11 @@ const App =() => {
                 <Route exact path = "/PopupEditReservation/" >
                     <PopupEditReservation />
                 </Route> 
+                <Route exact path = "/allReservations/selectedFlight" >
+                    <SelectedFlight />
+                </Route> 
+
+
                     
             </Switch>                
            

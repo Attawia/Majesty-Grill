@@ -1,131 +1,156 @@
 import {  Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { getUsername, isGuest } from "../../api/auth";
-import axios from 'axios';
-import './style.css';
-let seats = "";
+import { changePassword, getUsername, isGuest } from "../../api/auth";
+import SelectedFlight from "../SelectedFlight/SelectedFlight";
 
+import './style.css';
+import {getEmailCaller, cancelReservation, getAllCaller, getAll, } from '../../actions/ShowAllRes'
+let seats = "";
+let count = 1;
 
 const ShowAllReserved = () => {
-    
+
+
+
+// const [empty, setEmpty] = useState(false);
+//const [cancel, setCancel] = useState(false);
+
+// const [flagSummary,setFlagSummary] = useState(false);
+// const [reservations, setReservations] = useState(null);
+// const [userEmail, setUserEmail] = useState(null);
+
+
+
+const [data, setData] = useState({
+    empty : false,
+    cancel: false,
+    userEmail : null
+});
+
+const [resAndF, setRestAndF] = useState({
+    reservations : null,
+    flagSummary : false  
+})
+
 const [currUser,setCurrUser] = useState(null);
-const [reservations, setReservations] = useState(null);
-const [cancel, setCancel] = useState(false);
-const [empty, setEmpty] = useState(false);
 const [loggedIN, setLogged] = useState(true);
-const [userEmail, setUserEmail] = useState(null);
+const [selected, setSelected] = useState(false);
+const [isPending, setIsPending] = useState(true);
 const [flagAllowed, setAllowed] = useState(true);
-const [flagSummary,setFlagSummary] = useState(false);
 
-//-----------------------------
-//method that cancels reservation
-
-//-----------------------------
+const [flag, setFlag] = useState(false);
 
 const getTheUser = async () =>
     {
         const theUser = await getUsername(); 
-        setCurrUser(theUser);
+         setCurrUser(theUser);
+         console.log("after setCurrUser: " + count);
     }
     
     const guestUserCheck = async () => {
 
     const guestUser = await isGuest();
+
     if(guestUser){setLogged(false)};
+    console.log("after setLogged: " + count);
      }
-       getTheUser();
-       guestUserCheck();
 
+     if(!flag){
+        getTheUser();
+        guestUserCheck();
+        setFlag(true);
+     }
 
-       useEffect(()=>
-       {
-            const getEmail = async()=>
-            {
-            const resp = await axios.get('http://localhost:5000/users/getEmail/' + currUser);
-            console.log('hee'+currUser);
-            return resp.data;
-            }
-            const getEmailCaller = async()=>
-            {
-            const Email = await getEmail(); 
-            return Email;
-            }
-            getEmailCaller()
-             .then((result)=>
-            {
-         setUserEmail(result);
-         console.log("fel useEffect: " + userEmail)
+       //btb2a rendered mara wa7da bs lma el curr user byeegy
+       //lazem tstna el curr user yeegy el awl 3shan mtb3tsh request b null
+    //    useEffect(()=>
+    //    {
+    //         if(currUser){
+    //              getEmailCaller(currUser)
+    //                 .then((result)=>{
+    //                 setUserEmail(result);
+    //         })
+            
+    //      }
          
-     })
-        },[currUser])
-const cancelReservation = async(id, x)=>
-{
-    const {bookingNumber, totalPrice} = x;
-    console.log("inside cancelReservation: " + userEmail);    
+    //     },[currUser])
 
-    axios.all([
-        
-      axios.post('http://localhost:5000/sendEmail/cancelResEmail', {userEmail, bookingNumber, totalPrice }),
-      axios.delete('http://localhost:5000/users/cancelRes/'+id)
-        
-    ])
-    .then(axios.spread((data1, data2)=>
-    {
-       console.log("data1: " + data1, "data2: " + data2);
-    }));
 
-    setCancel(true);
 
-    setInterval(() => {
-        //setCancel(false);
-        window.location.reload();
-    }, 3000);
 
-    
-}
 useEffect(()=>
 {
+    let email;
     
-},[])
-
-
-const getAll = async() =>
-{
-        const resp =  await axios.get('http://localhost:5000/users/AllReservations/' + currUser);
-        
-        return resp.data;
-}
-const getAllCaller = async () =>
-{
-   const Reservations = await getAll(); 
+    if(currUser){
+        getEmailCaller(currUser)
+           .then((result)=>{
+        //    setUserEmail(result);
+             email = result;
+   })
    
-return Reservations;
-
 }
 
-useEffect(()=>
+if(loggedIN && flagAllowed && currUser)
 {
-if(loggedIN && flagAllowed)
-{
+setAllowed(false);
+console.log("after setAllowed: " + count);
 
- getAllCaller()
-  .then((result)=>
-  { 
-      if(result.length == 0) setEmpty(true);
-      else if(!flagSummary){ setReservations(result);setFlagSummary(true);setEmpty(false)};
+  getAllCaller(currUser).
+  then((result)=>{
+
+  
+  console.log(result);
+ 
+          //btkhosh el etnen dy fe render w dy fel ba3dha!!
+      if( result.length == 0) {
+        //   setEmpty(true);setIsPending(true);
+
+        console.log("if then: "+ count);
+        
+        setIsPending(false);
+        console.log("after setIsPending: " + count);
+        setData({empty : true});
+        console.log("after setData: " + count);
+    }
+      else if(!resAndF.flagSummary){ 
+        console.log("if else: " + count);
+        
+          //setIsPending(false);setEmpty(false);
+          //setReservations(result);setFlagSummary(true);
+          setIsPending(false);
+          console.log("after setIsPending: " + count);
+          setData({empty : false, 
+            
+            userEmail : email
+        });
+        console.log("after setCurrUser: " + count);
+
+          setRestAndF({reservations : result, flagSummary : true});
+        };
+        console.log("after setRest: " + count);
+          
+        
+    })
     
-  })
-
+ 
 }
-console.log('here');
+
 //----------------------
 
 },[flagAllowed,loggedIN,currUser])
 
-console.log("empty: "+empty)
+
+//console.log("empty: "+empty)
+const change = ()=>{
+    setSelected(!selected);
+}
+
+console.log('here: ' + count++);
 
     return ( 
     <div>
+        
 
         <Link to={`/UserSearch`}>
              <button>Back</button>
@@ -133,10 +158,10 @@ console.log("empty: "+empty)
         
          {!loggedIN && <Link to={'/'}> Log in please!</Link> }
         
-
         
-
-        { empty && !cancel &&
+          { isPending && <div>Loading...</div> }
+          
+        { !isPending && data.empty && !data.cancel &&
         <div class = "Msg-Error">
             <div class="alert error">
                 <strong>!!</strong> No Current Reservations
@@ -144,7 +169,7 @@ console.log("empty: "+empty)
         </div>
          }
 
-        { cancel && 
+        { data.cancel && 
             <div class = "Msg-Info">
      
 
@@ -159,18 +184,25 @@ console.log("empty: "+empty)
       </div>
       }
 
+
         
-        {reservations&& 
+        {resAndF.reservations&& 
             <div>
+
+
+
+
                 <h1 class = "centerElement">All Reservations </h1>  
                         
-                {reservations.map(reservation=>
+                {resAndF.reservations.map(reservation=>
                     (
                         
                         
                         <div> 
                          
+                        
                      <div class = "row">
+                     
                         <div class = "column">
                          <table border = '1'>
                              <caption>Departure Flight Details</caption>
@@ -269,16 +301,64 @@ console.log("empty: "+empty)
                             cancelReservation(reservation._id, {
                                    bookingNumber : reservation.bookingNumber,
                                    totalPrice: reservation.totalPrice
-                                }
+                                }, data.userEmail
                                 );
+
+                                 setIsPending(false);
+                                setData({
+                                cancel: true});
+                                // setCancel(true);
+
                              
-                          //   console.log(x);
-                            //setCancelledReservation(x);
-                            
+                          
                         }
                         }}>Cancel Reservation</button>
+
+<Link to={{
+    pathname: "/allReservations/selectedFlight",
+    state: {
+            type : "Departure",
+            reservation,
+            edited : false,
+
+            flightNumber : reservation.flightDeparture,
+            from : reservation.from,
+            to: reservation.to,
+            time : reservation.timeDeparture,
+            price : reservation.priceDeparture,
+            cabin : reservation.cabinDeparture,
+            seats : reservation.seatDeparture,
+            criteria : {flightNo: reservation.flightDeparture}
+
+    }
+        }}>
+        <button >Select Departure Flight </button>
+</Link>
+
+<Link to={{
+    pathname: "/allReservations/selectedFlight",
+    state: {
+            type : "Return",
+            reservation,
+            edited : false,
+
+            flightNumber : reservation.flightReturn,
+            from : reservation.to,
+            to: reservation.from,
+            time : reservation.timeReturn,
+            price : reservation.priceReturn,
+            cabin : reservation.cabinReturn,
+            seats : reservation.seatReturn,
+            criteria : {flightNo: reservation.flightReturn}
+    }
+        }}>
+        <button >Select Return Flight </button>
+</Link>
+
+                     
                         
-                          
+                        
+
                     <br />
                     <hr />
                     <br />
@@ -291,6 +371,8 @@ console.log("empty: "+empty)
 
 
 }
+
+
 
     </div> );
 }

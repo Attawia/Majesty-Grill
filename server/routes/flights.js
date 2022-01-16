@@ -1,7 +1,8 @@
 import express from 'express';
 
 
-import { getCreate, createFlight,flightDelete,updateFlight, getUpdateFlight,searchAllFlights, searchFlights,reserveSeats,addReservation,searchFlightsUser, searchReturnFlightsUser, editReservationDep  } from '../controllers/flights.js'
+
+import { getCreate, createFlight,flightDelete,updateFlight, getUpdateFlight,searchAllFlights, searchFlights,reserveSeats,addReservation,searchFlightsUser, searchReturnFlightsUser, updateReservation , emptySeats , emptySeats2 ,editReservationDep } from '../controllers/flights.js'
 
 
 const router = express.Router();
@@ -18,6 +19,9 @@ router.post('/searchReturnFlightsUser', searchReturnFlightsUser);
 router.patch('/reserveseats',reserveSeats);
 router.post('/addReservation/',addReservation);
 router.post('/editReservationDep/',editReservationDep);
+router.patch('/updateSeat/',updateReservation);
+router.patch('/emptySeats/',emptySeats);
+router.patch('/emptySeats2/',emptySeats2);
 
 export default router;
 
