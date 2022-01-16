@@ -99,6 +99,7 @@ export const reserveSeats= async(req,res)=>{
             }
         }
         flight.seats=seatarray;
+
         await Flight.findByIdAndUpdate(_id,flight);
     }
     catch(error){
@@ -194,7 +195,6 @@ export const searchAllFlights = async (req,res) => {
     export const searchFlights = async (req,res) => {
         try {
             const searchedFLights = await Flight.find(req.body);
-                    
             res.status(200).json(searchedFLights);
         } catch (error) {
             res.status(404).json({message : error.message});
@@ -240,3 +240,62 @@ export const searchAllFlights = async (req,res) => {
                 res.status(404).json({message : error.message});
             }
         };
+
+        export const editReservationDep = async (req,res) => {
+            try {
+                if(req.body.type === 'Departure'){
+                    if(req.body.departureTime == ''){
+                        const searchedFLights = await Flight.find({
+                            departureTime: { $lt: req.body.timeRes }
+                        });
+                        
+                        res.status(200).json(searchedFLights);
+                    }
+                    else{
+                        let date = req.body;
+                        let part1 = date.departureTime.substring(0,8);
+                        let num = parseInt(date.departureTime.substring(8,10));
+                        num += 1;
+                        let part2 = date.departureTime.substring(10,24);
+                        let otherDate = part1 + '' + num + '' + part2;
+    
+                        const searchedFLights = await Flight.find({
+                            $or: [ { departureTime: { $gt: date.departureTime } }, { departureTime: date.departureTime } ],
+                            departureTime: { $lt: otherDate }
+                        });
+                        
+                    
+                        res.status(200).json(searchedFLights);
+                    }
+                }
+                else{
+                    if(req.body.departureTime == ''){
+                        const searchedFLights = await Flight.find({
+                            departureTime: { $gt: req.body.timeRes }
+                        });
+                        
+                        res.status(200).json(searchedFLights);
+                    }
+                    else{
+                        let date = req.body;
+                        let part1 = date.departureTime.substring(0,8);
+                        let num = parseInt(date.departureTime.substring(8,10));
+                        num += 1;
+                        let part2 = date.departureTime.substring(10,24);
+                        let otherDate = part1 + '' + num + '' + part2;
+    
+                        const searchedFLights = await Flight.find({
+                            $or: [ { departureTime: { $gt: date.departureTime } }, { departureTime: date.departureTime } ],
+                            departureTime: { $lt: otherDate }
+                        });
+                        
+                    
+                        res.status(200).json(searchedFLights);
+                    }
+                }
+                
+            } 
+            catch (error) {
+                res.status(404).json({message : error.message});
+            }
+            };
