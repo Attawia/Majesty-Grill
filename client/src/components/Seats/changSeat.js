@@ -224,7 +224,7 @@ const Submit=(e)=>{
     edited = true;
     history.push({
       pathname: '/allReservations/selectedFlight',
-      state:{reservation,edited}
+      state:{reservation,edited,type}
     }); 
     
   }
