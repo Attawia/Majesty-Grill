@@ -17,8 +17,8 @@ const EditReservationDep = () => {
         passengers:2,
         timeDeparture:"2020-12-11T16:03:00.000Z",
         priceReturn:400,
-        from:"BERLIN",
-        to:"CAIRO"
+        from:"JFK",
+        to:"LAX"
     });
     
     const [type,setType] = useState('Departure');*/
