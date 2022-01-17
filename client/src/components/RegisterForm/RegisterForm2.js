@@ -33,12 +33,36 @@ const FlightForm = () => {
     const [errorMessage, setErrorMessage] = react.useState('');
     const classes = makeStyles();
 
-    //if he finishes the registration process ? continue Seating process
+    //if he finishes the registration process ? continue payment then to Seating process
     const doneRegisterContinueSeating = () => {
+        let priceDepFlight = 0;
+        let priceRetFlight = 0;
+        if(reservation.cabinDeparture == 'Economy'){
+            if(reservation.cabinReturn == 'Economy'){
+                priceDepFlight = depFlight.priceEconomy
+                priceRetFlight = retFlight.priceEconomy
+            }
+            else{
+                priceDepFlight = depFlight.priceEconomy
+                priceRetFlight = retFlight.priceBusiness
+            }
+        }
+        else{
+            if(reservation.cabinReturn == 'Economy'){
+                priceDepFlight = depFlight.priceBusiness
+                priceRetFlight = retFlight.priceEconomy
+            }
+            else{
+                priceDepFlight = depFlight.priceBusiness
+                priceRetFlight = retFlight.priceBusiness
+            }
+        }
+        let price = (priceDepFlight * reservation.passengers) + (priceRetFlight * reservation.passengers);
+        let to = "/departureSeats/";
 
         history.push({ 
-            pathname: "/departureSeats/" ,
-            state : {depFlight,retFlight,reservation}
+            pathname: "/payment2" ,
+            state : {depFlight,retFlight,reservation,price,to}
         });
 
         window.location.reload();

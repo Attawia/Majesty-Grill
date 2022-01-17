@@ -30,7 +30,7 @@ function Summary(props){
 
     }
 
-    //if guest ? go to sign in and then proceed to seating
+    //if guest ? go to sign in and then proceed to payment then seating
     const fakeSignIn = () => {
 
         history.push({ 
@@ -93,12 +93,35 @@ function Summary(props){
     }, [depFlight,retFlight,reservation]);
     
     const chooseSeats=()=>{
-        history.push({ 
-            pathname: "/departureSeats/" ,
-            state : {depFlight,retFlight,reservation}
-        });
+        let priceDepFlight = 0;
+        let priceRetFlight = 0;
+        if(reservation.cabinDeparture == 'Economy'){
+            if(reservation.cabinReturn == 'Economy'){
+                priceDepFlight = depFlight.priceEconomy
+                priceRetFlight = retFlight.priceEconomy
+            }
+            else{
+                priceDepFlight = depFlight.priceEconomy
+                priceRetFlight = retFlight.priceBusiness
+            }
+        }
+        else{
+            if(reservation.cabinReturn == 'Economy'){
+                priceDepFlight = depFlight.priceBusiness
+                priceRetFlight = retFlight.priceEconomy
+            }
+            else{
+                priceDepFlight = depFlight.priceBusiness
+                priceRetFlight = retFlight.priceBusiness
+            }
+        }
+        let price = (priceDepFlight * reservation.passengers) + (priceRetFlight * reservation.passengers);
+        let to = "/departureSeats/";
 
-        window.location.reload();
+        history.push({ 
+            pathname: "/payment2" ,
+            state : {depFlight,retFlight,reservation,price,to}
+        });
     }
     
     return(
