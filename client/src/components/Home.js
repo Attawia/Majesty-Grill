@@ -20,6 +20,7 @@ const Home = () => {
 
     const [allowed,setAllowed] = useState(false);
     const [alreadyChecked,setAlreadyChecked] = useState(false);
+    
 
     useEffect(()=>
     {
@@ -164,7 +165,7 @@ const Home = () => {
           ))}
         </div>}
         {!allowed && <h3>Forbidden</h3>}
-        </div>
+    </div>
     );
       
   
