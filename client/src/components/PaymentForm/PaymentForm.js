@@ -32,7 +32,7 @@ const PaymentForm = () => {
         expiryYear : "",
     });
 
-    const [message,setMessage] = react.useState("");
+    let [message,setMessage] = react.useState("");
 
     const [successFlag,setSuccessFlag] = react.useState(false);
 
@@ -44,10 +44,10 @@ const PaymentForm = () => {
     }
 
     const Submit = async (e) =>{
-        message.setMessage("");
+        setMessage("");
         e.preventDefault();
         if(paymentInfo.cardNo.length != 16){
-            message += "Card number invalid \n";
+            setMessage(message += "Card number invalid \n");
         }
         const namere = /[a-zA-Z]+\s[a-zA-Z]+[\s[a-zA-Z]*/;
         if(!(namere.test(paymentInfo.custName))){

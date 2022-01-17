@@ -222,10 +222,10 @@ const Submit=(e)=>{
     console.log(oldseats);
     const x = axios.patch('http://localhost:5000/flights/changeseats',{_id:id,delseats:oldseats,seats:reserved})
     edited = true;
-    // history.push({
-    //   pathname: '/allReservations/selectedFlight',
-    //   state:{reservation,edited}
-    // }); 
+    history.push({
+      pathname: '/allReservations/selectedFlight',
+      state:{reservation,edited}
+    }); 
     
   }
 }
