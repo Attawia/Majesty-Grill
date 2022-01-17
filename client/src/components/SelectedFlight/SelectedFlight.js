@@ -47,7 +47,15 @@ getTheFlight()
 
 },[])
 
-
+//depends on the type el path hhy5tlef
+if(type == "Departure" ) {
+    // setPath("/");
+    // setFlag(true);
+    pathBeebo = "/editreservation";
+ 
+}
+else {
+ pathBeebo = "/editreservation";} 
 
  function toDisha(){
     history.push({
@@ -116,7 +124,7 @@ getTheFlight()
                    //mstny path mn beebo
                    {
                    pathname: pathBeebo,
-                   state: {reservation, edited}
+                   state: {reservation, edited, type}
                    }
 
                }>

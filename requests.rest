@@ -1,5 +1,6 @@
 GET http://localhost:5000/flights/updateflight
 
+PATCH http://localhost:5000/flights/emptySeats
 
 ###
 POST http://localhost:5000/flights/getupdateflight
