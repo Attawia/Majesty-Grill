@@ -119,7 +119,7 @@ function Summary(props){
         let to = "/departureSeats/";
 
         history.push({ 
-            pathname: "/payment" ,
+            pathname: "/payment2" ,
             state : {depFlight,retFlight,reservation,price,to}
         });
     }
