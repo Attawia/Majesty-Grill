@@ -14,7 +14,7 @@ const Home = () => {
 
     const[flights,setFlights] = useState([]);
 
-    const [criteria,setCriteria] = useState();
+    const [criteria,setCriteria] = useState({});
 
     const[searchedFlights,setSearchedFlights] = useState([]);
 
