@@ -99,6 +99,10 @@ const App =() => {
                 <PaymentForm/>
           </Route>
 
+          <Route exact path="/payment2" >
+                <PaymentForm/>
+          </Route>
+
           
 
             <Route exact path="/flights/createFlight" >

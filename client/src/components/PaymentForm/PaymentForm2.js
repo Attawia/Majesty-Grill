@@ -11,10 +11,11 @@ const amountE = amount + '€';
 const PaymentForm = () => {
     const history = useHistory();
     const location = useLocation();
-    const {flight} = location.state;
-    const {type} = location.state;
+    const {depFlight} = location.state;
+    const {retFlight} = location.state;
     const {reservation} = location.state;
-    const {difference} = location.state;
+    const {price} = location.state;
+    const difference = price;
     const {to} = location.state;
 
     const [amount,setAmount] = react.useState(0);
@@ -32,7 +33,7 @@ const PaymentForm = () => {
         expiryYear : "",
     });
 
-    let [message,setMessage] = react.useState("");
+    const [message,setMessage] = react.useState("");
 
     const [successFlag,setSuccessFlag] = react.useState(false);
 
@@ -44,10 +45,10 @@ const PaymentForm = () => {
     }
 
     const Submit = async (e) =>{
-        setMessage("");
+        message.setMessage("");
         e.preventDefault();
         if(paymentInfo.cardNo.length != 16){
-            setMessage(message += "Card number invalid \n");
+            message += "Card number invalid \n";
         }
         const namere = /[a-zA-Z]+\s[a-zA-Z]+[\s[a-zA-Z]*/;
         if(!(namere.test(paymentInfo.custName))){
@@ -70,7 +71,7 @@ const PaymentForm = () => {
         await timeout(1000);
         history.push({
             pathname: to,
-            state:{reservation,type,flight}
+            state:{reservation,depFlight,retFlight}
           });
           window.location.reload();
         }
