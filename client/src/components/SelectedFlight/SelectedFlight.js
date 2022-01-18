@@ -19,7 +19,7 @@ const {type, reservation, edited} = location.state;
 
 const x = (edited)? "Edited" : "Selected";  
 const from = (type == "Departure")?reservation.from : reservation.to;
-const pathBeebo = (type == "Departure")? "/" : "/" ;
+let pathBeebo = '/editreservation' ;
 
 const to = (type == "Return")?reservation.from : reservation.to;
 const criteria = {flightNo : reservation["flight"+type]};
@@ -33,29 +33,22 @@ const getTheFlight = async() => {
 
 useEffect(()=>{
 //lw edited khlas msh m7tag arooh ageeb el flight l2en da m3nah eny gy mn 3nd disha
-if(!edited){
+
 getTheFlight()
  .then((result)=>{
+     console.log(result);
      setFlight(result);
      
- })}
+ })
  //bs m7tag a3mel save lel reservation el gdeeda fel database msh hyhsal gher lw edited b true
- else{
+ if(edited){
     const updated = {_id : reservation._id, reservation : reservation};
     axios.patch('http://localhost:5000/reservations/updateReservation', updated);
  }
 
 },[])
 
-//depends on the type el path hhy5tlef
-if(type == "Departure" ) {
-    // setPath("/");
-    // setFlag(true);
-    pathBeebo = "/editreservation";
- 
-}
-else {
- pathBeebo = "/editreservation";} 
+
 
  function toDisha(){
     history.push({
@@ -123,8 +116,8 @@ else {
                <Link to={
                    //mstny path mn beebo
                    {
-                   pathname: pathBeebo,
-                   state: {reservation, edited, type}
+                   pathname: '/editreservation',
+                   state: {reservation, type}
                    }
 
                }>

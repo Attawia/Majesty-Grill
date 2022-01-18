@@ -38,7 +38,7 @@ app.use('/',indexRoutes);
 app.use('/sendEmail', Emails);
 app.use('/users', Users);
 
-app.use('/reservaitons', reservationRoutes)
+app.use('/reservations', reservationRoutes)
 
 
 const CONNECTION_URL = "mongodb+srv://Attawia:durumallesalat@majestyairlines.xdpcb.mongodb.net/MajestyAirlines?retryWrites=true&w=majority";//

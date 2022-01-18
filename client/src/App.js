@@ -24,6 +24,7 @@ import PasswordForm from './components/UpdateUser/UpdateUserPassword.js';
 import Popup from './components/Popup.js';
 import Popup2 from './components/Popup2.js';
 import PaymentForm from './components/PaymentForm/PaymentForm.js'
+import PaymentForm2 from './components/PaymentForm/PaymentForm2.js'
 import EditReservationDep from './components/EditReservation/EditReservationDep.js';
 import PopupEditReservation from './components/EditReservation/PopupEditReservation.js';
 import SelectedFlight from './components/SelectedFlight/SelectedFlight.js';
@@ -97,6 +98,10 @@ const App =() => {
 
           <Route exact path="/payment" >
                 <PaymentForm/>
+          </Route>
+
+          <Route exact path="/payment2" >
+                <PaymentForm2/>
           </Route>
 
           
