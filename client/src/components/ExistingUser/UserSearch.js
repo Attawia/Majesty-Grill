@@ -5,7 +5,8 @@ import {Link, useLocation} from "react-router-dom";
 import Popup from './../Popup.js'
 import {getUsername} from './../../api/auth.js'
 import {FaSearch,FaPlus,FaMinus,FaPlaneDeparture,FaPlaneArrival,FaPlane} from "react-icons/fa"
-
+import Navbar from '../Navbar/Navbar.js';
+import Footer from '../Footer/Footer.js';
 
 let flag=false;
 const UserSearch = () => {
@@ -138,23 +139,7 @@ const UserSearch = () => {
 
         </div>
         <div className="home">
-            <Link to={`/`}>
-                <button>
-                    Sign Out 
-                </button>
-            </Link>
-            <p>      </p>
-            <Link to={`/users/profile/`}>
-                <button>
-                    View My Profile 
-                </button>
-            </Link>
-            &nbsp;&nbsp;&nbsp;
-            <Link to={`/allReservations`}>
-                <button>
-                    View All My Reservations 
-                </button>
-            </Link>
+          <Navbar/>
             <h1>Flights Search <FaPlane/></h1> 
         <form className="search-form1" onSubmit={showSearchedFlights}>
             <label>Number of Adults:      </label>
@@ -208,6 +193,20 @@ const UserSearch = () => {
             <button className="search"><FaSearch />    Search Flights</button>
         </form>
 
+          {searchedFlights.map(depFlight => (
+              <Link to={{ 
+                pathname: "/Popup/" ,
+                state : {depFlight,flightType,displayNumberOfAdullts,displayNumberOfChildren}
+                }}>
+                <div className="flights-preview" key={depFlight.flightNo}>
+                    <h2 className="flight-number">{depFlight.flightNo}</h2>
+                    <h2><FaPlaneDeparture/> { depFlight.depAirport}</h2>
+                    <h2><FaPlaneArrival/> { depFlight.arrAirport} </h2>
+                    <h3>Price:  {depFlight.priceEconomy}€    ~    {depFlight.priceBusiness}€</h3>
+                </div>
+            </Link>
+          ))}
+
         <div>
             {searchedFlights.map(depFlight => (
                 <Link to={{ 
@@ -227,6 +226,7 @@ const UserSearch = () => {
         </div>
         {console.log(displayNumberOfAdullts)}
         {console.log(displayNumberOfChildren)}
+        <Footer/>
         </div>
     );
       
@@ -235,4 +235,3 @@ const UserSearch = () => {
 
 
 export default UserSearch;
-
