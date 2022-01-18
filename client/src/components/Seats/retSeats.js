@@ -7,6 +7,8 @@ import { Link,useHistory,useLocation} from 'react-router-dom';
 import { getUsername } from '../../api/auth';
 import { getEmailCaller } from '../../actions/ShowAllRes';
 import './seats.scss';
+import Navbar from '../Navbar/Navbar.js';
+import Footer from '../Footer/Footer.js';
 
 
 // let seatarray=[{seatName: "1",state:true},
@@ -286,10 +288,12 @@ const Submit=(e)=>{
     
   return(
     <div>
+      <Navbar/>
       <button onClick={back}>Back</button>
       <u><h1>Please Select Return Flight Seats</h1></u>
       {display}
       <button onClick={Submit}>Confirm and Proceed to Payment</button>
+      <Footer/>
     </div>
   )
 

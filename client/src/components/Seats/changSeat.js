@@ -6,6 +6,8 @@ import {useParams} from 'react-router-dom';
 import { Link,useHistory,useLocation,
 } from 'react-router-dom';
 import './seats.scss';
+import Navbar from '../Navbar/Navbar.js';
+import Footer from '../Footer/Footer.js';
              
 let final=[];
 let row=1;
@@ -232,10 +234,12 @@ const Submit=async(e)=>{
   
   return(
     <div>
+      <Navbar/>
       <button onClick={back}>Back</button>
       <u><h1>Please Select New {type} Flight Seats</h1></u>
       {display}
       <button onClick={Submit}>Update {type} Flight Seats</button>
+      <Footer/>
     </div>
   )
 }  
