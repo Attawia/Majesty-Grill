@@ -146,7 +146,7 @@ function Summary(props){
             <h6 id="totalPrice">Total Price: {depPrice + retPrice}€</h6>
 
             
-            {loggedIN && <button className="confirm-disha" onClick={chooseSeats}>Proceed to seating</button>}
+            {loggedIN && <button className="confirm-disha" onClick={chooseSeats}>Proceed to Payment</button>}
             {!loggedIN && <button className="confirm-disha" onClick={fakeSignIn}>Sign in and proceed to seating</button>}
             
 

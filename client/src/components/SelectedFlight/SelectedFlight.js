@@ -33,14 +33,15 @@ const getTheFlight = async() => {
 
 useEffect(()=>{
 //lw edited khlas msh m7tag arooh ageeb el flight l2en da m3nah eny gy mn 3nd disha
-if(!edited){
+
 getTheFlight()
  .then((result)=>{
+     console.log(result);
      setFlight(result);
      
- })}
+ })
  //bs m7tag a3mel save lel reservation el gdeeda fel database msh hyhsal gher lw edited b true
- else{
+ if(edited){
     const updated = {_id : reservation._id, reservation : reservation};
     axios.patch('http://localhost:5000/reservations/updateReservation', updated);
  }

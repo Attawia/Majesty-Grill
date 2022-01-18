@@ -188,7 +188,7 @@ useEffect(()=>{
 const back=(e)=>{
   history.go(-1);
 }
-const Submit=(e)=>{  
+const Submit=async(e)=>{  
   e.preventDefault();
   let c = 0;
   let reserved=[];
@@ -220,7 +220,7 @@ const Submit=(e)=>{
         reservation = {...reservation,seatReturn:reserved};
     }
     console.log(oldseats);
-    const x = axios.patch('http://localhost:5000/flights/changeseats',{_id:id,delseats:oldseats,seats:reserved})
+    await axios.patch('http://localhost:5000/flights/changeseats',{_id:id,delseats:oldseats,seats:reserved})
     edited = true;
     history.push({
       pathname: '/allReservations/selectedFlight',

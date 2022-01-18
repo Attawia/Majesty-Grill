@@ -5,6 +5,7 @@ import {Link,useHistory,useLocation} from "react-router-dom";
 import { useEffect, useState } from "react";
 import { makePayment } from '../../actions/paymentForm'
 
+
 const amount = 100
 const amountE = amount + '€'; 
 
@@ -15,15 +16,17 @@ const PaymentForm = () => {
     const {retFlight} = location.state;
     const {reservation} = location.state;
     const {price} = location.state;
-    const difference = price;
     const {to} = location.state;
 
+    console.log("1 " + price);
     const [amount,setAmount] = react.useState(0);
 
     useEffect(()=>
     {
-        setAmount(difference);
-    },[difference]);
+        setAmount(price);
+    console.log("2 " + price);
+
+    },[price]);
 
     const [paymentInfo,setPaymentInfo] = react.useState({
         cardNo : "",
@@ -45,7 +48,7 @@ const PaymentForm = () => {
     }
 
     const Submit = async (e) =>{
-        message.setMessage("");
+        setMessage("");
         e.preventDefault();
         if(paymentInfo.cardNo.length != 16){
             message += "Card number invalid \n";
