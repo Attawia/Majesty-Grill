@@ -1,11 +1,16 @@
 import { useState, useEffect} from "react";
 import axios from "axios";
 import {TextField,Button,Paper,Typography} from '@material-ui/core';
-import {Link} from "react-router-dom";
-import Popup from '../Popup.js'
+import {Link, useLocation} from "react-router-dom";
+import Popup from './../Popup.js'
+import {getUsername} from './../../api/auth.js'
+import {FaSearch,FaPlus,FaMinus,FaPlaneDeparture,FaPlaneArrival,FaPlane} from "react-icons/fa"
+import Navbar from '../Navbar/Navbar.js';
+import Footer from '../Footer/Footer.js';
 
 let flag=false;
-const Home = () => {
+const UserSearch = () => {
+
 
     const [displayNumberOfAdullts,setDisplayNumberOfAdullts] = useState(1);
     const [displayNumberOfChildren,setDisplayNumberOfChildren] = useState(0);
@@ -19,7 +24,12 @@ const Home = () => {
 
     const[searchedFlights,setSearchedFlights] = useState([]);
 
+    const [footerVisible, setFooterVisible ] = useState(true);
+
     let criteriaReady = false;
+    let flightType = 'dep'
+
+    
 
     const decAdults = (e) =>{
         e.preventDefault();
@@ -50,12 +60,11 @@ const Home = () => {
 
     const handleSearchButton = async(e) => {
         const res = await axios.post('http://localhost:5000/flights/searchFlightsUser',wholeCriteria);
-        console.log(res.data);
         return res.data;
     }
 
     const showSearchedFlights = (e) =>{
-        e.preventDefault();
+        /*e.preventDefault();
 
         Object.keys(criteria).forEach(function(key){
             if (criteria[key] === '') {
@@ -79,6 +88,12 @@ const Home = () => {
             console.log(result);
             console.log(searchedFlights);
         })
+        setFooterVisible(false);*/
+
+        let arr1 = [1,2,3,4];
+        let arr2 = [4,5,6,7];
+        let arr3 = arr1.concat(arr2)
+        console.log(arr3);
     }
 
     function openPopUp(flightNo){
@@ -93,6 +108,10 @@ const Home = () => {
         setButtonPopup(true);
         setPassedFlight(neededFlight);
 
+    }
+
+    const showAllReservations = async() =>{
+        return await getUsername();
     }
 
     //wait for variable to change
@@ -123,36 +142,37 @@ const Home = () => {
 
 
     return (
+        
         <div>
             <div>
          
 
         </div>
         <div className="home">
-            <Link to={`/`}>
-                <button>
-                    Sign Out 
-                </button>
-            </Link>
-            <h1>Flights Search</h1> 
-        <form onSubmit={showSearchedFlights}>
+          <Navbar/>
+            <h1>Flights Search <FaPlane/></h1> 
+        <form className="search-form1" onSubmit={showSearchedFlights}>
             <label>Number of Adults:      </label>
-            <Button variant="outlined" onClick={decAdults}>-</Button>
+            <Button className="minus" variant="outlined" onClick={decAdults}><FaMinus/></Button>
             <label >{'              '}{displayNumberOfAdullts}{'              '}</label>
-            <Button variant="outlined" onClick={incAdults}>+</Button>
+            <Button className="plus" variant="outlined" onClick={incAdults}><FaPlus/></Button>
 
             <label>      Number of Children:      </label>
-            <Button variant="outlined" onClick={decChildren}>-</Button>
+            <Button className="minus" variant="outlined" onClick={decChildren}><FaMinus/></Button>
             <label >{'              '}{displayNumberOfChildren}{'              '}</label>
-            <Button variant="outlined" onClick={incChildren}>+</Button>
+            <Button className="plus" variant="outlined" onClick={incChildren}><FaPlus/></Button>
 
-            <label>      Departure Airport:      </label>
-            <TextField
-            required
-            type="text"
-            name="Departure Airport"
-            onChange={(e) => {setCriteria({...criteria, depAirport : e.target.value})}}
-            />
+            <label>      
+                Departure Airport:   
+
+                <TextField
+                    required
+                    type="text"
+                    className="input-search"
+                    onChange={(e) => {setCriteria({...criteria, depAirport : e.target.value})}}
+                />
+            </label>
+            
             <label>      Arrival Airport:      </label>
             <TextField
             type="text"
@@ -180,22 +200,36 @@ const Home = () => {
             />
             <h2></h2>
             <br></br>
-            <button>Search Flights</button>
+            <button className="search"><FaSearch />    Search Flights</button>
         </form>
-          {searchedFlights.map(searchedFlight => (
-            <div className="flights-preview" key={searchedFlight.flightNo} onClick={() => openPopUp(searchedFlight.flightNo)}>
-                <h2>{searchedFlight.flightNo}</h2>
-                <p>{ searchedFlight.depAirport} =={">"} { searchedFlight.arrAirport} </p>
-            </div>
-          ))}
 
+        <div className="zabtet-footer">
+            {searchedFlights.map(depFlight => (
+                <Link to={{ 
+                    pathname: "/Popup/" ,
+                    state : {depFlight,flightType,displayNumberOfAdullts,displayNumberOfChildren}
+                }}>
+                    <div className="flights-preview" key={depFlight.flightNo}>
+                        <h2 className="flight-number">{depFlight.departureTime.substring(0,10)}</h2>
+                        <h2><FaPlaneDeparture/> { depFlight.depAirport}     {depFlight.departureTime.substring(11,16)}</h2>
+                        <h2><FaPlaneArrival/> { depFlight.arrAirport}       {depFlight.arrivalTime.substring(11,16)}</h2>
+                        <h3>Price:  {depFlight.priceEconomy}€    ~    {depFlight.priceBusiness}€</h3>
+                    </div>
+                </Link>
+                
+            ))}
+            
+        </div>
 
         </div>
-        <Popup trigger={buttonPopup} setTrigger={setButtonPopup} depFlight = {passedFlight} flightType = {"dep"}/>
+        {footerVisible && <Footer/>}
         </div>
+        
+        
     );
       
   
 }
 
-export default Home;
+
+export default UserSearch;

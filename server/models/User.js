@@ -15,7 +15,7 @@ const userSchema = new Schema(
         email : {type: String, required: true,},
         passportNo : {type: String, required: true,},
         //it is an array
-        reservations : {type: Object, required: true,},
+        reservations : {type: Object, required: false,},
         
     }
 );

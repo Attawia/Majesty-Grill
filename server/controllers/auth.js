@@ -5,7 +5,13 @@ import bcrypt from 'bcrypt';
 
 export const getUser = (req,res) => {
     const token = req.body.token;
-    const user = jwt.verify(token,'majesty');
+    let user = '';
+    try{
+        user = jwt.verify(token,'majesty');
+    }
+    catch(error){
+        user = "Guest";
+    }
     res.json({username: user});
 }
 export const validateID = async (req,res) =>{
@@ -29,7 +35,13 @@ export const validatePassword = async (req,res) =>{
 
 export const isGuest = (req,res) => {
     const token = req.body.token;
-    
+    let username = '';
+    try{
+         username = jwt.verify(token,'majesty');
+        }
+        catch(error){
+             username = "Guest";
+        }
     if(username == 'Guest') return res.send(true);
     else return res.send(false);
 }
@@ -40,29 +52,29 @@ export const authorize = async (req, res) => {
     if(token == '') return res.send(false);
     const username = jwt.verify(token, 'majesty');
     const adminFlag = verifyAdmin(route,username);
-    const userSpecificFlag = await verifyUserSpecific(route,username);
+    //const userSpecificFlag = await verifyUserSpecific(route,username);
     if(adminFlag) return res.send(true);
-    else if(userSpecificFlag == true) return res.send(true);
+    //else if(userSpecificFlag == true) return res.send(true);
     else return res.send(false);
     
 }
 
-const verifyUserSpecific = async (route,username) =>{
-    const routeSplit = route.split('/');
-    if(routeSplit[1] == 'users'){
-        const userID = ['SummaryReservation','AllReservations']
-        if(routeSplit[2] == 'cancelRes'){
-            const resID = routeSplit[routeSplit.length - 1];
-            const reservation = await Reservation.findById(resID);
-            if(reservation!== null && reservation.userName == username) return true;
-        }
-        else if(userID.includes(routeSplit[2])){
-            const user = routeSplit[routeSplit.length - 1];
-            if(user == username) return true;
-    }
-    }
-    return false;
-}
+// const verifyUserSpecific = async (route,username) =>{
+//     const routeSplit = route.split('/');
+//     if(routeSplit[1] == 'users'){
+//         const userID = ['SummaryReservation','AllReservations']
+//         if(routeSplit[2] == 'cancelRes'){
+//             const resID = routeSplit[routeSplit.length - 1];
+//             const reservation = await Reservation.findById(resID);
+//             if(reservation!== null && reservation.userName == username) return true;
+//         }
+//         else if(userID.includes(routeSplit[2])){
+//             const user = routeSplit[routeSplit.length - 1];
+//             if(user == username) return true;
+//     }
+//     }
+//     return false;
+// }
 
 const verifyAdmin = (route,username) => {
     const adminRoutes = ["/flights/createFlight","/flights/updateflight","/flights/getupdateflight"];

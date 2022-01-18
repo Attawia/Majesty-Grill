@@ -11,7 +11,7 @@ router.delete('/cancelRes/:id', cancelReservation);
 router.get('/getEmail/:user', getUserEmail);
 router.patch('/updateUser',updateUser);
 router.post('/getupdateuser',getUpdateUser);
-router.get('/:id',getUserById);
+router.post('/',getUserById);
 router.post('/changePassword',changePassword);
 
 
