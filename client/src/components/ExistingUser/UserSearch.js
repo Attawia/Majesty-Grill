@@ -24,8 +24,22 @@ const UserSearch = () => {
 
     const[searchedFlights,setSearchedFlights] = useState([]);
 
+    const [footerVisible, setFooterVisible ] = useState(true);
+
     let criteriaReady = false;
     let flightType = 'dep'
+
+    Array.prototype.unique = function() {
+        var a = this.concat();
+        for(var i=0; i<a.length; ++i) {
+            for(var j=i+1; j<a.length; ++j) {
+                if(a[i] === a[j])
+                    a.splice(j--, 1);
+            }
+        }
+    
+        return a;
+    };
 
     const decAdults = (e) =>{
         e.preventDefault();
@@ -84,6 +98,12 @@ const UserSearch = () => {
             console.log(result);
             console.log(searchedFlights);
         })
+        setFooterVisible(false);
+
+        /*let arr1 = [1,2,3,4];
+        let arr2 = [4,5,6,7];
+        let arr3 = arr1.concat(arr2).unique();
+        console.log(arr3);*/
     }
 
     function openPopUp(flightNo){
@@ -193,26 +213,29 @@ const UserSearch = () => {
             <button className="search"><FaSearch />    Search Flights</button>
         </form>
 
-          {searchedFlights.map(depFlight => (
-              <Link to={{ 
-                pathname: "/Popup/" ,
-                state : {depFlight,flightType,displayNumberOfAdullts,displayNumberOfChildren}
+        <div className="zabtet-footer">
+            {searchedFlights.map(depFlight => (
+                <Link to={{ 
+                    pathname: "/Popup/" ,
+                    state : {depFlight,flightType,displayNumberOfAdullts,displayNumberOfChildren}
                 }}>
-                <div className="flights-preview" key={depFlight.flightNo}>
-                    <h2 className="flight-number">{depFlight.flightNo}</h2>
-                    <h2><FaPlaneDeparture/> { depFlight.depAirport}</h2>
-                    <h2><FaPlaneArrival/> { depFlight.arrAirport} </h2>
-                    <h3>Price:  {depFlight.priceEconomy}€    ~    {depFlight.priceBusiness}€</h3>
-                </div>
-            </Link>
-          ))}
-
+                    <div className="flights-preview" key={depFlight.flightNo}>
+                        <h2 className="flight-number">{depFlight.departureTime.substring(0,10)}</h2>
+                        <h2><FaPlaneDeparture/> { depFlight.depAirport}     {depFlight.departureTime.substring(11,16)}</h2>
+                        <h2><FaPlaneArrival/> { depFlight.arrAirport}       {depFlight.arrivalTime.substring(11,16)}</h2>
+                        <h3>Price:  {depFlight.priceEconomy}€    ~    {depFlight.priceBusiness}€</h3>
+                    </div>
+                </Link>
+                
+            ))}
+            
+        </div>
 
         </div>
-        {console.log(displayNumberOfAdullts)}
-        {console.log(displayNumberOfChildren)}
-        <Footer/>
+        {footerVisible && <Footer/>}
         </div>
+        
+        
     );
       
   

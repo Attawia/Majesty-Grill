@@ -14,12 +14,13 @@ const Home = () => {
 
     const[flights,setFlights] = useState([]);
 
-    const [criteria,setCriteria] = useState();
+    const [criteria,setCriteria] = useState({});
 
     const[searchedFlights,setSearchedFlights] = useState([]);
 
     const [allowed,setAllowed] = useState(false);
     const [alreadyChecked,setAlreadyChecked] = useState(false);
+    
 
     useEffect(()=>
     {
@@ -164,7 +165,7 @@ const Home = () => {
           ))}
         </div>}
         {!allowed && <h3>Forbidden</h3>}
-        </div>
+    </div>
     );
       
   

@@ -1,6 +1,35 @@
 import Flight from '../models/Flight.js'
 import Reservation from '../models/Reservation.js'
 
+const getNextDay = (today) =>{
+    let split = today.split('-');
+    let year = split[0];
+    let month = split[1];
+    let day = split[2].split('T')[0];
+    let leapYear = ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
+
+    switch(month){
+        case '01':
+        case '03':
+        case '05':
+        case '07':
+        case '08':
+        case '10':if(day==31){day=1;month++}else{day++};break;
+        case '02':if(leapYear && day==29){day=1;month++}else if(!leapYear && day==28){day=1;month++}else{day++};break;
+        case '12':console.log("december");if(day==31){day=1;month=1;year++}else{day++};break;
+        default:if(day==30){day=1;month++}else{day++};break;
+    }
+    if((day+"").length == 1){
+        console.log("here");
+        day= "0" + day;
+    }
+    if((month+"").length == 1){
+        month= "0" + month;
+    }
+    let final = year + "-" + month + "-" + day + "T00:00:00.000Z";
+    return final;
+}
+
 export const getCreate = (req,res) => {
     res.send('page el create');
 
@@ -236,29 +265,28 @@ export const searchAllFlights = async (req,res) => {
         } catch (error) {
             res.status(404).json({message : error.message});
         }
-        };
+    };
 
 
-        export const searchFlightsUser = async (req,res) => {
-            const wholeCriteria = req.body;
-                const criteria = wholeCriteria.criteria
-            try {
-                
-                
-                 const searchedFLights = await Flight.find(criteria);
-
-                // for(let i = 0;i < searchedFLights.length;i++){
-                //     if(searchedFLights[i].freeEconomySeats < passengersNo && searchedFLights[i].freeBusinessSeats < passengersNo){
-                //         searchedFLights.splice(i,1);
-                //     }
-                // }
+    export const searchFlightsUser = async (req,res) => {
+        const wholeCriteria = req.body;
+            const criteria = wholeCriteria.criteria
+        try {
             
+                
+         const searchedFLights = await Flight.find(criteria);
+            // for(let i = 0;i < searchedFLights.length;i++){
+            //     if(searchedFLights[i].freeEconomySeats < passengersNo && searchedFLights[i].freeBusinessSeats < passengersNo){
+            //         searchedFLights.splice(i,1);
+            //     }
+            // }
         
-                res.status(200).json(searchedFLights);
-            } catch (error) {
-                res.status(404).json({message : error.message});
-            }
-        };
+    
+        res.status(200).json(searchedFLights);
+        } catch (error) {
+            res.status(404).json({message : error.message});
+        }
+    };
 
         export const searchReturnFlightsUser = async (req,res) => {
             const depFlight = req.body;
@@ -292,16 +320,9 @@ export const searchAllFlights = async (req,res) => {
                     }
                     else{
                         let date = req.body;
-                        let part1 = date.departureTime.substring(0,8);
-                        let num = parseInt(date.departureTime.substring(8,10));
-                        num += 1;
-                        let part2 = date.departureTime.substring(10,24);
-                        if(num < 10){
-                            num = '0' + '' + num
-                        }
-                        let otherDate = part1 + '' + num + '' + part2;
+                        let otherDate = getNextDay(date.departureTime);
 
-                        console.log(date);
+                        console.log(date.departureTime);
                         console.log(otherDate);
     
                         const searchedFLights = await Flight.find({
@@ -327,14 +348,7 @@ export const searchAllFlights = async (req,res) => {
                     }
                     else{
                         let date = req.body;
-                        let part1 = date.departureTime.substring(0,8);
-                        let num = parseInt(date.departureTime.substring(8,10));
-                        num += 1;
-                        let part2 = date.departureTime.substring(10,24);
-                        if(num < 10){
-                            num = '0' + '' + num
-                        }
-                        let otherDate = part1 + '' + num + '' + part2;
+                        let otherDate = getNextDay(date.departureTime);
     
                         const searchedFLights = await Flight.find({
                             $or: [ { departureTime: { $gt: date.departureTime } }, { departureTime: date.departureTime } ],
