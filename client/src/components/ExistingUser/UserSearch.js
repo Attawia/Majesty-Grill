@@ -4,6 +4,8 @@ import {TextField,Button,Paper,Typography} from '@material-ui/core';
 import {Link, useLocation} from "react-router-dom";
 import Popup from './../Popup.js'
 import {getUsername} from './../../api/auth.js'
+import {FaSearch,FaPlus,FaMinus,FaPlaneDeparture,FaPlaneArrival,FaPlane} from "react-icons/fa"
+
 
 let flag=false;
 const UserSearch = () => {
@@ -129,6 +131,7 @@ const UserSearch = () => {
 
 
     return (
+        
         <div>
             <div>
          
@@ -152,25 +155,29 @@ const UserSearch = () => {
                     View All My Reservations 
                 </button>
             </Link>
-            <h1>Flights Search</h1> 
-        <form onSubmit={showSearchedFlights}>
+            <h1>Flights Search <FaPlane/></h1> 
+        <form className="search-form1" onSubmit={showSearchedFlights}>
             <label>Number of Adults:      </label>
-            <Button variant="outlined" onClick={decAdults}>-</Button>
+            <Button className="minus" variant="outlined" onClick={decAdults}><FaMinus/></Button>
             <label >{'              '}{displayNumberOfAdullts}{'              '}</label>
-            <Button variant="outlined" onClick={incAdults}>+</Button>
+            <Button className="plus" variant="outlined" onClick={incAdults}><FaPlus/></Button>
 
             <label>      Number of Children:      </label>
-            <Button variant="outlined" onClick={decChildren}>-</Button>
+            <Button className="minus" variant="outlined" onClick={decChildren}><FaMinus/></Button>
             <label >{'              '}{displayNumberOfChildren}{'              '}</label>
-            <Button variant="outlined" onClick={incChildren}>+</Button>
+            <Button className="plus" variant="outlined" onClick={incChildren}><FaPlus/></Button>
 
-            <label>      Departure Airport:      </label>
-            <TextField
-            required
-            type="text"
-            name="Departure Airport"
-            onChange={(e) => {setCriteria({...criteria, depAirport : e.target.value})}}
-            />
+            <label>      
+                Departure Airport:   
+
+                <TextField
+                    required
+                    type="text"
+                    className="input-search"
+                    onChange={(e) => {setCriteria({...criteria, depAirport : e.target.value})}}
+                />
+            </label>
+            
             <label>      Arrival Airport:      </label>
             <TextField
             type="text"
@@ -198,21 +205,24 @@ const UserSearch = () => {
             />
             <h2></h2>
             <br></br>
-            <button>Search Flights</button>
+            <button className="search"><FaSearch />    Search Flights</button>
         </form>
-          {searchedFlights.map(depFlight => (
-              <Link to={{ 
-                pathname: "/Popup/" ,
-                state : {depFlight,flightType,displayNumberOfAdullts,displayNumberOfChildren}
-                }}>
-                <div className="flights-preview" key={depFlight.flightNo}>
-                    <h2>{depFlight.flightNo}</h2>
-                    <h4>{ depFlight.depAirport} ===={">"} { depFlight.arrAirport} </h4>
-                    <h3>Price:  {depFlight.priceEconomy}€    ~    {depFlight.priceBusiness}€</h3>
-                </div>
-            </Link>
-          ))}
 
+        <div>
+            {searchedFlights.map(depFlight => (
+                <Link to={{ 
+                    pathname: "/Popup/" ,
+                    state : {depFlight,flightType,displayNumberOfAdullts,displayNumberOfChildren}
+                }}>
+                    <div className="flights-preview" key={depFlight.flightNo}>
+                        <h2 className="flight-number">{depFlight.flightNo}</h2>
+                        <h2><FaPlaneDeparture/> { depFlight.depAirport}</h2>
+                        <h2><FaPlaneArrival/> { depFlight.arrAirport} </h2>
+                        <h3>Price:  {depFlight.priceEconomy}€    ~    {depFlight.priceBusiness}€</h3>
+                    </div>
+                </Link>
+            ))}
+        </div>
 
         </div>
         {console.log(displayNumberOfAdullts)}
