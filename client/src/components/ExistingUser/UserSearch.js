@@ -29,7 +29,17 @@ const UserSearch = () => {
     let criteriaReady = false;
     let flightType = 'dep'
 
+    Array.prototype.unique = function() {
+        var a = this.concat();
+        for(var i=0; i<a.length; ++i) {
+            for(var j=i+1; j<a.length; ++j) {
+                if(a[i] === a[j])
+                    a.splice(j--, 1);
+            }
+        }
     
+        return a;
+    };
 
     const decAdults = (e) =>{
         e.preventDefault();
@@ -64,7 +74,7 @@ const UserSearch = () => {
     }
 
     const showSearchedFlights = (e) =>{
-        /*e.preventDefault();
+        e.preventDefault();
 
         Object.keys(criteria).forEach(function(key){
             if (criteria[key] === '') {
@@ -88,12 +98,12 @@ const UserSearch = () => {
             console.log(result);
             console.log(searchedFlights);
         })
-        setFooterVisible(false);*/
+        setFooterVisible(false);
 
-        let arr1 = [1,2,3,4];
+        /*let arr1 = [1,2,3,4];
         let arr2 = [4,5,6,7];
-        let arr3 = arr1.concat(arr2)
-        console.log(arr3);
+        let arr3 = arr1.concat(arr2).unique();
+        console.log(arr3);*/
     }
 
     function openPopUp(flightNo){
