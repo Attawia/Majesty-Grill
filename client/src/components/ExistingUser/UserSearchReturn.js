@@ -4,6 +4,8 @@ import {TextField,Button,Paper,Typography} from '@material-ui/core';
 import {Link, useLocation} from "react-router-dom";
 import Popup from './../Popup.js'
 import {FaSearch,FaPlus,FaMinus,FaPlaneDeparture,FaPlaneArrival,FaPlane} from "react-icons/fa"
+import Navbar from '../Navbar/Navbar.js';
+import Footer from '../Footer/Footer.js';
 
 const UserSearchReturn = () => {
 
@@ -55,6 +57,7 @@ const UserSearchReturn = () => {
 
     return(
         <div>
+            <Navbar/>
             <Link to={`/UserSearch`}>
                 <button>Back</button>
             </Link>

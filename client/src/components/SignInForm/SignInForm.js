@@ -4,7 +4,7 @@ import makeStyles from './styles';
 import {signIn} from '../../actions/SignInForm.js'
 import { Link } from 'react-router-dom';
 import { authorize,isGuest,getUsername } from '../../api/auth.js';
-import Navbar from '../Navbar/Navbar.js';
+import Navbar from '../Navbar/EmptyNavbar.js';
 import Footer from '../Footer/Footer.js';
 
 const FlightForm = () => {
@@ -51,7 +51,7 @@ const FlightForm = () => {
     return(
     <Paper>
         <Navbar/>
-        <form autoComplete="off" noValidate onSubmit={Submit}>
+        <form autoComplete="off" noValidate onSubmit={Submit} align='center'>
             <h1>Sign In</h1>
             <Typography >{errorMessage}</Typography><br/>
             <TextField  name="Username"  variant="outlined" label="Username"  value={userData.username} onChange={(e) => setUserData({...userData, username : e.target.value})}/><br/><br/>

@@ -1,29 +1,48 @@
 import { useEffect, useState } from "react";
 import {Link, useHistory, useLocation} from "react-router-dom";
-import '../ReservationSummary/style.css'
-import axios from "axios";
 
+import './style.css'
+
+import axios from "axios";
+import Navbar from "../Navbar/Navbar";
+import Footer from "../Footer/Footer";
 
 
 const SelectedFlight = () =>{
 
 const [flight, setFlight] = useState(null);
-
+const [loggedIN, setLogged] = useState(false);
+const [flag, setFlag] = useState(true);
 const location = useLocation();
 const history = useHistory();
 
-//Momken yego ya ema mn allReservation
+//Momken yego ya ema mn allreservationDest
 //ya ema mn Disha
-const {type, reservation, edited} = location.state;
+let typeDest = "";
+let reservationDest={seats:[1]};
+let editedDest = "";
+
+try{
+    console.log("gowa el try");
+
+    const {type, reservation, edited} = location.state;
+    typeDest=type;
+    reservationDest=reservation;
+    editedDest=edited;
+    if(!loggedIN)
+    setLogged(true);
+}catch(error){
+ console.log(error);
+}
 
 
-const x = (edited)? "Edited" : "Selected";  
-const from = (type == "Departure")?reservation.from : reservation.to;
+const x = (editedDest)? "editedDest" : "Selected";  
+const from = (typeDest == "Departure")?reservationDest.from : reservationDest.to;
 let pathBeebo = '/editreservation' ;
 
-const to = (type == "Return")?reservation.from : reservation.to;
-const criteria = {flightNo : reservation["flight"+type]};
-//depends on the type el path hhy5tlef bel nesba le beebo
+const to = (typeDest == "Return")?reservationDest.from : reservationDest.to;
+const criteria = {flightNo : reservationDest["flight"+typeDest]};
+//depends on the typeDest el path hhy5tlef bel nesba le beebo
 
 const getTheFlight = async() => {
     const res = await axios.post('http://localhost:5000/flights/searchFlights', criteria);
@@ -32,7 +51,7 @@ const getTheFlight = async() => {
 
 
 useEffect(()=>{
-//lw edited khlas msh m7tag arooh ageeb el flight l2en da m3nah eny gy mn 3nd disha
+//lw editedDest khlas msh m7tag arooh ageeb el flight l2en da m3nah eny gy mn 3nd disha
 
 getTheFlight()
  .then((result)=>{
@@ -40,10 +59,10 @@ getTheFlight()
      setFlight(result);
      
  })
- //bs m7tag a3mel save lel reservation el gdeeda fel database msh hyhsal gher lw edited b true
- if(edited){
-    const updated = {_id : reservation._id, reservation : reservation};
-    axios.patch('http://localhost:5000/reservations/updateReservation', updated);
+ //bs m7tag a3mel save lel reservationDest el gdeeda fel database msh hyhsal gher lw editedDest b true
+ if(editedDest){
+    const updated = {_id : reservationDest._id, reservationDest : reservationDest};
+    axios.patch('http://localhost:5000/reservationDests/updatereservationDest', updated);
  }
 
 },[])
@@ -51,6 +70,9 @@ getTheFlight()
 
 
  function toDisha(){
+     const type = typeDest;
+     const edited = editedDest;
+     const reservation = reservationDest;
     history.push({
         pathname: "/changeseat",
         state:{type, edited, reservation, flight}
@@ -62,15 +84,24 @@ getTheFlight()
     return(
         
              <div> 
+                  {!loggedIN && <Link to={'/'}> Log in please!</Link> }
+
+                  {  loggedIN &&  <div> 
+                 <Navbar/>
+                 { <Link to={`/allreservationDests/`}>
+                   <button>Back</button>
+                    </Link>
+                }
+    
                     <h1 class = "centerElement burgandy" >
                     Itinerary Of {x} Flight </h1>   
                  <div class = "row">
                     <div class = "column">
                      <table border = '1'>
-                         <caption>{type} Flight Details</caption>
+                         <caption>{typeDest} Flight Details</caption>
                          <tr>
                              <th>Flight Number</th>
-                             <td>{reservation["flight" + type]}</td>
+                             <td>{reservationDest["flight" + typeDest]}</td>
                          </tr>
                          
                          <tr>
@@ -84,23 +115,28 @@ getTheFlight()
                          </tr>
                          
                          <tr>
-                             <th>Time</th>
-                             <td>{reservation["time"+type]}</td>
+                             <th>Date</th>
+                             <td>{reservationDest["time"+typeDest].substring(0, 10)}</td>
                          </tr>
 
+                        <tr>
+                             <th>Time</th>
+                             <td>{reservationDest["time"+typeDest].substring(11, 16)}</td>
+                         </tr>
+                         
                          <tr>
                              <th>Price</th>
-                             <td>{reservation["price"+type]}</td>
+                             <td>{reservationDest["price"+typeDest]}</td>
                          </tr>
 
                          <tr>
                             <th>Cabin</th>
-                             <td>{reservation["cabin"+type]}</td>
+                             <td>{reservationDest["cabin"+typeDest]}</td>
                          </tr>
 
                          <tr>
                          <th>Seat</th>
-                        <td> {reservation["seat"+type].toString()}</td>
+                        <td> {reservationDest["seat"+typeDest].toString()}</td>
                          </tr>
                     </table>
                     </div>
@@ -112,27 +148,41 @@ getTheFlight()
                <br />
                <hr />
 
+            <div>
                <ul>
                <Link to={
                    //mstny path mn beebo
                    {
-                   pathname: '/editreservation',
-                   state: {reservation, type}
+                   pathname: '/editreservationDest',
+                   state: {reservationDest, typeDest}
                    }
 
                }>
                <li> <button>Edit</button></li>
                </Link>
 
-               <br />
                
                
                      <li>
                    <button onClick={toDisha}>Change Seats</button></li>
                   
                </ul>
+               </div>
+               <br />
+               <br />
+               <br />
+               <br />
+               <br />
+               <br />
+               <br />
+               <br />
+               <br />
+               <br />
                
+               <Footer/>
+               </div>}
         </div>
+        
     )
 }
 

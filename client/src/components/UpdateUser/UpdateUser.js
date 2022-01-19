@@ -4,6 +4,8 @@ import {TextField,Button,Paper,Typography} from '@material-ui/core';
 import {useParams} from 'react-router-dom';
 import { Link,useHistory} from 'react-router-dom';
 import {isGuest, validateID} from "../../api/auth.js";
+import Navbar from '../Navbar/Navbar.js';
+import Footer from '../Footer/Footer.js';
 
 
 
@@ -62,6 +64,7 @@ const UpdateUser =  () => {
    
     return(
         <div>
+            <Navbar/>
         {allowed && <div>
         {flag && <Paper>
              <Link to={`/users/profile/`}>
@@ -70,7 +73,7 @@ const UpdateUser =  () => {
                 </button>
             </Link>
             <h1>Update User</h1>
-            <form>
+            <form align='center'>
             <TextField  name="Username"  variant="outlined" label="Username" InputLabelProps={{ shrink: true }}  variant="outlined" value={user.username} onChange={(e) => updateUser({...user, username : e.target.value})}/><br/><br/>
             <TextField  name="First Name"  label="First Name" InputLabelProps={{ shrink: true }}  variant="outlined"  value={user.firstName} onChange={(e) => updateUser({...user, firstName : e.target.value})}/><br/><br/>
             <TextField  name="Last Name"  label="Last Name" InputLabelProps={{ shrink: true }}  variant="outlined"  value={user.lastName} onChange={(e) => updateUser({...user, lastName : e.target.value})}/><br/><br/>

@@ -264,15 +264,38 @@ export const emptySeats2 = async(req,res)=>{
 export const updateFlight = async (req,res) =>{
     const _id = req.body._id; 
     const updatedflight = req.body.flight;
+    const oldFlightNo = req.body.oldFlightNo;
+
     try{
         await Flight.findByIdAndUpdate(_id,updatedflight);
-        
+
+        await Reservation.updateMany( { flightDeparture : oldFlightNo},
+
+            {timeDeparture: updatedflight.departureTime,
+            flightDeparture:updatedflight.flightNo} );
+    
         res.status(201).json(updatedflight);
         
-    }
+    
+
+
+    await Reservation.updateMany( { flightReturn : oldFlightNo},
+
+        {timeReturn: updatedflight.departureTime,
+        flightReturn:updatedflight.flightNo} );
+
+    res.status(201).json(updatedflight);
+        }
+    
+
+
     catch(error){
         res.status(409).json({message:error.message});
-    }    
+    }
+    
+    
+
+    
 }
 
 

@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import axios from 'axios';
 import './style.css';
 import { getUsername, isGuest } from "../../api/auth";
-
-
+import Navbar from "../Navbar/Navbar";
+import Footer from "../Footer/Footer";
 
 const ReservationSumm = () =>
 {
@@ -14,6 +14,9 @@ const ReservationSumm = () =>
     const [loggedIN, setLogged] = useState(true);
     const [flagAllowed, setAllowed] = useState(true);
     const [flagSummary,setFlagSummary] = useState(false);
+
+    const [flag, setFlag] = useState(false);
+
     
     const getTheUser = async () =>
     {
@@ -26,8 +29,12 @@ const ReservationSumm = () =>
     const guestUser = await isGuest();
     if(guestUser){setLogged(false)};
      }
+
+     if(!flag){
        getTheUser();
        guestUserCheck();
+       setFlag(true);
+     }
 
     //btgeeb mn el server
     const getTheSummary = async() =>
@@ -40,7 +47,7 @@ const ReservationSumm = () =>
 
     useEffect(()=>
     {
-    if(loggedIN && flagAllowed)
+    if(loggedIN && flagAllowed &&currUser)
     {
         const getSummary = async () =>
      {
@@ -75,6 +82,14 @@ const ReservationSumm = () =>
     return(
         
         <div>
+            {!loggedIN && <Link to={'/'}> Log in please!</Link> }
+        { loggedIN && <div>
+
+            <Navbar/>
+            <Link to={'/usersearch'}>
+                <button>Back</button>
+                </Link>
+                
                 {!loggedIN && <Link to={'/'}> Log in please!</Link> }
         
                 { !summary && loggedIN && <div> could not fetch the data for that resource </div>}
@@ -103,9 +118,15 @@ const ReservationSumm = () =>
                          </tr>
                          
                          <tr>
-                             <th>Time</th>
-                             <td>{summary.timeDeparture}</td>
+                             <th>Date</th>
+                             <td>{summary.timeDeparture.substring(0, 10)}</td>
                          </tr>
+
+                         <tr>
+                             <th>Date</th>
+                             <td>{summary.timeDeparture.substring(11, 16)}</td>
+                         </tr>
+                         
 
                          <tr>
                              <th>Price</th>
@@ -143,10 +164,17 @@ const ReservationSumm = () =>
                              <td>{summary.from}</td>
                          </tr>
                          
-                    <tr>
-                        <th>Time</th>
-                        <td>{summary.timeReturn}</td>
-                    </tr>
+                         <tr>
+                             <th>Date</th>
+                             <td>{summary.timeReturn.substring(0, 10)}</td>
+                         </tr>
+
+                         <tr>
+                             <th>Date</th>
+                             <td>{summary.timeReturn.substring(11, 16)}</td>
+                         </tr>
+                         
+
 
                     <tr>
                         <th>Price</th>
@@ -180,12 +208,17 @@ const ReservationSumm = () =>
                 <p >Number Of Passengers: {summary.passengers}</p>
                 </div>
                 
-                <Link to={'/usersearch'}>
-                <button>Back</button>
-                </Link>
+                
                </div> 
                 
                 }
+                <hr />
+                <br />
+                <br />
+                <br />
+                <br />
+                <Footer/>
+                </div>}
         </div>
     );
 }

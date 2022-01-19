@@ -10,7 +10,6 @@ import Navbar from '../Navbar/Navbar.js';
 import Footer from '../Footer/Footer.js';
              
 let final=[];
-// let flag=false;
 let row=1;
 const userName = 'Disha';
 let dakhal = false;
@@ -23,29 +22,6 @@ const Seat =  () => {
   const [display,setDisplay]=useState();
   const[flag,setflag]=useState(false);
 
-  // const getLocation = () => {
-  //   let toReturn = {depFlight:{1:'bas yala',2:'test'},retFlight:{1:'eh elly gabak hena'},reservation:{1:'rawa7'}};
-  //   try{
-  //     toReturn = location.state;
-  //   }
-  //   catch(error){
-
-  //   }
-  //   return toReturn;
-  // }
-
-// let flagLocation = true;
-//   try{
-//     const {depFlight} = location.state;
-//     const {retFlight} = location.state;
-//     let {reservation} = location.state;
-//   }catch(error){
-//     flagLocation = false;
-//   }
-
-  //console.log(location.state)
- // const values = getLocation();
-  //console.log(values)
 
   const {depFlight} = location.state;
   const {retFlight} = location.state;
@@ -95,7 +71,7 @@ const Seat =  () => {
   if(!flag){
   for(let i=1;i<=economy+business;i++){
     if(i<=business && business-i+1>=6){
-      if(i==1)final.push(<u><h2>Business Class</h2></u>);
+      if(i==1)final.push(<u><h2 className='CabinName'>Business Class</h2></u>);
       final.push(<div class="seat-row">
       <div class="seat one"><label class="label" for={i}><input id={i++} type="checkbox" class="seat-check visuallyhidden" name="seat-kssignment" value="" data-seat="K1"  /><span class="seat-label">One</span></label></div>
       <div class="seat one"><label class="label" for={i}><input id={i++} type="checkbox" class="seat-check visuallyhidden" name="seat-kssignment" value="" data-seat="K1"  /><span class="seat-label">One</span></label></div>
@@ -145,7 +121,7 @@ const Seat =  () => {
       }
     }
     if(i>business && total-i+1>=6){
-      if(i==business+1)final.push(<u><h2>Economy Class</h2></u>)
+      if(i==business+1)final.push(<u><h2 className='CabinName'>Economy Class</h2></u>)
       final.push(<div class="seat-row">
       <div class="seat one"><label class="label" for={i}><input id={i++} type="checkbox" class="seat-check visuallyhidden" name="seat-kssignment" value="" data-seat="K1"  /><span class="seat-label">One</span></label></div>
       <div class="seat one"><label class="label" for={i}><input id={i++} type="checkbox" class="seat-check visuallyhidden" name="seat-kssignment" value="" data-seat="K1"  /><span class="seat-label">One</span></label></div>
@@ -193,7 +169,6 @@ const Seat =  () => {
     }
     row++;
   }
- // final.push(<Footer/>);
 
   console.log('here1' + set);
 

@@ -9,6 +9,7 @@ import Footer from '../Footer/Footer.js';
 
 
 
+
 const PaymentForm = () => {
     const history = useHistory();
     const location = useLocation();
@@ -149,14 +150,8 @@ const PaymentForm = () => {
            <br/>
             <button onClick={Submit} className={classes.buttonSubmit}>Pay</button>
             <Footer/>
+
         </form>
     }
     {successFlag && destFlag && <h3>Payment Successful, redirecting...</h3>}
     {!destFlag && <h2>hena</h2>}
-
-    </div>
-        )
-
-}
-
-export default PaymentForm;
