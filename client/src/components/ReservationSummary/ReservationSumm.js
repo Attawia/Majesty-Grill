@@ -87,7 +87,7 @@ const ReservationSumm = () =>
 
             <Navbar/>
             <Link to={'/usersearch'}>
-                <button>Back</button>
+                <button>Home</button>
                 </Link>
                 
                 {!loggedIN && <Link to={'/'}> Log in please!</Link> }
@@ -123,7 +123,7 @@ const ReservationSumm = () =>
                          </tr>
 
                          <tr>
-                             <th>Date</th>
+                             <th>Time</th>
                              <td>{summary.timeDeparture.substring(11, 16)}</td>
                          </tr>
                          
@@ -170,7 +170,7 @@ const ReservationSumm = () =>
                          </tr>
 
                          <tr>
-                             <th>Date</th>
+                             <th>Time</th>
                              <td>{summary.timeReturn.substring(11, 16)}</td>
                          </tr>
                          

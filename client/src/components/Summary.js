@@ -129,24 +129,9 @@ function Summary(props){
     return(
         <div className="Summary">
             <Navbar/>
-            {/* <button className="return" onClick={history.go(-1)}>Back</button> 
+             <button className="return" onClick={()=>{history.go(-1)}}>Back</button> 
             <h1 id="flightSummary">Flight Summary</h1>
-            <h2 id="departure">Departure Flight:</h2>
-            <h2 id="arrival">Return Flight:</h2>
-
-            <h6 id="depNum">Flight number: {depFlight.flightNo}</h6>
-            <h6 id="depDepTime">Flight Departure Time: {depFlight.departureTime}</h6>
-            <h6 id="depArrTime">Flight Arrival Time: {depFlight.arrivalTime}</h6>
-            <h6 id="depPrice">Price: {Math.floor(depPrice)}€</h6>
-            <h6 id="depCabin">Cabin: {depCabin}</h6>
-
-            <h6 id="arrNum">Flight number: {retFlight.flightNo}</h6>
-            <h6 id="arrDepTime">Flight Departure Time: {retFlight.departureTime}</h6>
-            <h6 id="arrArrTime">Flight Arrival Time: {retFlight.arrivalTime}</h6>
-            <h6 id="arrPrice">Price: {Math.floor(retPrice)}€</h6>
-            <h6 id="arrCabin">Cabin: {retCabin}</h6>
-
-            <h6 id="totalPrice">Total Price: {Math.floor(depPrice + retPrice)}€</h6>
+           
 
                     <div class = "row">
                     <div class = "column">
@@ -221,10 +206,10 @@ function Summary(props){
 
                </table>
                
-
+               </div>
                {/* for the table
-                */}
-               </div> 
+                
+                
                {/* for the table
                 */}
                </div>
