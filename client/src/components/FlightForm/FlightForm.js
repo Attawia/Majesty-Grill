@@ -7,6 +7,8 @@ import axios from 'axios';
 import {Link} from "react-router-dom";
 import { useEffect, useState } from "react";
 import { authorize } from "../../api/auth";
+import Navbar from '../Navbar/Navbar';
+import Footer from '../Footer/Footer';
 
 const FlightForm = () => {
     const [flightData,setFlightData] = react.useState({
@@ -44,38 +46,44 @@ const FlightForm = () => {
     isAllowed();
     },[alreadyChecked])
 
+    const [message,setMessage] = react.useState("");
 
-    const Submit = (e) =>{
+
+    const Submit = async (e) =>{
         e.preventDefault();
-        dispatch(createFlight(flightData));
-        setFlightData({
-            flightNo :'',
-            departureTime :new Date(),
-            arrivalTime : new Date(),
-            economySeats : '',
-            businessSeats :'',
-            firstSeats : '',
-            depAirport :'',
-            arrAirport : '',
-            priceEconomy: '',
-            priceBusiness: '',
-            baggageAllowance: '',
-
-        });
+        let flag = true;
+        const res = await createFlight(flightData);
+        flag = res.data;
+        if(flag){
+            setFlightData({
+                flightNo :'',
+                departureTime :new Date(),
+                arrivalTime : new Date(),
+                economySeats : '',
+                businessSeats :'',
+                firstSeats : '',
+                depAirport :'',
+                arrAirport : '',
+                priceEconomy: '',
+                priceBusiness: '',
+                baggageAllowance: '',
+            });
+            setMessage("");
+    }
+    else{
+        setMessage('Flight number already used')
+    }
     };
 
     return(
         <div>
-    {allowed && <Paper>
-        <form autoComplete="off" noValidate onSubmit={Submit}>
-        <Link to={`/flights/`}>
-            <button>
-                Back 
-                </button>
-            </Link>
+    {allowed && 
+        <form autoComplete="off" align="center" noValidate onSubmit={Submit}>
+        <Navbar/>
             <h1 variant="h6">Create a flight</h1>
-            <TextField  name="Flight Number"  variant="outlined" label="Flight Number"  value={flightData.flightNo} onChange={(e) => setFlightData({...flightData, flightNo : e.target.value})}/><br/><br/>
-            <TextField  name="Departure Time"  type="datetime-local" label="Departure Time" InputLabelProps={{ shrink: true }}  variant="outlined"  value={flightData.departureTime} onChange={(e) => setFlightData({...flightData, departureTime : e.target.value})}/><br/><br/>
+            <h4>{message}</h4>
+            <TextField  name="Flight Number"  variant="outlined" label="Flight Number" value={flightData.flightNo} onChange={(e) => setFlightData({...flightData, flightNo : e.target.value})}/><br/><br/>
+            <TextField  name="Departure Time"  type="datetime-local" label="Departure Time"  InputLabelProps={{ shrink: true }}  variant="outlined"  value={flightData.departureTime} onChange={(e) => setFlightData({...flightData, departureTime : e.target.value})}/><br/><br/>
             <TextField  name="Arrival Time" type="datetime-local"  label="Arrival Time" InputLabelProps={{ shrink: true }}  variant="outlined"  value={flightData.arrivalTime} onChange={(e) => setFlightData({...flightData, arrivalTime : e.target.value})}/><br/><br/>
             <TextField  name="Economy Seats"  variant="outlined" label="Economy Seats"  value={flightData.economySeats} onChange={(e) => setFlightData({...flightData, economySeats : e.target.value})}/><br/><br/>
             <TextField  name="Business Seats"  variant="outlined" label="Business Seats"  value={flightData.businessSeats} onChange={(e) => setFlightData({...flightData,businessSeats : e.target.value})}/><br/><br/>
@@ -86,10 +94,9 @@ const FlightForm = () => {
             <TextField  name="Price Business"  variant="outlined" label="Price Business"  value={flightData.priceBusiness} onChange={(e) => setFlightData({...flightData, priceBusiness : e.target.value})}/><br/><br/>
             <TextField  name="Baggage Allowance"  variant="outlined" label="Baggage Allowance"  value={flightData.baggageAllowance} onChange={(e) => setFlightData({...flightData, baggageAllowance : e.target.value})}/><br/><br/>
             
-            <Button onClick={Submit} className={classes.buttonSubmit}>Create</Button>
-
+            <button onClick={Submit} className={classes.buttonSubmit}>Create</button>
         </form>
-    </Paper>}
+    }
     {!allowed && <h3>Forbidden</h3>}
     </div>
         )

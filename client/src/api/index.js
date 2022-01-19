@@ -1,8 +1,11 @@
 import axios from 'axios';
 
 
-const url = 'http://localhost:5000/flights/createFlight';
-export const createFlight = (newFlight) => axios.post(url, newFlight);
+
+export const createFlight = (newFlight) => {
+    const res = axios.post('http://localhost:5000/flights/createFlight', newFlight);
+    return res;
+};
 
 export const signIn = (user) =>{
     const res =  axios.post('http://localhost:5000/',user);
