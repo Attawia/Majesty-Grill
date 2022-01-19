@@ -146,6 +146,7 @@ const EditReservationDep = () => {
                 }}>
                 <div className="flights-preview" key={flight.flightNo}>
                     <h2 className="flight-number"><FaRegCalendarAlt/> {flight.departureTime.substring(0,10)}</h2>
+                    <h2>{ flight.flightNo}</h2>
                     <h2><FaPlaneDeparture/> { flight.depAirport}     {flight.departureTime.substring(11,16)}</h2>
                     <h2><FaPlaneArrival/> { flight.arrAirport}       {flight.arrivalTime.substring(11,16)}</h2>
                     <h3>Price Difference:  ({Math.max(0,Math.floor(flight.priceEconomy - (reservation.priceDeparture/reservation.passengers)))})€    ~    ({Math.max(0,Math.floor(flight.priceBusiness - (reservation.priceDeparture/reservation.passengers)))})€</h3>
@@ -160,6 +161,7 @@ const EditReservationDep = () => {
                 }}>
                 <div className="flights-preview" key={flight.flightNo}>
                     <h2 className="flight-number"><FaRegCalendarAlt/> {flight.departureTime.substring(0,10)}</h2>
+                    <h2>{ flight.flightNo}</h2>
                     <h2><FaPlaneDeparture/> { flight.depAirport}     {flight.departureTime.substring(11,16)}</h2>
                     <h2><FaPlaneArrival/> { flight.arrAirport}       {flight.arrivalTime.substring(11,16)}</h2>
                     <h3>Price Difference:  ({Math.max(0,Math.floor(flight.priceEconomy - (reservation.priceReturn/reservation.passengers)))})€    ~    ({Math.max(0,Math.floor(flight.priceBusiness - (reservation.priceReturn/reservation.passengers)))})€</h3>
