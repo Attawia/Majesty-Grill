@@ -29,3 +29,8 @@ POST http://localhost:5000/flights/getupdateflight
 GET http://localhost:5000/sendEmail/cancelResEmail
 
 ###
+GET http://localhost:5000/users/AllReservations/Disha
+
+
+###
+DELETE http://localhost:5000/flights/61e7461e91fb4de49cd5d0e4

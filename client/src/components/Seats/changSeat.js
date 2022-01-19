@@ -6,6 +6,8 @@ import {useParams} from 'react-router-dom';
 import { Link,useHistory,useLocation,
 } from 'react-router-dom';
 import './seats.scss';
+import Navbar from '../Navbar/Navbar.js';
+import Footer from '../Footer/Footer.js';
              
 let final=[];
 let row=1;
@@ -16,7 +18,7 @@ let dakhal = false;
 const Seat =  () => {
   const history = useHistory();
   const location = useLocation();
-  const [display,setDisplay]=useState();
+  let [display,setDisplay]=useState();
   const[flag,setflag]=useState(false);
   let{flight}=location.state;
   flight=flight[0];
@@ -232,6 +234,7 @@ const Submit=async(e)=>{
   
   return(
     <div>
+      <Navbar/>
       <button onClick={back}>Back</button>
       <u><h1>Please Select New {type} Flight Seats</h1></u>
       {display}

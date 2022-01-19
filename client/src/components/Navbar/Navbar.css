@@ -20,5 +20,6 @@
   font-size: 20px;
 }
 .navbar a:hover {
-  color: grey;
+  color:#ff0000;
+  text-decoration: solid;
 }
