@@ -2,11 +2,14 @@ import {  Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { changePassword, getUsername, isGuest } from "../../api/auth";
 import SelectedFlight from "../SelectedFlight/SelectedFlight";
+import Navbar from "../Navbar/Navbar";
 
 import './style.css';
 import {getEmailCaller, cancelReservation, getAllCaller, getAll, sendItinerary} from '../../actions/ShowAllRes'
 let seats = "";
 let count = 1;
+const x = [8, 9, 10];
+
 
 const ShowAllReserved = () => {
 
@@ -39,7 +42,7 @@ const [isPending, setIsPending] = useState(true);
 const [flagAllowed, setAllowed] = useState(true);
 
 const [flag, setFlag] = useState(false);
-
+const [email, setEmail] = useState(false);
 
 
 const getTheUser = async () =>
@@ -115,10 +118,13 @@ console.log("after setAllowed: " + count);
 
           setRestAndF({reservations : result, flagSummary : true});
         };
-        console.log("after setRest: " + count);
-          
+
+      
+
         
     })
+
+
     
  
 }
@@ -129,20 +135,27 @@ console.log("after setAllowed: " + count);
 
 
 
-console.log('here: ' + count++);
+
+    
+  
+//console.log('here: ' + count++);
 
     return ( 
     <div>
-        
-
-        <Link to={`/UserSearch`}>
-             <button>Back</button>
-        </Link>
-        
          {!loggedIN && <Link to={'/'}> Log in please!</Link> }
         
         
-          { isPending && <div>Loading...</div> }
+{  loggedIN &&  <div>
+<Navbar/>
+
+    { <Link to={`/UserSearch`}>
+            <button>Back</button>
+    </Link>
+    }
+        
+        
+        
+          {  isPending && <div>Loading...</div> }
           
         { !isPending && data.empty && !data.cancel &&
         <div class = "Msg-Error">
@@ -167,7 +180,9 @@ console.log('here: ' + count++);
       </div>
       }
 
-
+{email && <div class="alert info">
+       <strong>Info!</strong>  We have sent you an email with Itinerary
+     </div> }
         
         {resAndF.reservations&& 
             <div>
@@ -223,9 +238,12 @@ console.log('here: ' + count++);
                              </tr>
     
                              <tr>
-                             <th>Seats</th>
+                             <th>Seat(s)</th>
                             
-                            <td>{reservation.seatDeparture}</td>
+                              <td>{reservation.seatDeparture.toString()}</td>
+                              
+                             {/* <td>{x}</td>
+                              */}
                     
                              </tr>
                         </table>
@@ -266,8 +284,8 @@ console.log('here: ' + count++);
                         </tr>
     
                         <tr>
-                        <th>Seat</th>
-                       <td> {reservation.seatReturn}</td>
+                        <th>Seat(s)</th>
+                       <td> {reservation.seatReturn.toString()}</td>
                         </tr>
                    </table>
                    
@@ -276,64 +294,83 @@ console.log('here: ' + count++);
                    </div>
                    <br />
 
-                    
-                    <button onClick={()=>{
-                        if(window.confirm('Are you sure you wish to cancel this reservation?')) 
-                        {
-                            
-                            cancelReservation(reservation._id, {
-                                   bookingNumber : reservation.bookingNumber,
-                                   totalPrice: reservation.totalPrice
-                                }, data.userEmail
-                                );
+                    <div id="mainwrapper">
 
-                                 setIsPending(false);
-                                setData({
-                                cancel: true});
-                                // setCancel(true);
+                            <div class = "minibuttonL">
+                                <Link to={{
+                                    pathname: "/allReservations/selectedFlight",
+                                    state: {
+                                            type : "Departure",
+                                            reservation,
+                                            edited : false
+                                            }
+                                        }}>
+                                        <button >Select Departure Flight </button>
+                                        
+                                </Link>
+                            </div>
 
-                             
-                          
-                        }
-                        }}>Cancel Reservation</button>
 
-                        <button onClick={()=>{
-                            sendItinerary(data.userEmail, reservation)
-                        }}>Send My Itinerary</button>
 
-<Link to={{
-    pathname: "/allReservations/selectedFlight",
-    state: {
-            type : "Departure",
-            reservation,
-            edited : false
-            }
-        }}>
-        <button >Select Departure Flight </button>
-        
-</Link>
+                            <div class = "minibuttonC">
+                                    <button onClick={()=>{
+                                        sendItinerary(data.userEmail, reservation)
+                                        setEmail(true);
+                                    }}>Send My Itinerary</button>
+                            </div>
 
-<Link to={{
-    pathname: "/allReservations/selectedFlight",
-    state: {
-            type : "Return",
-            reservation,
-            edited : false,
-             }
-        }}>
-        <button >Select Return Flight </button>
-</Link>
+
+                            <div class = "minibuttonR">
+                            <Link to={{
+                                pathname: "/allReservations/selectedFlight",
+                                state: {
+                                        type : "Return",
+                                        reservation,
+                                        edited : false,
+                                        }
+                                    }}>
+                                    <button >Select Return Flight </button>
+                            </Link>
+
+                            </div>
+
+
+                            <div class = "minibuttonRR">
+                                <button onClick={()=>{
+                                    if(window.confirm('Are you sure you wish to cancel this reservation?')) 
+                                                     {
+                                                            
+                                    cancelReservation(reservation._id, {
+                                    bookingNumber : reservation.bookingNumber,
+                                    totalPrice: reservation.totalPrice
+                                    }, data.userEmail
+                                                    );
+
+                                    setIsPending(false);
+                                    setData({
+                                    cancel: true});
+                                                      }
+                                                }}>Cancel Reservation
+                                </button>
+                                </div>
+
+                                <br />
+                                <br />
+                                <br />
+                                
+                                <hr />
+                                                    
 
                      
+
+</div>
+
                         
                         
 
-                    <br />
-                    <hr />
-                    <br />
-                    <br />
                     
                    </div> 
+
                    
                     ))}
             </div>
@@ -342,7 +379,7 @@ console.log('here: ' + count++);
 }
 
 
-
+</div>}
     </div> );
 }
  
