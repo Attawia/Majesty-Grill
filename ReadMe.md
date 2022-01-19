@@ -1,21 +1,5 @@
 <div id="top"></div>
-<!--
-*** Thanks for checking out the Best-README-Template. If you have a suggestion
-*** that would make this better, please fork the repo and create a pull request
-*** or simply open an issue with the tag "enhancement".
-*** Don't forget to give the project a star!
-*** Thanks again! Now go create something AMAZING! :D
--->
 
-
-
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
 [![Contributors][contributors-shield]][contributors-url]
 [![Issues][issues-shield]][issues-url]
@@ -64,11 +48,9 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#contributors">Contributors</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
@@ -77,9 +59,13 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+This project aims to provide a complete Airline Reservation system. The website covers most aspects of an airline system's needs in an easy and efficient manner. This project provides solutions for both administrators and users. 
 
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `Attawia`, `Majesty-Grill`, `twitter_handle`, `ahmedattawia`, `email`, `email_client`, `project_title`, `project_description`
+As an administrators, this project gives you the ability to create, update, and delete flights directly from the website with quick and easy steps. You can also view all user details, their reservations, and their payments from the dashboards of MongoDB and Stripe respectively.
+
+As a guest user, you have the ability to register an account with your information for easy booking. You can also search for flights and view all offered flights and their prices without having to register.
+
+As a registered user, you have the ability to reserve a flight, pay for your reservation, select specific seats, view all your reservations, edit a reservation by altering seats or the flight itself, or cancel a reservation alltogether.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -102,7 +88,7 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 ## Getting Started
 
 
-To get a local copy up and running follow these simple example steps.
+To get a local copy up and running download prerequisites listed below and follow installation steps.
 
 ### Prerequisites
 
@@ -143,11 +129,21 @@ To get started, make sure you have npm installed on your PC.
 
 This project provides solutions for both administrators and users.
 
-As an administrators, this project gives you the ability to create, update, and delete flights directly from the website with quick and easy steps. You can also view all user details, their reservations, and their payments from the dashboards of MongoDB and Stripe respectively.
+As an administrators you can:
+1. Create, update, or delete a flight from the website.
+2. View user details using the MongoDB dashboard.
+3. View payment details using the Stripe dashboard.
 
-As a guest user, you have the ability to register an account with your information for easy booking. You can also search for flights and view all offered flights and their prices without having to register.
+As a guest user you can:
+1. Browse through, or search for, flights offered on the website.
+2. Register a new account to reserve a flight.
 
-As a registered user, you have the ability to reserve a flight, pay for your reservation, select specific seats, view all your reservations, edit a reservation by altering seats or the flight itself, or cancel a reservation alltogether.
+As a registered user you can:
+1. Reserve and pay for a flight.
+2. Select specific seats on a flight.
+3. View all reservations.
+4. Edit a reservation.
+5. Cancel a reservation.
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -186,13 +182,13 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Ahmed Attawia - [LinkedIn](https://linkedin.com/in/ahmedattawia) - ahmed.attawia@gmail.com
-Abdelrahman Hany - [LinkedIn](https://linkedin.com/in/ahmedattawia) - hanbeo2000@gmail.com
-Omar Darwish - [LinkedIn](https://www.linkedin.com/in/omar-darwish-aa718520b/) - omartdarwish@gmail.com
-Mohamed Zaki - [LinkedIn](https://www.linkedin.com/in/mohamed-zaki-100970197/) - zakimohamed380@yahoo.com
-Youssef Amro - [LinkedIn](https://linkedin.com/in/ahmedattawia) - 
+Ahmed Attawia - [LinkedIn](https://linkedin.com/in/ahmedattawia) - ahmed.attawia@gmail.com <br/>
+Abdelrahman Hany - [LinkedIn](https://www.linkedin.com/in/abdelrahman-hany-850642214/) - hanbeo2000@gmail.com<br/>
+Omar Darwish - [LinkedIn](https://www.linkedin.com/in/omar-darwish-aa718520b/) - omartdarwish@gmail.com<br/>
+Mohamed Zaki - [LinkedIn](https://www.linkedin.com/in/mohamed-zaki-100970197/) - zakimohamed380@yahoo.com<br/>
+Youssef Amro - [LinkedIn](https://www.linkedin.com/in/youssef-amr-aab4891b8/) - youssefamr4077@gmail.com <br/>
 
-Project Link: [https://github.com/Attawia/Majesty-Grill](https://github.com/Attawia/Majesty-Grill)
+
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -213,7 +209,7 @@ Project Link: [https://github.com/Attawia/Majesty-Grill](https://github.com/Atta
 [issues-shield]: https://img.shields.io/github/issues/Attawia/Majesty-Grill.svg?style=for-the-badge
 [issues-url]: https://github.com/Attawia/Majesty-Grill/issues
 [license-shield]: https://img.shields.io/github/license/Attawia/Majesty-Grill.svg?style=for-the-badge
-[license-url]: https://github.com/Attawia/Majesty-Grill/blob/master/LICENSE.txt
+[license-url]: https://github.com/Attawia/Majesty-Grill/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/ahmedattawia
 [product-screenshot]: images/screenshot.png
