@@ -7,6 +7,8 @@ import { Link,useHistory,useLocation} from 'react-router-dom';
 import { getUsername } from '../../api/auth';
 import { getEmailCaller } from '../../actions/ShowAllRes';
 import './seats.scss';
+import Navbar from '../Navbar/Navbar.js';
+import Footer from '../Footer/Footer.js';
 
 
 // let seatarray=[{seatName: "1",state:true},
@@ -213,11 +215,13 @@ const Seat =  () => {
 }
   },[retFlight,reservation,display, currUser]);
 
+
   useEffect(()=>{
     
     function setflag2func(){
+      console.log(reservation.cabinReturn);
       let j=1;
-      if(reservation.cabinDeparture=='Economy'){
+      if(reservation.cabinReturn=='Economy'){
         for(let i=1;i<=business;i++){
           document.getElementById(""+i).disabled="disabled";
         }
@@ -287,6 +291,7 @@ const Submit=(e)=>{
     
   return(
     <div>
+      <Navbar/>
       <button onClick={back}>Back</button>
       <u><h1>Please Select Return Flight Seats</h1></u>
       {display}

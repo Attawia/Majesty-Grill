@@ -47,7 +47,7 @@ const retEco=()=>{
            
              <div className="popup">
                <div className="popup-inner">
-                <button className="close-btn" onClick={() => history.go(-1)}>close</button>   
+                <button className="close-btn" onClick={() => history.go(-1)}>Close</button>   
                 <h4 id="details">Flight details</h4>
                 <h6 id="number">Flight number:  {retFlight.flightNo}</h6>
                 <h6 id="departureBgad">Departure time:  {retFlight.departureTime}</h6>

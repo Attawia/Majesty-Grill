@@ -7,6 +7,7 @@ import {getUsername} from './../../api/auth.js'
 import {FaSearch,FaPlus,FaMinus,FaPlaneDeparture,FaPlaneArrival,FaPlane} from "react-icons/fa"
 import Navbar from '../Navbar/Navbar.js';
 import Footer from '../Footer/Footer.js';
+import _ from 'lodash';
 
 let flag=false;
 const UserSearch = () => {
@@ -24,8 +25,22 @@ const UserSearch = () => {
 
     const[searchedFlights,setSearchedFlights] = useState([]);
 
+    const [footerVisible, setFooterVisible ] = useState(true);
+
     let criteriaReady = false;
     let flightType = 'dep'
+
+    Array.prototype.unique = function() {
+        var a = this.concat();
+        for(var i=0; i<a.length; ++i) {
+            for(var j=i+1; j<a.length; ++j) {
+                if(_.isEqual(a[i],a[j]))
+                    a.splice(j--, 1);
+            }
+        }
+    
+        return a;
+    };
 
     const decAdults = (e) =>{
         e.preventDefault();
@@ -84,6 +99,7 @@ const UserSearch = () => {
             console.log(result);
             console.log(searchedFlights);
         })
+        setFooterVisible(false);
     }
 
     function openPopUp(flightNo){
@@ -172,15 +188,15 @@ const UserSearch = () => {
             <h2></h2>
             <label>      Departure Time:      </label>
             <TextField
-            type="datetime-local"
+            type="date"
             name="Departure Time"
-            onChange={(e) => setCriteria({...criteria, departureTime : e.target.value})}
+            onChange={(e) => setCriteria({...criteria, departureTime : e.target.value + '' + 'T00:00:00.000Z'})}
             />
             <label>      Arrival Time:      </label>
             <TextField
-            type="datetime-local"
+            type="date"
             name="Arrival Time"
-            onChange={(e) => setCriteria({...criteria, arrivalTime : e.target.value})}
+            onChange={(e) => setCriteria({...criteria, arrivalTime : e.target.value + '' + 'T00:00:00.000Z'})}
             />
             <label>      Cabin Class:      </label>
             <TextField
@@ -193,26 +209,29 @@ const UserSearch = () => {
             <button className="search"><FaSearch />    Search Flights</button>
         </form>
 
-          {searchedFlights.map(depFlight => (
-              <Link to={{ 
-                pathname: "/Popup/" ,
-                state : {depFlight,flightType,displayNumberOfAdullts,displayNumberOfChildren}
+        <div className="zabtet-footer">
+            {searchedFlights.map(depFlight => (
+                <Link to={{ 
+                    pathname: "/Popup/" ,
+                    state : {depFlight,flightType,displayNumberOfAdullts,displayNumberOfChildren}
                 }}>
-                <div className="flights-preview" key={depFlight.flightNo}>
-                    <h2 className="flight-number">{depFlight.flightNo}</h2>
-                    <h2><FaPlaneDeparture/> { depFlight.depAirport}</h2>
-                    <h2><FaPlaneArrival/> { depFlight.arrAirport} </h2>
-                    <h3>Price:  {depFlight.priceEconomy}€    ~    {depFlight.priceBusiness}€</h3>
-                </div>
-            </Link>
-          ))}
-
+                    <div className="flights-preview" key={depFlight.flightNo}>
+                        <h2 className="flight-number">{depFlight.departureTime.substring(0,10)}</h2>
+                        <h2><FaPlaneDeparture/> { depFlight.depAirport}     {depFlight.departureTime.substring(11,16)}</h2>
+                        <h2><FaPlaneArrival/> { depFlight.arrAirport}       {depFlight.arrivalTime.substring(11,16)}</h2>
+                        <h3>Price:  {depFlight.priceEconomy}€    ~    {depFlight.priceBusiness}€</h3>
+                    </div>
+                </Link>
+                
+            ))}
+            
+        </div>
 
         </div>
-        {console.log(displayNumberOfAdullts)}
-        {console.log(displayNumberOfChildren)}
-        <Footer/>
+        {footerVisible && <Footer/>}
         </div>
+        
+        
     );
       
   
