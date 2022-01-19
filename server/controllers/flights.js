@@ -65,6 +65,10 @@ export const createFlight = async (req,res) => {
     let arrival = new Date(flight.arrivalTime);
     let duration = (arrival - departure) / 3600000;
     flight={...flight,freeEconomySeats:economy,freeBusinessSeats:business,tripDuration:duration};
+    const flag = await Flight.findOne({flightNo: flight.flightNo})
+    if(flag){
+        return res.send(false);
+    };
     const newFlight = new Flight(flight);
     let seats=[{seatName:1,state: false}];
     let i=2;
@@ -260,15 +264,38 @@ export const emptySeats2 = async(req,res)=>{
 export const updateFlight = async (req,res) =>{
     const _id = req.body._id; 
     const updatedflight = req.body.flight;
+    const oldFlightNo = req.body.oldFlightNo;
+
     try{
         await Flight.findByIdAndUpdate(_id,updatedflight);
-        
+
+        await Reservation.updateMany( { flightDeparture : oldFlightNo},
+
+            {timeDeparture: updatedflight.departureTime,
+            flightDeparture:updatedflight.flightNo} );
+    
         res.status(201).json(updatedflight);
         
-    }
+    
+
+
+    await Reservation.updateMany( { flightReturn : oldFlightNo},
+
+        {timeReturn: updatedflight.departureTime,
+        flightReturn:updatedflight.flightNo} );
+
+    res.status(201).json(updatedflight);
+        }
+    
+
+
     catch(error){
         res.status(409).json({message:error.message});
-    }    
+    }
+    
+    
+
+    
 }
 
 

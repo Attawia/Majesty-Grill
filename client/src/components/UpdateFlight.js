@@ -4,7 +4,9 @@ import { authorize } from "../api/auth";
 import react from 'react';
 import {TextField,Button,Paper,Typography} from '@material-ui/core';
 import {useParams} from 'react-router-dom';
-import { Link,useHistory} from 'react-router-dom';
+
+import { Link,useHistory, useLocation} from 'react-router-dom';
+
 import Navbar from './Navbar/Navbar.js';
 import Footer from './Footer/Footer.js';
 
@@ -13,9 +15,14 @@ const getPost = async (id) => {
     const flight = res.data;
     return flight;
 }
+
 var done = false;
 const UpdateFlight =  () => {
     const history = useHistory();
+    const location = useLocation();
+
+    const {oldFlightNo} = location.state;
+
     const {id} = useParams();
     const [flight,updateFlight] = useState({});
     if(!done){
@@ -52,7 +59,7 @@ const UpdateFlight =  () => {
 
         e.preventDefault(); 
         console.log(flight);
-        const updated = {_id:flight._id,flight:flight};
+        const updated = {_id:flight._id,flight:flight,oldFlightNo:oldFlightNo};
         const x = axios.patch('http://localhost:5000/flights/updateflight',updated);
         history.push('/flights/' + id);
 
@@ -68,8 +75,8 @@ const UpdateFlight =  () => {
                 Back 
                 </button>
             </Link>
-            <h1>Update Flight</h1>
-            <form>
+            <h1 align='center'>Update Flight</h1>
+            <form align='center'>
             <TextField  name="Flight Number"  variant="outlined" label="Flight Number" InputLabelProps={{ shrink: true }}  variant="outlined" value={flight.flightNo} onChange={(e) => updateFlight({...flight, flightNo : e.target.value})}/><br/><br/>
             <TextField  name="Departure Time"  type="datetime-local" label="Departure Time" InputLabelProps={{ shrink: true }}  variant="outlined"  value={flight.departureTime} onChange={(e) => updateFlight({...flight, departureTime : e.target.value})}/><br/><br/>
             <TextField  name="Arrival Time" type="datetime-local"  label="Arrival Time" InputLabelProps={{ shrink: true }}  variant="outlined"  value={flight.arrivalTime} onChange={(e) => updateFlight({...flight, arrivalTime : e.target.value})}/><br/><br/>

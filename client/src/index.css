@@ -8,9 +8,9 @@ div{
 }
 
 .flights-preview {
+  background-color: #0D0F45;
   padding: 10px 16px;
     margin: 20px 0;
-    background-color: #0D0F45;
     width: 45%;
     float: left;
     border: 10px solid #FFFFFF;

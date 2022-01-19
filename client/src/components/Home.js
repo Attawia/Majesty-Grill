@@ -4,6 +4,8 @@ import {TextField,Button,Paper,Typography} from '@material-ui/core';
 import {Link} from "react-router-dom";
 import { authorize } from "../api/auth";
 import {FaSearch,FaPlus,FaMinus,FaPlaneDeparture,FaPlaneArrival,FaPlane,FaLuggageCart,FaUserCircle,FaRegCalendarAlt} from "react-icons/fa"
+import Navbar from './Navbar/Navbar.js'
+import Footer from "./Footer/Footer";
 
 
 const getAllFlights = async()=>{
@@ -12,7 +14,7 @@ const getAllFlights = async()=>{
 }
 
 const Home = () => {
-
+    const [footerVisible,setFooter]=useState(true);
     const[flights,setFlights] = useState([]);
 
     const [criteria,setCriteria] = useState({});
@@ -46,6 +48,7 @@ const Home = () => {
 
 
    const showAll = (e) =>{
+    setFooter(false);
     e.preventDefault();
     const newflights = async ()=>{const promise = await getAllFlights(); return promise;}
     const flightsarr = newflights();
@@ -57,7 +60,7 @@ const Home = () => {
 
     const showSearchedFlights = (e) =>{
         e.preventDefault();
-
+        if(footerVisible)setFooter(false);
         Object.keys(criteria).forEach(function(key){
             if (criteria[key] === '') {
               delete criteria[key];
@@ -74,19 +77,8 @@ const Home = () => {
 
     return (
         <div>
+            <Navbar/>
         {allowed && <div className="home">
-            <Link to={`/`}>
-            <button>
-                Sign Out 
-                </button>
-            </Link>
-            <p>      </p>
-            <Link to={`/users/profile/`}>
-                <button>
-                    View My Profile 
-                </button>
-            </Link>
-            &nbsp;&nbsp;&nbsp;
             <h1>HomePage</h1> 
         <form onSubmit={showSearchedFlights}>
             <label>Flight Number:      </label>
@@ -145,9 +137,10 @@ const Home = () => {
                 </button>
             </Link>
             <br></br>
-            <button>Search Flights</button>
+           
         </form>
-           <button onClick= {showAll}>Show All Flights</button>
+            <button onClick={showSearchedFlights}>Search Flights</button>
+           <div><button onClick= {showAll}>Show All Flights</button></div>
           {flights.map(flight => (
               <Link to={`/flights/${flight._id}`}>
             <div className="flights-preview" key={flight._id} >
@@ -165,11 +158,14 @@ const Home = () => {
                     <h2><FaPlaneDeparture/> { searchedFlight.depAirport}</h2>
                     <h2><FaPlaneArrival/> { searchedFlight.arrAirport}</h2>
                     <h2 className="flight-date-admin"><FaRegCalendarAlt/>   { searchedFlight.departureTime.substring(0,10)}</h2>
+
                 </div>
+                
             </Link>
           ))}
         </div>}
         {!allowed && <h3>Forbidden</h3>}
+        {footerVisible && <Footer/>}
     </div>
     );
       

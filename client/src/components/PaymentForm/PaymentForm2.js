@@ -4,6 +4,8 @@ import useStyles from './styles.js';
 import {Link,useHistory,useLocation} from "react-router-dom";
 import { useEffect, useState } from "react";
 import { makePayment } from '../../actions/paymentForm'
+import Navbar from '../Navbar/Navbar.js'
+import Footer from '../Footer/Footer.js';
 
 
 
@@ -14,7 +16,7 @@ const PaymentForm = () => {
     let depFlightDest = "";
     let retFlightDest = "";
     let reservationDest = "";
-    let difference = 0;
+    let difference = "";
     let toDest = "";
 
     
@@ -31,14 +33,16 @@ const PaymentForm = () => {
         reservationDest = reservation;
         difference = price;
         toDest = to;
-        setDestFlag(true);
+        if(!destFlag)
+          setDestFlag(true);
     }catch(error){
-
+        console.log(error.message)
     }
 
 
 
-    const [amount,setAmount] = react.useState(0);
+
+    let [amount,setAmount] = react.useState(0);
 
     useEffect(()=>
     {
@@ -91,12 +95,12 @@ const PaymentForm = () => {
             setSuccessFlag(true);
         }
         await timeout(1000);
-        const to = toDest;
+
         const reservation = reservationDest;
-        const depFlight = depFlightDest;
         const retFlight = retFlightDest;
+        const depFlight = depFlightDest;
         history.push({
-            pathname: to,
+            pathname: toDest,
             state:{reservation,depFlight,retFlight}
           });
           window.location.reload();
@@ -135,31 +139,21 @@ const PaymentForm = () => {
 
     return(
         <div>{ !successFlag && destFlag &&
-        <Paper>
-        <form autoComplete="off" noValidate onSubmit={Submit}>
-        <Link to={`/usersearch`}>
-            <button>
-                Home 
-                </button>
-            </Link>
+        
+        <form autoComplete="off" align="center" noValidate onSubmit={Submit}>
+            <Navbar/>
             <h1 variant="h5">Confirm Payment of {amount}€</h1>
             <h4>{message}</h4>
             <TextField  name="Cardholder's Name" label="Cardholder's Name"   variant="outlined"  value={paymentInfo.name} onChange={(e) => setPaymentInfo({...paymentInfo, custName : e.target.value})}/><br/><br/>
             <TextField  name="Card Number"  variant="outlined" label="Card Number"  value={paymentInfo.cardNo} onChange={onChangeCard}/><br/>
-            <TextField  name="CVV" type="password"  label="CVV" margin="dense" style={{width: 70}}  variant="outlined"  value={paymentInfo.cvv} onChange={onChangeCvv}/> 
-            <TextField  name="Expiry Date"  margin="dense" style={{width: 50}} variant="outlined" label="MM"  value={paymentInfo.expiryMonth} onChange={onChangeM}/>
+            <TextField  name="CVV" type="password"  label="CVV" margin="dense" style={{width: 70}}  variant="outlined"  value={paymentInfo.cvv} onChange={onChangeCvv}/> <element className="bb"></element>
+            <TextField  name="Expiry Date"  margin="dense" style={{width: 50}} variant="outlined" label="MM"  value={paymentInfo.expiryMonth} onChange={onChangeM}/> <element className="bb"></element>
             <TextField  name="Expiry Date"  margin="dense" style={{width: 50}} variant="outlined" label="YY"  value={paymentInfo.expiryYear} onChange={onChangeY}/><br/>
-           
-            <Button onClick={Submit} className={classes.buttonSubmit}>Pay</Button>
+           <br/>
+            <button onClick={Submit} className={classes.buttonSubmit}>Pay</button>
+            <Footer/>
 
         </form>
-    </Paper>}
+    }
     {successFlag && destFlag && <h3>Payment Successful, redirecting...</h3>}
     {!destFlag && <h2>hena</h2>}
-
-    </div>
-        )
-
-}
-
-export default PaymentForm;
