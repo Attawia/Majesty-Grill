@@ -1,12 +1,8 @@
 import * as api from '../api';
 
-export const createFlight = (flight) => async (dispatch) => {
-    try {
-        const { data } = await api.createFlight(flight);
+export const createFlight = async (flight)  => {
 
-        dispatch({type:"CREATE",payload:data});
-    } catch (error) {
-        
-    }
+    const res = await api.createFlight(flight);
+    return res;
 }
 
