@@ -76,7 +76,7 @@
 .alert.info 
     {
       margin: auto ;
-      background-color: #2196F3;
+      background-color: #0D0F45;
       color:white;
     }
   
@@ -91,3 +91,6 @@
   color:black;
 }
 
+#mainwrapper .minibuttonL, #mainwrapper .minibuttonC, #mainwrapper .minibuttonR, #mainwrapper .minibuttonRR {
+  padding-left: 110px;padding-right: 110px; float:left; margin-right:20px;
+}
