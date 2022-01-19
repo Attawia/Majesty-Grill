@@ -12,18 +12,6 @@ const x = [8, 9, 10];
 
 
 const ShowAllReserved = () => {
-
-
-
-// const [empty, setEmpty] = useState(false);
-//const [cancel, setCancel] = useState(false);
-
-// const [flagSummary,setFlagSummary] = useState(false);
-// const [reservations, setReservations] = useState(null);
-// const [userEmail, setUserEmail] = useState(null);
-
-
-
 const [data, setData] = useState({
     empty : false,
     cancel: false,

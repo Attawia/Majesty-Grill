@@ -40,13 +40,13 @@ const PasswordForm = () => {
         <button onClick={back}>
              back 
              </button>
-        <form autoComplete="off" noValidate onSubmit={Submit}>
+        <form autoComplete="off" noValidate onSubmit={Submit} align='center'>
             <h1>Change Password</h1>
             <Typography >{errorMessage}</Typography><br/>
             <TextField  name="Old Password"  variant="outlined" label="Old Password"  type="password"  onChange={(e) => setUserData({...userData, oldPassword : e.target.value})}/><br/><br/>
             <TextField  name="New Password"  label="Password" type="New Password" variant="outlined"  type="password"  onChange={(e) => setUserData({...userData, newPassword : e.target.value})}/><br/><br/>
             <TextField  name="Confirm New Password"  label="Password" type="Confirm New Password" type="password" variant="outlined"   onChange={(e) => setUserData({...userData, confirmPassword : e.target.value})}/><br/><br/>
-            <Button onClick={Submit} className={classes.buttonSubmit}>Change Password</Button><br/><br/>
+            <button onClick={Submit} >Change Password</button><br/><br/>
 
         </form>
     </Paper>

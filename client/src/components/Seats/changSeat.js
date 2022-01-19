@@ -20,6 +20,9 @@ const Seat =  () => {
   const location = useLocation();
   let [display,setDisplay]=useState();
   const[flag,setflag]=useState(false);
+
+  let [allowed,setAllowed] = useState(false);
+  
   let{flight}=location.state;
   flight=flight[0];
   const{type}=location.state;

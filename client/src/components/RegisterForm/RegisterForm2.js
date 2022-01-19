@@ -3,7 +3,7 @@ import {TextField, Button, Paper, Typography} from '@material-ui/core';
 import makeStyles from './styles';
 import {Register} from '../../actions/RegisterForm.js'
 import { Link, useHistory,useLocation } from 'react-router-dom';
-
+import Navbar from '../Navbar/EmptyNavbar.js';
 
 
 
@@ -151,12 +151,13 @@ const FlightForm = () => {
     return(
         
     <Paper>
+        <Navbar/>
         <Link to={`/`}>
             <button>
                 Back 
                 </button>
             </Link>
-        <form autoComplete="off" noValidate onSubmit={Submit}>
+        <form autoComplete="off" noValidate onSubmit={Submit} align='center'>
             <h1>Register</h1>
             <Typography >{errorMessage}</Typography><br/>
             <TextField  name="Username"  variant="outlined" label="Username"  value={userData.username} onChange={onChangeUsername}/><br/><br/>
@@ -168,7 +169,7 @@ const FlightForm = () => {
             <TextField  name="Telephone Number"  variant="outlined" label="Telephone Number"  value={userData.telephoneNo} onChange={onChangePhone}/><br/><br/>
             <TextField  name="Email"  label="Email" variant="outlined"  value={userData.email} onChange={(e) => setUserData({...userData, email : e.target.value})}/><br/><br/>
             <TextField  name="Passport Number"  variant="outlined" label="Passport Number"  value={userData.passportNo} onChange={onChangePassport}/><br/><br/>
-            <Button onClick={Submit} className={classes.buttonSubmit}>Register</Button><br/><br/>
+            <button onClick={Submit} className={classes.buttonSubmit}>Register</button><br/><br/>
             <Link to="/">Already a user? Sign In!</Link>
 
         </form>

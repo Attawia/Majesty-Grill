@@ -4,6 +4,8 @@ import makeStyles from './styles';
 import {signIn} from '../../actions/SignInForm.js'
 import {Link,useLocation,useHistory} from "react-router-dom";
 import { authorize,isGuest,getUsername } from '../../api/auth.js';
+import Navbar from '../Navbar/EmptyNavbar.js';
+import Footer from '../Footer/Footer.js';
 
 const SignInForm2 = () => {
 
@@ -75,12 +77,13 @@ const SignInForm2 = () => {
     
     return(
     <Paper>
-        <form autoComplete="off" noValidate onSubmit={Submit}>
+        <Navbar/>
+        <form autoComplete="off" noValidate onSubmit={Submit} align='center'>
             <h1>Sign In</h1>
             <Typography >{errorMessage}</Typography><br/>
             <TextField  name="Username"  variant="outlined" label="Username"  value={userData.username} onChange={(e) => setUserData({...userData, username : e.target.value})}/><br/><br/>
             <TextField  name="Password"  label="Password" type="password" variant="outlined"  value={userData.password} onChange={(e) => setUserData({...userData, password : e.target.value})}/><br/><br/>
-            <Button onClick={Submit} className={classes.buttonSubmit}>Sign In</Button><br/><br/>
+            <button onClick={Submit} className={classes.buttonSubmit}>Sign In</button><br/><br/>
             {/* Going to fake Register to create an account and then proceed to payment then seating */}
             <Link to={{ 
                 pathname: "/Register2" ,
@@ -90,6 +93,7 @@ const SignInForm2 = () => {
             </Link>
 
         </form>
+        <Footer/>
     </Paper>
         )
 }

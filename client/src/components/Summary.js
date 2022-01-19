@@ -5,6 +5,8 @@ import {TextField,Button,Paper,Typography} from '@material-ui/core';
 import {Link,useLocation,useHistory} from "react-router-dom";
 import Try from './Try';
 import {isGuest} from '../api/auth.js';
+import Navbar from "./Navbar/Navbar";
+import Footer from "./Footer/Footer";
 
 function Summary(props){
     const history = useHistory();
@@ -126,7 +128,8 @@ function Summary(props){
     
     return(
         <div className="Summary">
-            {/* <button className="return" onClick={history.go(-1)}>Back</button>  */}
+            <Navbar/>
+            {/* <button className="return" onClick={history.go(-1)}>Back</button> 
             <h1 id="flightSummary">Flight Summary</h1>
             <h2 id="departure">Departure Flight:</h2>
             <h2 id="arrival">Return Flight:</h2>
@@ -143,13 +146,94 @@ function Summary(props){
             <h6 id="arrPrice">Price: {retPrice}€</h6>
             <h6 id="arrCabin">Cabin: {retCabin}</h6>
 
-            <h6 id="totalPrice">Total Price: {depPrice + retPrice}€</h6>
+            <h6 id="totalPrice">Total Price: {depPrice + retPrice}€</h6> */}
+
+                    <div class = "row">
+                    <div class = "column">
+                     <table border = '1'>
+                         <h2 className='SummaryHead'>Departure Flight Details</h2>
+                         <tr>
+                             <th  >Flight Number</th>
+                             <td>{depFlight.flightNo}</td>
+                         </tr>
+                         
+                         <tr>
+                             <th>From</th>
+                             <td>{depFlight.depAirport}</td>
+                         </tr>
+                          
+                         <tr>
+                             <th >To</th>
+                             <td>{depFlight.arrAirport}</td>
+                         </tr>
+                         
+                         <tr>
+                             <th >Time</th>
+                             <td>{depFlight.departureTime.substring(0,10)+' '+ depFlight.departureTime.substring(11,16)}</td>
+                         </tr>
+
+                         <tr>
+                             <th >Price</th>
+                             <td>{depPrice}</td>
+                         </tr>
+
+                         <tr>
+                            <th >Cabin</th>
+                             <td>{depCabin}</td>
+                         </tr>
+
+                    </table>
+                    </div>
+                    
+                  
+                    <div className="column">
+                    <table border = '1'>
+                        <h2>Return Flight Details</h2>
+                        <tr>
+                             <th>Flight Number</th>
+                             <td>{retFlight.flightNo}</td>
+                         </tr>
+                         
+                        <tr>
+                             <th>From</th>
+                             <td>{retFlight.depAirport}</td>
+                         </tr>
+                          
+                         <tr>
+                             <th>To</th>
+                             <td>{retFlight.arrAirport}</td>
+                         </tr>
+                         
+                    <tr>
+                        <th>Time</th>
+                        <td>{retFlight.departureTime.substring(0,10)+' '+ retFlight.departureTime.substring(11,16)}</td>
+                    </tr>
+
+                    <tr>
+                        <th>Price</th>
+                        <td>{retPrice}</td>
+                    </tr>
+
+                    <tr>
+                       <th>Cabin</th>
+                        <td>{retCabin}</td>
+                    </tr>
+
+               </table>
+               
+
+               {/* for the table
+                */}
+               </div> 
+               {/* for the table
+                */}
+               </div>
 
             
             {loggedIN && <button className="confirm-disha" onClick={chooseSeats}>Proceed to Payment</button>}
             {!loggedIN && <button className="confirm-disha" onClick={fakeSignIn}>Sign in and proceed to seating</button>}
-            
-
+             
+            <Footer/>
             </div>
     );
 }
