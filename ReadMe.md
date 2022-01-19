@@ -209,7 +209,7 @@ Youssef Amro - [LinkedIn](https://www.linkedin.com/in/youssef-amr-aab4891b8/) - 
 [issues-shield]: https://img.shields.io/github/issues/Attawia/Majesty-Grill.svg?style=for-the-badge
 [issues-url]: https://github.com/Attawia/Majesty-Grill/issues
 [license-shield]: https://img.shields.io/github/license/Attawia/Majesty-Grill.svg?style=for-the-badge
-[license-url]: https://github.com/Attawia/Majesty-Grill/LICENSE.txt
+[license-url]: https://github.com/Attawia/Majesty-Grill/blob/main/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/ahmedattawia
 [product-screenshot]: images/screenshot.png
