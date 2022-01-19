@@ -272,7 +272,19 @@ export const updateFlight = async (req,res) =>{
     
         res.status(201).json(updatedflight);
         
-    }
+    
+
+
+    await Reservation.updateMany( { flightReturn : oldFlightNo},
+
+        {timeReturn: updatedflight.departureTime,
+        flightReturn:updatedflight.flightNo} );
+
+    res.status(201).json(updatedflight);
+        }
+    
+
+
     catch(error){
         res.status(409).json({message:error.message});
     }

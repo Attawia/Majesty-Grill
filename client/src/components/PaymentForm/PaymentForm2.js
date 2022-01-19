@@ -4,18 +4,18 @@ import useStyles from './styles.js';
 import {Link,useHistory,useLocation} from "react-router-dom";
 import { useEffect, useState } from "react";
 import { makePayment } from '../../actions/paymentForm'
-
+import Navbar from '../Navbar/Navbar.js'
 
 
 
 const PaymentForm = () => {
     const history = useHistory();
     const location = useLocation();
-    const depFlightDest = "";
-    const retFLightDest = "";
-    const reservationDest = "";
-    const difference = 0;
-    const toDest = "";
+    let depFlightDest = "";
+    let retFlightDest = "";
+    let reservationDest = "";
+    let difference = "";
+    let toDest = "";
 
     
     let [destFlag,setDestFlag] = react.useState(false);
@@ -27,25 +27,25 @@ const PaymentForm = () => {
         const {price} = location.state;
         const {to} = location.state;
         depFlightDest = depFlight;
-        retFLightDest = retFlight;
+        retFlightDest = retFlight;
         reservationDest = reservation;
         difference = price;
         toDest = to;
-        setDestFlag(true);
+        if(!destFlag)
+          setDestFlag(true);
     }catch(error){
-
+        console.log(error.message)
     }
 
 
-    console.log("1 " + price);
-    const [amount,setAmount] = react.useState(0);
+
+    let [amount,setAmount] = react.useState(0);
 
     useEffect(()=>
     {
-        setAmount(price);
-    console.log("2 " + price);
+        setAmount(difference);
 
-    },[price]);
+    },[difference]);
 
     const [paymentInfo,setPaymentInfo] = react.useState({
         cardNo : "",
@@ -92,9 +92,12 @@ const PaymentForm = () => {
             setSuccessFlag(true);
         }
         await timeout(1000);
+        const reservation = reservationDest;
+        const retFlight = retFlightDest;
+        const depFlight = depFlightDest;
         history.push({
             pathname: toDest,
-            state:{reservationDest,depFlightDest,retFLightDest}
+            state:{reservation,depFlight,retFlight}
           });
           window.location.reload();
         }
@@ -132,25 +135,21 @@ const PaymentForm = () => {
 
     return(
         <div>{ !successFlag && destFlag &&
-        <Paper>
-        <form autoComplete="off" noValidate onSubmit={Submit}>
-        <Link to={`/usersearch`}>
-            <button>
-                Home 
-                </button>
-            </Link>
+        
+        <form autoComplete="off" align="center" noValidate onSubmit={Submit}>
+            <Navbar/>
             <h1 variant="h5">Confirm Payment of {amount}€</h1>
             <h4>{message}</h4>
             <TextField  name="Cardholder's Name" label="Cardholder's Name"   variant="outlined"  value={paymentInfo.name} onChange={(e) => setPaymentInfo({...paymentInfo, custName : e.target.value})}/><br/><br/>
             <TextField  name="Card Number"  variant="outlined" label="Card Number"  value={paymentInfo.cardNo} onChange={onChangeCard}/><br/>
-            <TextField  name="CVV" type="password"  label="CVV" margin="dense" style={{width: 70}}  variant="outlined"  value={paymentInfo.cvv} onChange={onChangeCvv}/> 
-            <TextField  name="Expiry Date"  margin="dense" style={{width: 50}} variant="outlined" label="MM"  value={paymentInfo.expiryMonth} onChange={onChangeM}/>
+            <TextField  name="CVV" type="password"  label="CVV" margin="dense" style={{width: 70}}  variant="outlined"  value={paymentInfo.cvv} onChange={onChangeCvv}/> <element className="bb"></element>
+            <TextField  name="Expiry Date"  margin="dense" style={{width: 50}} variant="outlined" label="MM"  value={paymentInfo.expiryMonth} onChange={onChangeM}/><element className="bb"></element>
             <TextField  name="Expiry Date"  margin="dense" style={{width: 50}} variant="outlined" label="YY"  value={paymentInfo.expiryYear} onChange={onChangeY}/><br/>
-           
-            <Button onClick={Submit} className={classes.buttonSubmit}>Pay</Button>
+           <br/>
+            <button onClick={Submit} className={classes.buttonSubmit}>Pay</button>
 
         </form>
-    </Paper>}
+    }
     {successFlag && destFlag && <h3>Payment Successful, redirecting...</h3>}
     {!destFlag && <h2>hena</h2>}
 
