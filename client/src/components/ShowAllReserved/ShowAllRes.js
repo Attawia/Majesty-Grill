@@ -2,7 +2,8 @@ import {  Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { changePassword, getUsername, isGuest } from "../../api/auth";
 import SelectedFlight from "../SelectedFlight/SelectedFlight";
-import Navbar from "../Navbar/Navbar";
+import Navbar from '../Navbar/Navbar';
+import Footer from '../Footer/Footer'
 
 import './style.css';
 import {getEmailCaller, cancelReservation, getAllCaller, getAll, sendItinerary} from '../../actions/ShowAllRes'
@@ -24,12 +25,15 @@ const [resAndF, setRestAndF] = useState({
 })
 
 const [currUser,setCurrUser] = useState(null);
+
 const [loggedIN, setLogged] = useState(true);
+
 const [selected, setSelected] = useState(false);
 const [isPending, setIsPending] = useState(true);
 const [flagAllowed, setAllowed] = useState(true);
 
 const [flag, setFlag] = useState(false);
+
 const [email, setEmail] = useState(false);
 
 
@@ -140,6 +144,7 @@ console.log("after setAllowed: " + count);
             <button>Back</button>
     </Link>
     }
+
         
         
         
@@ -210,10 +215,14 @@ console.log("after setAllowed: " + count);
                              
                              
                              <tr>
-                                 <th>Time</th>
-                                 <td>{reservation.timeDeparture}</td>
+                                 <th>Date</th>
+                                 <td>{reservation.timeDeparture.substring(0, 10)}</td>
                              </tr>
 
+                             <tr>
+                                 <th>Time</th>
+                                 <td>{reservation.timeDeparture.substring(11, 16)}</td>
+                             </tr>
     
                              <tr>
                                  <th>Price</th>
@@ -256,10 +265,15 @@ console.log("after setAllowed: " + count);
                                  <td>{reservation.from}</td>
                              </tr>
                              
-                        <tr>
-                            <th>Time</th>
-                            <td>{reservation.timeReturn}</td>
-                        </tr>
+                             <tr>
+                                 <th>Date</th>
+                                 <td>{reservation.timeReturn.substring(0, 10)}</td>
+                             </tr>
+
+                             <tr>
+                                 <th>Time</th>
+                                 <td>{reservation.timeReturn.substring(11, 16)}</td>
+                             </tr>
     
                         <tr>
                             <th>Price</th>
@@ -365,7 +379,14 @@ console.log("after setAllowed: " + count);
 
 
 }
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
 
+ <Footer/> 
 
 </div>}
     </div> );

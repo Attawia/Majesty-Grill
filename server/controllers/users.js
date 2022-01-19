@@ -48,7 +48,8 @@ export const getAllReservations = async (req, res)=>
     try
     {
     
-        const reservations = await Reservation.find({userName: currUser});
+    const reservations = await Reservation.find({userName: currUser});
+
     
     res.status(200).json(reservations);
     }

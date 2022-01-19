@@ -112,10 +112,15 @@ const FlightDetails = () => {
         </button>
         </Link>
 
-        
-        <button onClick={Update}>
+     {  flight &&  <Link to={
+            {
+          pathname: `/flights/updateflight/${id}`,
+          state : {oldFlightNo : flight.flightNo}
+        }}>
+        <button>
              Update 
              </button>
+        </Link> }
 
         
     </div>}
