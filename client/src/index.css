@@ -2,6 +2,7 @@
 
 
 div{
+  font-family:Trebuchet MS, sans-serif;
   color:#0D0F45;
 }
 
@@ -17,6 +18,7 @@ div{
     box-shadow: 1px 3px 5px rgba(0,0,0,0.1);
    background-color:#25289b;
   }
+
   .flights-preview h2 {
     font-size: 20px;
   color: #ffffff;
@@ -30,11 +32,17 @@ div{
   .flightname h2{
     color:white;
   }
-
+  h1{
+    font-family: Impact, fantasy;
+  }
 
   h3{
     text-align: right;
     color: #ffffff;
+   }
+
+   h4{
+     color:#ff0000;
    }
   
   h6{
@@ -42,8 +50,19 @@ div{
     text-align: center;
   }
   button{
-    color:white;
-    background-color:#0D0F45 ;
+    font-family:Trebuchet MS, sans-serif;
+    display:inline-block;
+    padding:0.3em 1.2em;
+    margin:0 0.3em 0.3em 0;
+    border-radius:2em;
+    box-sizing: border-box;
+    color:#FFFFFF;
+    background-color:#0D0F45;
+    text-align:center;
+    transition: all 0.2s;
+  }
+  button:hover{
+    background-color:#25289b;
   }
   form{
     color:#0D0F45;
@@ -58,11 +77,9 @@ div{
     background-color:#0D0F45;
     text-align:center;
     transition: all 0.2s;
-    width: 10%;
-    height: 40px;
   }
   
-  .button.search:hover{
+  button.search:hover{
     background-color:#25289b;
   }
   
@@ -70,12 +87,16 @@ div{
     background-color:#0D0F45;
     color: #FFFFFF;
     border-radius:2em;
+    width: 2%;
+    height: 2%;
   }
   
   button.minus{
     background-color:#0D0F45;
     color: #FFFFFF;
     border-radius:2em;
+    width: 2%;
+    height: 2%;
   }
   
   button.plus:hover{
@@ -87,3 +108,6 @@ div{
   }
 
 
+button.minus:hover{
+  background-color:#25289b;
+}
