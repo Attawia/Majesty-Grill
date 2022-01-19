@@ -11,7 +11,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/Attawia/Majesty-Grill">
-    <img src="client/src/components/Navbar/logo.png" alt="Logo" width="80" height="80">
+    <img src="client/src/components/Navbar/logo.png" alt="Logo" width="120" height="120">
   </a>
 
 <h3 align="center">Majesty Airlines</h3>
