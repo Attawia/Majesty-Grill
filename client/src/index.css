@@ -4,6 +4,7 @@
 div{
   font-family:Trebuchet MS, sans-serif;
   color:#0D0F45;
+  font-family:Trebuchet MS, sans-serif;
 }
 
 .flights-preview {
@@ -13,6 +14,7 @@ div{
     width: 45%;
     float: left;
     border: 10px solid #FFFFFF;
+    border-radius:1.5em;
   }
   .flights-preview:hover {
     box-shadow: 1px 3px 5px rgba(0,0,0,0.1);
