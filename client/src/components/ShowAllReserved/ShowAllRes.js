@@ -13,7 +13,6 @@ const x = [8, 9, 10];
 
 
 const ShowAllReserved = () => {
-
 const [data, setData] = useState({
     empty : false,
     cancel: false,

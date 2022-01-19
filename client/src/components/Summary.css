@@ -85,6 +85,17 @@
 }
 .confirm-disha{
     position: absolute;
-    top: 505px;
+    top: 520px;
     right: 100px;
+}
+.one{
+    background-color: #0D0F45;
+    color: #ffffff;
+}
+.two{
+    background-color: #ffffff;
+    color: #0D0F45;
+}
+.tabledisha{
+    background-color: #0D0F45;
 }

@@ -49,6 +49,7 @@ export const getAllReservations = async (req, res)=>
     {
     
     const reservations = await Reservation.find({userName: currUser});
+
     
     res.status(200).json(reservations);
     }

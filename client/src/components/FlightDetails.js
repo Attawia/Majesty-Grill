@@ -1,13 +1,14 @@
-import {  useParams,Link } from "react-router-dom";
+import {  useParams,Link,useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { authorize } from "../api/auth";
 import { GetFlightById } from "../actions/index.js";
+import Navbar from './Navbar/Navbar.js';
 
 import api from "../api/index.js";
 
 
 const FlightDetails = () => {
-
+    const history= useHistory();
     const {id} = useParams();
     const [flight, setFlight] = useState(null);
 
@@ -49,9 +50,15 @@ const FlightDetails = () => {
         
     }
 
+    const Update=()=>{
+        history.push(`/flights/updateflight/${id}`);
+        window.location.reload();
+    }
+
 
     return ( 
         <div>
+            <Navbar/>
     {allowed && <div>
         
         <Link to={`/flights/`}>
@@ -114,6 +121,7 @@ const FlightDetails = () => {
              Update 
              </button>
         </Link> }
+
         
     </div>}
     {!allowed && <h3>Forbidden</h3>}

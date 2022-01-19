@@ -152,10 +152,3 @@ const PaymentForm = () => {
     }
     {successFlag && destFlag && <h3>Payment Successful, redirecting...</h3>}
     {!destFlag && <h2>hena</h2>}
-
-    </div>
-        )
-
-}
-
-export default PaymentForm;
