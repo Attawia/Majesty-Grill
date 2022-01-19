@@ -7,6 +7,8 @@ import { Link,useHistory,useLocation} from 'react-router-dom';
 import { getUsername } from '../../api/auth';
 import { getEmailCaller } from '../../actions/ShowAllRes';
 import './seats.scss';
+import Navbar from '../Navbar/Navbar.js';
+import Footer from '../Footer/Footer.js';
 
 
 // let seatarray=[{seatName: "1",state:true},
@@ -211,12 +213,15 @@ const Seat =  () => {
   // });
   setflag(true);
 }
-  },[retFlight,reservation,display]);
+  },[retFlight,reservation,display, currUser]);
+
+
   useEffect(()=>{
     
     function setflag2func(){
+      console.log(reservation.cabinReturn);
       let j=1;
-      if(reservation.cabinDeparture=='Economy'){
+      if(reservation.cabinReturn=='Economy'){
         for(let i=1;i<=business;i++){
           document.getElementById(""+i).disabled="disabled";
         }
@@ -271,7 +276,7 @@ const Submit=(e)=>{
     reservation = {...reservation,seatReturn:reserved};
     console.log(reservation);
     axios.all([
-    axios.post('http://localhost:5000/sendemail/itineraryemail',{userEmail:email,reservation}),
+    axios.post('http://localhost:5000/sendemail/itineraryemail',{userEmail:email, reservation}),
     axios.patch('http://localhost:5000/flights/reserveseats/',sent),
     axios.post('http://localhost:5000/flights/addreservation/',reservation)]);
     history.push('/summaryreservation/');
@@ -286,6 +291,7 @@ const Submit=(e)=>{
     
   return(
     <div>
+      <Navbar/>
       <button onClick={back}>Back</button>
       <u><h1>Please Select Return Flight Seats</h1></u>
       {display}

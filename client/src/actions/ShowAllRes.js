@@ -68,9 +68,14 @@ const sendItinerary = async(userEmail, reservation)=>
 {
     
     //console.log("inside cancelReservation: " + userEmail);    
-  const resp = await axios.post('http://localhost:5000/sendEmail/itineraryEmail', {userEmail, reservation})
-     
-    console.log(resp.data);    
+  const resp =  axios.post('http://localhost:5000/sendEmail/itineraryEmail', {userEmail, reservation})
+
+  setInterval(() => {
+    console.log("gowa el set interval ya zmeeeky ya zmeeky");
+    window.location.reload();
+}, 3000);
+
+    //console.log(resp.data);    
 
     
 }

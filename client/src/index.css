@@ -2,6 +2,7 @@
 
 
 div{
+  font-family:Trebuchet MS, sans-serif;
   color:#0D0F45;
   font-family:Trebuchet MS, sans-serif;
 }
@@ -33,11 +34,17 @@ div{
   .flightname h2{
     color:white;
   }
-
+  h1{
+    font-family: Impact, fantasy;
+  }
 
   h3{
     text-align: right;
     color: #ffffff;
+   }
+
+   h4{
+     color:#ff0000;
    }
   
   h6{
@@ -45,6 +52,7 @@ div{
     text-align: center;
   }
   button{
+    font-family:Trebuchet MS, sans-serif;
     display:inline-block;
     padding:0.3em 1.2em;
     margin:0 0.3em 0.3em 0;

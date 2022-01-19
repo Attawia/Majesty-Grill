@@ -11,18 +11,36 @@ const amountE = amount + '€';
 const PaymentForm = () => {
     const history = useHistory();
     const location = useLocation();
-    const {flight} = location.state;
-    const {type} = location.state;
-    const {reservation} = location.state;
-    const {difference} = location.state;
-    const {to} = location.state;
+    const flightDest = "";
+    const typeDest = "";
+    const reservationDest = "";
+    const differenceDest = "";
+    const toDest = "";
+
+    let [destFlag,setDestFlag] = react.useState(false);
+
+    try{
+        const {flight} = location.state;
+        const {type} = location.state;
+        const {reservation} = location.state;
+        const {difference} = location.state;
+        const {to} = location.state;
+        flightDest = flight;
+        typeDest = type;
+        reservationDest = reservation;
+        differenceDest = difference;
+        toDest = to;
+        setDestFlag(true);
+    }catch(error){
+
+    }
 
     const [amount,setAmount] = react.useState(0);
 
     useEffect(()=>
     {
-        setAmount(difference);
-    },[difference]);
+        setAmount(differenceDest);
+    },[differenceDest]);
 
     const [paymentInfo,setPaymentInfo] = react.useState({
         cardNo : "",
@@ -44,33 +62,34 @@ const PaymentForm = () => {
     }
 
     const Submit = async (e) =>{
-        setMessage("");
+        //setMessage("");
         e.preventDefault();
-        if(paymentInfo.cardNo.length != 16){
-            setMessage(message += "Card number invalid \n");
-        }
         const namere = /[a-zA-Z]+\s[a-zA-Z]+[\s[a-zA-Z]*/;
-        if(!(namere.test(paymentInfo.custName))){
-            setMessage(message += "Name invalid \n");
+        if(paymentInfo.cardNo.length != 16){
+            setMessage("Card number invalid");
         }
-        if(paymentInfo.cvv.length != 3){
-            setMessage(message += "CVV invalid \n");
+
+        else if(!(namere.test(paymentInfo.custName))){
+            setMessage("Name invalid");
         }
-        if(paymentInfo.expiryMonth < 1 || paymentInfo.expiryMonth >12){
-            setMessage(message += "Month should be between 1 and 12");
+        else if(paymentInfo.cvv.length != 3){
+            setMessage("CVV invalid");
         }
-        if(paymentInfo.expiryYear < 22){
-            setMessage(message += "Expiry Year cannot be in the past");
+        else if(paymentInfo.expiryMonth < 1 || paymentInfo.expiryMonth >12){
+            setMessage("Month should be between 1 and 12");
         }
-        if(message == ""){
+        else if(paymentInfo.expiryYear < 22){
+            setMessage("Expiry Year cannot be in the past");
+        }
+        else{
         const res = await makePayment({amount: amount*100});
         if(res.status == 200){
             setSuccessFlag(true);
         }
         await timeout(1000);
         history.push({
-            pathname: to,
-            state:{reservation,type,flight}
+            pathname: toDest,
+            state:{reservationDest,typeDest,flightDest}
           });
           window.location.reload();
         }
@@ -107,16 +126,16 @@ const PaymentForm = () => {
 
 
     return(
-        <div>{ !successFlag &&
+        <div>{ !successFlag && destFlag &&
         <Paper>
         <form autoComplete="off" noValidate onSubmit={Submit}>
-        <Link to={`/flights/`}>
+        <Link to={`/usersearch`}>
             <button>
                 Home 
                 </button>
             </Link>
             <h1 variant="h5">Confirm Payment of {amount}€</h1>
-            <h1 variant="h5">{message}</h1>
+            <div>{message}</div>
             <TextField  name="Cardholder's Name" label="Cardholder's Name"   variant="outlined"  value={paymentInfo.name} onChange={(e) => setPaymentInfo({...paymentInfo, custName : e.target.value})}/><br/><br/>
             <TextField  name="Card Number"  variant="outlined" label="Card Number"  value={paymentInfo.cardNo} onChange={onChangeCard}/><br/>
             <TextField  name="CVV" type="password"  label="CVV" margin="dense" style={{width: 70}}  variant="outlined"  value={paymentInfo.cvv} onChange={onChangeCvv}/> 
@@ -127,7 +146,9 @@ const PaymentForm = () => {
 
         </form>
     </Paper>}
-    {successFlag && <h3>Payment Successful, redirecting...</h3>}
+    {successFlag && destFlag && <h3>Payment Successful, redirecting...</h3>}
+    {!destFlag && <h3>Hena</h3>}
+
     </div>
         )
 
