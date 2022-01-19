@@ -3,6 +3,7 @@ import './Navbar.css';
 import {Link, useHistory} from 'react-router-dom';
 import logo from './logofinal.png';
 import name from './name.png';
+import {getUsername} from './../../api/auth.js'
 
 const Navbar = ()=>{
   const clicked = ()=>{

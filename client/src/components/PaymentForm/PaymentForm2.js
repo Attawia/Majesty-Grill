@@ -11,11 +11,11 @@ import { makePayment } from '../../actions/paymentForm'
 const PaymentForm = () => {
     const history = useHistory();
     const location = useLocation();
-    const depFlightDest = "";
-    const retFLightDest = "";
-    const reservationDest = "";
-    const difference = 0;
-    const toDest = "";
+    let depFlightDest = "";
+    let retFlightDest = "";
+    let reservationDest = "";
+    let difference = 0;
+    let toDest = "";
 
     
     let [destFlag,setDestFlag] = react.useState(false);
@@ -27,7 +27,7 @@ const PaymentForm = () => {
         const {price} = location.state;
         const {to} = location.state;
         depFlightDest = depFlight;
-        retFLightDest = retFlight;
+        retFlightDest = retFlight;
         reservationDest = reservation;
         difference = price;
         toDest = to;
@@ -37,15 +37,14 @@ const PaymentForm = () => {
     }
 
 
-    console.log("1 " + price);
+
     const [amount,setAmount] = react.useState(0);
 
     useEffect(()=>
     {
-        setAmount(price);
-    console.log("2 " + price);
+        setAmount(difference);
 
-    },[price]);
+    },[difference]);
 
     const [paymentInfo,setPaymentInfo] = react.useState({
         cardNo : "",
@@ -92,9 +91,13 @@ const PaymentForm = () => {
             setSuccessFlag(true);
         }
         await timeout(1000);
+        const to = toDest;
+        const reservation = reservationDest;
+        const depFlight = depFlightDest;
+        const retFlight = retFlightDest;
         history.push({
-            pathname: toDest,
-            state:{reservationDest,depFlightDest,retFLightDest}
+            pathname: to,
+            state:{reservation,depFlight,retFlight}
           });
           window.location.reload();
         }
