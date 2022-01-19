@@ -105,11 +105,15 @@ const FlightDetails = () => {
         </button>
         </Link>
 
-        <Link to={`/flights/updateflight/${id}`}>
+     {  flight &&  <Link to={
+            {
+          pathname: `/flights/updateflight/${id}`,
+          state : {oldFlightNo : flight.flightNo}
+        }}>
         <button>
              Update 
              </button>
-        </Link>
+        </Link> }
         
     </div>}
     {!allowed && <h3>Forbidden</h3>}
