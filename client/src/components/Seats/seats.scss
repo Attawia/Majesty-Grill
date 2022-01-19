@@ -46,7 +46,7 @@ input[type=checkbox] {
   transform-style: preserve-3d;
   transition: background-color 0.24s ease;
   &:hover {
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: #0D0F45;
     .aisle-number {
       background-color: #176cff;
       transform: translateX(-50%) translateY(-50%) translateZ(3px);
@@ -60,12 +60,7 @@ input[type=checkbox] {
   }
 }
 
-// label {
-//   background-color: #757575;
-//   display: block;
-//   height: 100%;
-//   position: relative;
-// }
+
 
 .seat-label {
   display: block;
@@ -292,5 +287,8 @@ input[type=checkbox] {
   margin: -1px;
   padding: 0;
   border: 0;
+}
+h2.CabinName{
+  font:small-caps bold 24px/1 sans-serif;
 } 
 
