@@ -52,8 +52,6 @@ div{
     background-color:#0D0F45;
     text-align:center;
     transition: all 0.2s;
-    width: 10%;
-    height: 40px;
   }
   button:hover{
     background-color:#25289b;

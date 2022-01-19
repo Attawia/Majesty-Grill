@@ -7,6 +7,7 @@ import {getUsername} from './../../api/auth.js'
 import {FaSearch,FaPlus,FaMinus,FaPlaneDeparture,FaPlaneArrival,FaPlane} from "react-icons/fa"
 import Navbar from '../Navbar/Navbar.js';
 import Footer from '../Footer/Footer.js';
+import _ from 'lodash';
 
 let flag=false;
 const UserSearch = () => {
@@ -33,7 +34,7 @@ const UserSearch = () => {
         var a = this.concat();
         for(var i=0; i<a.length; ++i) {
             for(var j=i+1; j<a.length; ++j) {
-                if(a[i] === a[j])
+                if(_.isEqual(a[i],a[j]))
                     a.splice(j--, 1);
             }
         }
@@ -99,11 +100,6 @@ const UserSearch = () => {
             console.log(searchedFlights);
         })
         setFooterVisible(false);
-
-        /*let arr1 = [1,2,3,4];
-        let arr2 = [4,5,6,7];
-        let arr3 = arr1.concat(arr2).unique();
-        console.log(arr3);*/
     }
 
     function openPopUp(flightNo){
@@ -192,15 +188,15 @@ const UserSearch = () => {
             <h2></h2>
             <label>      Departure Time:      </label>
             <TextField
-            type="datetime-local"
+            type="date"
             name="Departure Time"
-            onChange={(e) => setCriteria({...criteria, departureTime : e.target.value})}
+            onChange={(e) => setCriteria({...criteria, departureTime : e.target.value + '' + 'T00:00:00.000Z'})}
             />
             <label>      Arrival Time:      </label>
             <TextField
-            type="datetime-local"
+            type="date"
             name="Arrival Time"
-            onChange={(e) => setCriteria({...criteria, arrivalTime : e.target.value})}
+            onChange={(e) => setCriteria({...criteria, arrivalTime : e.target.value + '' + 'T00:00:00.000Z'})}
             />
             <label>      Cabin Class:      </label>
             <TextField
