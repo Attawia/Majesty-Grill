@@ -5,18 +5,34 @@ import {Link,useHistory,useLocation} from "react-router-dom";
 import { useEffect, useState } from "react";
 import { makePayment } from '../../actions/paymentForm'
 
-const amount = 100
-const amountE = amount + '€'; 
 
 const PaymentForm = () => {
     const history = useHistory();
     const location = useLocation();
-    const {depFlight} = location.state;
-    const {retFlight} = location.state;
-    const {reservation} = location.state;
-    const {price} = location.state;
-    const difference = price;
-    const {to} = location.state;
+    const depFlightDest = "";
+    const retFLightDest = "";
+    const reservationDest = "";
+    const difference = 0;
+    const toDest = "";
+
+    
+    let [destFlag,setDestFlag] = react.useState(false);
+
+    try{
+        const {depFlight} = location.state;
+        const {retFlight} = location.state;
+        const {reservation} = location.state;
+        const {price} = location.state;
+        const {to} = location.state;
+        depFlightDest = depFlight;
+        retFLightDest = retFlight;
+        reservationDest = reservation;
+        difference = price;
+        toDest = to;
+        setDestFlag(true);
+    }catch(error){
+
+    }
 
     const [amount,setAmount] = react.useState(0);
 
@@ -70,8 +86,8 @@ const PaymentForm = () => {
         }
         await timeout(1000);
         history.push({
-            pathname: to,
-            state:{reservation,depFlight,retFlight}
+            pathname: toDest,
+            state:{reservationDest,depFlightDest,retFLightDest}
           });
           window.location.reload();
         }
@@ -108,7 +124,7 @@ const PaymentForm = () => {
 
 
     return(
-        <div>{ !successFlag &&
+        <div>{ !successFlag && destFlag &&
         <Paper>
         <form autoComplete="off" noValidate onSubmit={Submit}>
         <Link to={`/flights/`}>
@@ -128,7 +144,8 @@ const PaymentForm = () => {
 
         </form>
     </Paper>}
-    {successFlag && <h3>Payment Successful, redirecting...</h3>}
+    {successFlag && destFlag && <h3>Payment Successful, redirecting...</h3>}
+    {!destFlag && <h2>hena</h2>}
     </div>
         )
 
