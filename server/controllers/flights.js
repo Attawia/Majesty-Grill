@@ -1,5 +1,6 @@
 import Flight from '../models/Flight.js'
 import Reservation from '../models/Reservation.js'
+import _ from 'lodash';
 
 const getNextDay = (today) =>{
     let split = today.split('-');
@@ -28,6 +29,27 @@ const getNextDay = (today) =>{
     }
     let final = year + "-" + month + "-" + day + "T00:00:00.000Z";
     return final;
+}
+
+const getIntersection = (Obj1,Obj2) =>{
+    let list = [];
+    //getting common elements
+    for(let i=0;i<Obj1.length;i++){
+        for(let j=0; j<Obj2.length ;j++){
+            if(_.isEqual(Obj1[i],Obj2[j])){
+                list.push(Obj1[i]);
+            }
+        }
+    }
+    //removing duplicates
+    for(let i = 0; i<list.length-1; i++){
+        for(let j=i+1;j<list.length;j++){
+            if(_.isEqual(list[i],list[j])){
+                list.splice(j--,1);
+            }
+        }
+    }
+    return list;
 }
 
 export const getCreate = (req,res) => {
@@ -95,12 +117,24 @@ export const updateReservation = async(req,res)=>{
 {
     const id = req.params.id;
 
-    Flight.findByIdAndDelete(id)
+    
+     Flight.findByIdAndDelete(id)
       .then((result)=>
       {
-          console.log(result);
+          
+         Reservation.deleteMany({ $or: [ { flightDeparture: result.flightNo }, { flightReturn: result.flightNo } ]})
+          .then((result)=>{
+              
+          })
+    
       })
       .catch(err=> console.log(err));
+
+      //
+       
+    
+    
+    
 }
 
 
@@ -228,7 +262,9 @@ export const updateFlight = async (req,res) =>{
     const updatedflight = req.body.flight;
     try{
         await Flight.findByIdAndUpdate(_id,updatedflight);
+        
         res.status(201).json(updatedflight);
+        
     }
     catch(error){
         res.status(409).json({message:error.message});
@@ -270,19 +306,71 @@ export const searchAllFlights = async (req,res) => {
 
     export const searchFlightsUser = async (req,res) => {
         const wholeCriteria = req.body;
-            const criteria = wholeCriteria.criteria
+        const criteria = wholeCriteria.criteria
+        console.log(criteria)
         try {
+            let searchedFLights = []
+            
+            if("departureTime" in criteria){
+                if("arrivalTime" in criteria){
+                    let depTime = criteria.departureTime
+                    let arrTime = criteria.arrivalTime
+                    await delete criteria.departureTime
+                    await delete criteria.arrivalTime
+                    let f1 = await Flight.find({
+                        $or: [ { departureTime: { $gt: depTime } }, { departureTime: depTime } ],
+                        departureTime: { $lt: getNextDay(depTime) },
+                        $or: [ { arrivalTime: { $gt: arrTime } }, { arrivalTime: arrTime } ],
+                        arrivalTime: { $lt: getNextDay(arrTime) }
+                    });
+                    let f2 = await Flight.find(criteria);
+                    searchedFLights = getIntersection(f1,f2);
+                }
+                else{
+                    let depTime = criteria.departureTime
+                    await delete criteria.departureTime
+                    console.log(criteria)
+                    console.log(depTime)
+                    console.log(getNextDay(depTime))
+                    let f1 = await Flight.find({
+                        $or: [ { departureTime: { $gt: depTime } }, { departureTime: depTime } ],
+                        departureTime: { $lt: getNextDay(depTime) }
+                    });
+                    let f2 = await Flight.find(criteria);
+                    /*console.log("/////////////////////////////////////////////////////////////")
+                    console.log(f1)
+                    console.log("/////////////////////////////////////////////////////////////")
+                    console.log("/////////////////////////////////////////////////////////////")
+                    console.log(f2)
+                    console.log("/////////////////////////////////////////////////////////////")
+                    let f1 = [1,2,3,4]
+                    let f2 = [3,4,5,6,7]*/
+                    /*console.log("/////////////////////////////////////////////////////////////")
+                    console.log(f1.concat(f2).unique())
+                    console.log("/////////////////////////////////////////////////////////////")*/
+                    searchedFLights = getIntersection(f1,f2);
+                }
+            }
+            else{
+                if("arrivalTime" in criteria){
+                    let arrTime = criteria.arrivalTime
+                    await delete criteria.arrivalTime
+                    let f1 = await Flight.find({
+                        $or: [ { arrivalTime: { $gt: arrTime } }, { arrivalTime: arrTime } ],
+                        arrivalTime: { $lt: getNextDay(arrTime) }
+                    });
+                    let f2 = await Flight.find(criteria);
+                    searchedFLights = getIntersection(f1,f2);
+                }
+                else{
+                    searchedFLights = await Flight.find(criteria);
+                }
+            }
             
                 
-         const searchedFLights = await Flight.find(criteria);
-            // for(let i = 0;i < searchedFLights.length;i++){
-            //     if(searchedFLights[i].freeEconomySeats < passengersNo && searchedFLights[i].freeBusinessSeats < passengersNo){
-            //         searchedFLights.splice(i,1);
-            //     }
-            // }
+         
         
-    
-        res.status(200).json(searchedFLights);
+            res.status(200).json(searchedFLights);
         } catch (error) {
             res.status(404).json({message : error.message});
         }

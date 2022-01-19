@@ -11,18 +11,36 @@ const amountE = amount + '€';
 const PaymentForm = () => {
     const history = useHistory();
     const location = useLocation();
-    const {flight} = location.state;
-    const {type} = location.state;
-    const {reservation} = location.state;
-    const {difference} = location.state;
-    const {to} = location.state;
+    const flightDest = "";
+    const typeDest = "";
+    const reservationDest = "";
+    const differenceDest = "";
+    const toDest = "";
+
+    let [destFlag,setDestFlag] = react.useState(false);
+
+    try{
+        const {flight} = location.state;
+        const {type} = location.state;
+        const {reservation} = location.state;
+        const {difference} = location.state;
+        const {to} = location.state;
+        flightDest = flight;
+        typeDest = type;
+        reservationDest = reservation;
+        differenceDest = difference;
+        toDest = to;
+        setDestFlag(true);
+    }catch(error){
+
+    }
 
     const [amount,setAmount] = react.useState(0);
 
     useEffect(()=>
     {
-        setAmount(difference);
-    },[difference]);
+        setAmount(differenceDest);
+    },[differenceDest]);
 
     const [paymentInfo,setPaymentInfo] = react.useState({
         cardNo : "",
@@ -70,8 +88,8 @@ const PaymentForm = () => {
         }
         await timeout(1000);
         history.push({
-            pathname: to,
-            state:{reservation,type,flight}
+            pathname: toDest,
+            state:{reservationDest,typeDest,flightDest}
           });
           window.location.reload();
         }
@@ -108,7 +126,7 @@ const PaymentForm = () => {
 
 
     return(
-        <div>{ !successFlag &&
+        <div>{ !successFlag && destFlag &&
         <Paper>
         <form autoComplete="off" noValidate onSubmit={Submit}>
         <Link to={`/usersearch`}>
@@ -128,7 +146,9 @@ const PaymentForm = () => {
 
         </form>
     </Paper>}
-    {successFlag && <h4>Payment Successful, redirecting...</h4>}
+    {successFlag && destFlag && <h3>Payment Successful, redirecting...</h3>}
+    {!destFlag && <h3>Hena</h3>}
+
     </div>
         )
 

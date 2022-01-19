@@ -213,7 +213,9 @@ const Seat =  () => {
   // });
   setflag(true);
 }
-  },[retFlight,reservation,display,currUser]);
+  },[retFlight,reservation,display, currUser]);
+
+
   useEffect(()=>{
     
     function setflag2func(){
@@ -274,7 +276,7 @@ const Submit=(e)=>{
     reservation = {...reservation,seatReturn:reserved};
     console.log(reservation);
     axios.all([
-    axios.post('http://localhost:5000/sendemail/itineraryemail',{userEmail:email,reservation}),
+    axios.post('http://localhost:5000/sendemail/itineraryemail',{userEmail:email, reservation}),
     axios.patch('http://localhost:5000/flights/reserveseats/',sent),
     axios.post('http://localhost:5000/flights/addreservation/',reservation)]);
     history.push('/summaryreservation/');

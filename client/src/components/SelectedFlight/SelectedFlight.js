@@ -100,7 +100,7 @@ getTheFlight()
 
                          <tr>
                          <th>Seat</th>
-                        <td> {reservation["seat"+type]}</td>
+                        <td> {reservation["seat"+type].toString()}</td>
                          </tr>
                     </table>
                     </div>

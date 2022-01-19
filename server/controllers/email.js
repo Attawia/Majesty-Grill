@@ -6,8 +6,8 @@ import { cancelReservation } from './users.js';
 var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'zaki17281@gmail.com',
-    pass: 'dplqaeevhboazqnx'
+    user: 'majestygrill4@gmail.com',
+    pass: 'jqkxaowoteqqzyts'
   }
 });
 
@@ -22,7 +22,7 @@ var transporter = nodemailer.createTransport({
     
   
   var mailOptions = {
-    from: 'zaki17281@gmail.com',
+    from: 'majestygrill4@gmail.com',
     to: userEmail,
     subject: 'Sending Email using Node.js',
 
@@ -46,9 +46,10 @@ var transporter = nodemailer.createTransport({
      const userEmail = req.body.userEmail;
     const {flightReturn, flightDeparture, from, to, timeReturn, timeDeparture, cabinReturn, cabinDeparture, seatReturn, seatDeparture} = req.body.reservation;
      console.log("el email el gdeed fel server: " + flightReturn)
+     console.log("el email : " + userEmail)
 
   var mailOptions = {
-    from: 'zaki17281@gmail.com',
+    from: 'majestygrill4@gmail.com',
     to: userEmail,
     subject: 'Sending Email using Node.js',
 
