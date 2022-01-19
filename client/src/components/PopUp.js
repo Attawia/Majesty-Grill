@@ -2,6 +2,7 @@ import {React,useEffect,useState} from 'react'
 import Try from './Try';
 import {Link, useLocation,useHistory} from "react-router-dom";
 import './Popup.css'
+import {FaSearch,FaPlus,FaMinus,FaPlaneDeparture,FaPlaneArrival,FaPlane,FaLuggageCart} from "react-icons/fa"
 
 let aloo2 = false;
 let aloo = false;
@@ -124,14 +125,14 @@ const retEco=()=>{
             {flag && <div className="popup">
                <div className="popup-inner">
                 <button className="close-btn" onClick={() => history.go(-1)}>close</button>   
-                <h4 id="details">Flight details</h4>
+                <h4 id="details"><FaPlane/> Flight details</h4>
                 <h6 id="number">Flight number:  {depFlight.flightNo}</h6>
-                <h6 id="departureBgad">Departure time:  {depFlight.departureTime}</h6>
-                <h6 id="arrivalBgad">Arrival time:  {depFlight.arrivalTime}</h6>
+                <h6 id="departureBgad">Departure time:  {depFlight.departureTime.substring(0,10)}  {depFlight.departureTime.substring(11,16)}</h6>
+                <h6 id="arrivalBgad">Arrival time:  {depFlight.arrivalTime.substring(0,10)}  {depFlight.arrivalTime.substring(11,16)}</h6>
                 <h6 id="duration">Flight duration:  {depFlight.tripDuration} Hours</h6>
-                <h6 id="depAirport">Departure airport:  {depFlight.depAirport}</h6>
-                <h6 id="arrAirport">Arrival airport: {depFlight.arrAirport}</h6>
-                <h6 id="baggage">Baggage allowance:  {depFlight.baggageAllowance}</h6>
+                <h6 id="depAirport"><FaPlaneDeparture/>  {depFlight.depAirport}</h6>
+                <h6 id="arrAirport"><FaPlaneArrival/>  {depFlight.arrAirport}</h6>
+                <h6 id="baggage"><FaLuggageCart/> Baggage allowance:  {depFlight.baggageAllowance}</h6>
                 <h6 id="priceEconomy">{depFlight.priceEconomy}€/Seat</h6>
                 <h6 id="priceBusiness">{depFlight.priceBusiness}€/Seat</h6>
                 
