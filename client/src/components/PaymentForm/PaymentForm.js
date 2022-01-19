@@ -5,8 +5,6 @@ import {Link,useHistory,useLocation} from "react-router-dom";
 import { useEffect, useState } from "react";
 import { makePayment } from '../../actions/paymentForm'
 
-const amount = 100
-const amountE = amount + '€'; 
 
 const PaymentForm = () => {
     const history = useHistory();
