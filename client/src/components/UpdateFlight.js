@@ -4,7 +4,9 @@ import { authorize } from "../api/auth";
 import react from 'react';
 import {TextField,Button,Paper,Typography} from '@material-ui/core';
 import {useParams} from 'react-router-dom';
-import { Link,useHistory} from 'react-router-dom';
+
+import { Link,useHistory, useLocation} from 'react-router-dom';
+
 import Navbar from './Navbar/Navbar.js';
 import Footer from './Footer/Footer.js';
 
@@ -13,9 +15,14 @@ const getPost = async (id) => {
     const flight = res.data;
     return flight;
 }
+
 var done = false;
 const UpdateFlight =  () => {
     const history = useHistory();
+    const location = useLocation();
+
+    const {oldFlightNo} = location.state;
+
     const {id} = useParams();
     const [flight,updateFlight] = useState({});
     if(!done){
@@ -52,7 +59,7 @@ const UpdateFlight =  () => {
 
         e.preventDefault(); 
         console.log(flight);
-        const updated = {_id:flight._id,flight:flight};
+        const updated = {_id:flight._id,flight:flight,oldFlightNo:oldFlightNo};
         const x = axios.patch('http://localhost:5000/flights/updateflight',updated);
         history.push('/flights/' + id);
 

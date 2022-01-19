@@ -5,6 +5,7 @@ import {useState} from 'react';
 import { getUsername,isGuest } from '../../api/auth.js';
 import logo from './logofinal.png';
 import name from './name.png';
+import {getUsername} from './../../api/auth.js'
 
 const Navbar = ()=>{
   const clicked = ()=>{

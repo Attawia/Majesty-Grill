@@ -92,5 +92,8 @@
 }
 
 #mainwrapper .minibuttonL, #mainwrapper .minibuttonC, #mainwrapper .minibuttonR, #mainwrapper .minibuttonRR {
-  padding-right: 13%; float:left; margin-right:20px;
+  padding-right: 13%;
+  float:left;
+  margin-right:20px;
+
 }

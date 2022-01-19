@@ -8,7 +8,7 @@
     display : flex ;
     justify-content : center ;
     align-items : center;
-
+    
 }
 
 
@@ -17,30 +17,49 @@
     padding : 200px;
     width: 100%;
     max-width : 900px;
-    background-color : #FFF;
-
+    background-color : #0D0F45;
+    border-radius:3em;
 }
 
 .popup-inner .close-btn{
     position: absolute;
     top: 16px;
     right: 16px;
+    background-color : #FFF;
+    color: #0D0F45;
+    font-weight: bold;
+}
+.popup-inner .close-btn:hover{
+  background-color : #F00;
 }
 .popup-inner .economy-seat{
     position: absolute;
     top: 350px;
     right: 350px;
+    background-color : #FFF;
+    color: #0D0F45;
+    font-weight: bold;
+}
+.popup-inner .economy-seat:hover{
+  background-color : #F00;
 }
 .popup-inner .business-seat{
     position: absolute;
     top: 350px;
     right: 550px;
+    background-color : #FFF;
+    color: #0D0F45;
+    font-weight: bold;
+}
+.popup-inner .business-seat:hover{
+  background-color : #F00;
 }
 #details {
     position: absolute;
     left: 40px;
     top: -50px;
     font-size: 50px;
+    color : #F00;
   }
 
 #number {
@@ -48,58 +67,68 @@
     left: 43px;
     top: 70px;
     font-size: 18px;
+    color : #FFF;
   }
   #departureBgad {
     position: absolute;
     left: 43px;
     top: 120px;
     font-size: 18px;
+    color : #FFF;
   }
   #arrivalBgad {
     position: absolute;
     left: 43px;
     top: 170px;
     font-size: 18px;
+    color : #FFF;
   }
   #duration {
     position: absolute;
     left: 43px;
     top: 220px;
     font-size : 18px;
+    color : #FFF;
   }
   #depAirport {
     position: absolute;
     left: 623px;
     top: 70px;
     font-size : 18px;
+    color : #FFF;
   }
   #arrAirport {
     position: absolute;
     left: 623px;
     top: 120px;
     font-size : 18px;
+    color : #FFF;
   }
   #baggage {
     position: absolute;
     left: 623px;
     top: 170px;
     font-size : 18px;
+    color : #FFF;
   }
   #priceDifference {
     position: absolute;
     left: 43px;
     top: 280px;
     font-size : 18px;
+    color : #FFF;
   }
   #priceEconomy {
     position: absolute;
     left: 440px;
     top: 280px;
     font-size : 18px;
+    color : #FFF;
   }
   #priceBusiness {
     position: absolute;
     left: 250px;
     top: 280px;
     font-size : 18px;
+    color : #FFF;
   }

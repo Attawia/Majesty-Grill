@@ -3,7 +3,9 @@ import axios from "axios";
 import {TextField,Button,Paper,Typography} from '@material-ui/core';
 import {Link, useLocation} from "react-router-dom";
 import Popup from './../Popup.js'
-import {FaSearch,FaPlus,FaMinus,FaPlaneDeparture,FaPlaneArrival,FaPlane} from "react-icons/fa"
+import {FaSearch,FaPlus,FaMinus,FaPlaneDeparture,FaPlaneArrival,FaPlane,FaRegCalendarAlt} from "react-icons/fa"
+import Navbar from '../Navbar/Navbar.js';
+import Footer from '../Footer/Footer.js';
 
 const UserSearchReturn = () => {
 
@@ -55,10 +57,11 @@ const UserSearchReturn = () => {
 
     return(
         <div>
+            <Navbar/>
             <Link to={`/UserSearch`}>
                 <button>Back</button>
             </Link>
-            <h6>Return Flights</h6>
+            <h6>Return Flights  <FaPlaneArrival/></h6>
             
             {resultedFlights.map(retFlight => (
                 <Link to={{ 
@@ -66,10 +69,10 @@ const UserSearchReturn = () => {
                     state : {depFlight,retFlight,reservation}
                     }}>
             <div className="flights-preview" key={retFlight.flightNo}>
-                <h2 className="flight-number">{retFlight.departureTime.substring(0,10)}</h2>
+                <h2 className="flight-number"><FaRegCalendarAlt/> {retFlight.departureTime.substring(0,10)}</h2>
                 <h2><FaPlaneDeparture/> { retFlight.depAirport}     {retFlight.departureTime.substring(11,16)}</h2>
                 <h2><FaPlaneArrival/> { retFlight.arrAirport}     {retFlight.arrivalTime.substring(11,16)}</h2>
-                <h3>Price:  {retFlight.priceEconomy}€    ~    {retFlight.priceBusiness}€</h3>
+                <h3>Price:  {Math.floor(retFlight.priceEconomy)}€    ~    {Math.floor(retFlight.priceBusiness)}€</h3>
             </div>
              </Link>
           ))}

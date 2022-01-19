@@ -3,6 +3,7 @@ import axios from "axios";
 import {TextField,Button,Paper,Typography} from '@material-ui/core';
 import {Link} from "react-router-dom";
 import { authorize } from "../api/auth";
+import {FaSearch,FaPlus,FaMinus,FaPlaneDeparture,FaPlaneArrival,FaPlane,FaLuggageCart,FaUserCircle,FaRegCalendarAlt} from "react-icons/fa"
 import Navbar from './Navbar/Navbar.js'
 import Footer from "./Footer/Footer";
 
@@ -88,15 +89,15 @@ const Home = () => {
             />
             <label>      Departure Time:      </label>
             <TextField
-            type="datetime-local"
+            type="date"
             name="Departure Time"
-            onChange={(e) => setCriteria({...criteria, departureTime : e.target.value})}
+            onChange={(e) => setCriteria({...criteria, departureTime : e.target.value + '' + 'T00:00:00.000Z'})}
             />
             <label>      Arrival Time:      </label>
             <TextField
-            type="datetime-local"
+            type="date"
             name="Arrival Time"
-            onChange={(e) => setCriteria({...criteria, arrivalTime : e.target.value})}
+            onChange={(e) => setCriteria({...criteria, arrivalTime : e.target.value + '' + 'T00:00:00.000Z'})}
             />
             <label>      Economy Seats:      </label>
             <TextField
@@ -143,17 +144,21 @@ const Home = () => {
           {flights.map(flight => (
               <Link to={`/flights/${flight._id}`}>
             <div className="flights-preview" key={flight._id} >
-                <h2>{flight.flightNo}</h2>
-                <p>{ flight.depAirport} =={">"} { flight.arrAirport} </p>
+                <h2 className="flight-number-admin">{flight.flightNo}</h2>
+                <h2><FaPlaneDeparture/> { flight.depAirport}</h2>
+                <h2><FaPlaneArrival/> { flight.arrAirport}</h2>
+                <h2 className="flight-date-admin"><FaRegCalendarAlt/>   { flight.departureTime.substring(0,10)}</h2>
             </div>
             </Link>
           ))}
           {searchedFlights.map(searchedFlight => (
               <Link to={`/flights/${searchedFlight._id}`}>
                 <div className="flights-preview" key={searchedFlight._id} >
-                    <h2>{searchedFlight.flightNo}</h2>
-                    <p>{ searchedFlight.depAirport} =={">"} { searchedFlight.arrAirport} </p>
-                   
+                    <h2 className="flight-number-admin">{searchedFlight.flightNo}</h2>
+                    <h2><FaPlaneDeparture/> { searchedFlight.depAirport}</h2>
+                    <h2><FaPlaneArrival/> { searchedFlight.arrAirport}</h2>
+                    <h2 className="flight-date-admin"><FaRegCalendarAlt/>   { searchedFlight.departureTime.substring(0,10)}</h2>
+
                 </div>
                 
             </Link>
