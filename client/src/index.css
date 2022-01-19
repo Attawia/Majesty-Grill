@@ -1,28 +1,113 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
 
+
+div{
+  font-family:Trebuchet MS, sans-serif;
+  color:#0D0F45;
+}
+
 .flights-preview {
-    padding: 10px 16px;
+  padding: 10px 16px;
     margin: 20px 0;
-    border-bottom: 1px solid #fafafa;
-    background-color: rgb(158, 174, 223);
+    background-color: #0D0F45;
+    width: 45%;
+    float: left;
+    border: 10px solid #FFFFFF;
   }
   .flights-preview:hover {
     box-shadow: 1px 3px 5px rgba(0,0,0,0.1);
-  }
-  .flights-preview h2 {
-    font-size: 20px;
-    color: #000000;
-    margin-bottom: 8px;
+   background-color:#25289b;
   }
 
-  
+  .flights-preview h2 {
+    font-size: 20px;
+  color: #ffffff;
+  margin-bottom: 8px;
+  }
+
+  h2.flight-number{
+    text-align: center;
+  }
+
+  .flightname h2{
+    color:white;
+  }
+  h1{
+    font-family: Impact, fantasy;
+  }
 
   h3{
     text-align: right;
-  }
+    color: #ffffff;
+   }
 
+   h4{
+     color:#ff0000;
+   }
+  
   h6{
     font-size: 30px;
     text-align: center;
   }
+  button{
+    font-family:Trebuchet MS, sans-serif;
+    display:inline-block;
+    padding:0.3em 1.2em;
+    margin:0 0.3em 0.3em 0;
+    border-radius:2em;
+    box-sizing: border-box;
+    color:#FFFFFF;
+    background-color:#0D0F45;
+    text-align:center;
+    transition: all 0.2s;
+  }
+  button:hover{
+    background-color:#25289b;
+  }
+  form{
+    color:#0D0F45;
+  }
+  button.search{
+    display:inline-block;
+    padding:0.3em 1.2em;
+    margin:0 0.3em 0.3em 0;
+    border-radius:2em;
+    box-sizing: border-box;
+    color:#FFFFFF;
+    background-color:#0D0F45;
+    text-align:center;
+    transition: all 0.2s;
+  }
+  
+  button.search:hover{
+    background-color:#25289b;
+  }
+  
+  button.plus{
+    background-color:#0D0F45;
+    color: #FFFFFF;
+    border-radius:2em;
+    width: 2%;
+    height: 2%;
+  }
+  
+  button.minus{
+    background-color:#0D0F45;
+    color: #FFFFFF;
+    border-radius:2em;
+    width: 2%;
+    height: 2%;
+  }
+  
+  button.plus:hover{
+    background-color:#25289b;
+  }
+  
+  button.minus:hover{
+    background-color:#25289b;
+  }
 
+
+button.minus:hover{
+  background-color:#25289b;
+}

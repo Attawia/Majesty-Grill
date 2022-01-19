@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { makePayment } from '../../actions/paymentForm'
 
 
+
+
 const PaymentForm = () => {
     const history = useHistory();
     const location = useLocation();
@@ -34,12 +36,16 @@ const PaymentForm = () => {
 
     }
 
+
+    console.log("1 " + price);
     const [amount,setAmount] = react.useState(0);
 
     useEffect(()=>
     {
-        setAmount(difference);
-    },[difference]);
+        setAmount(price);
+    console.log("2 " + price);
+
+    },[price]);
 
     const [paymentInfo,setPaymentInfo] = react.useState({
         cardNo : "",
@@ -49,7 +55,7 @@ const PaymentForm = () => {
         expiryYear : "",
     });
 
-    const [message,setMessage] = react.useState("");
+    let [message,setMessage] = react.useState("");
 
     const [successFlag,setSuccessFlag] = react.useState(false);
 
@@ -61,25 +67,26 @@ const PaymentForm = () => {
     }
 
     const Submit = async (e) =>{
-        message.setMessage("");
+        //setMessage("");
         e.preventDefault();
-        if(paymentInfo.cardNo.length != 16){
-            message += "Card number invalid \n";
-        }
         const namere = /[a-zA-Z]+\s[a-zA-Z]+[\s[a-zA-Z]*/;
-        if(!(namere.test(paymentInfo.custName))){
-            setMessage(message += "Name invalid \n");
+        if(paymentInfo.cardNo.length != 16){
+            setMessage("Card number invalid");
         }
-        if(paymentInfo.cvv.length != 3){
-            setMessage(message += "CVV invalid \n");
+
+        else if(!(namere.test(paymentInfo.custName))){
+            setMessage("Name invalid");
         }
-        if(paymentInfo.expiryMonth < 1 || paymentInfo.expiryMonth >12){
-            setMessage(message += "Month should be between 1 and 12");
+        else if(paymentInfo.cvv.length != 3){
+            setMessage("CVV invalid");
         }
-        if(paymentInfo.expiryYear < 22){
-            setMessage(message += "Expiry Year cannot be in the past");
+        else if(paymentInfo.expiryMonth < 1 || paymentInfo.expiryMonth >12){
+            setMessage("Month should be between 1 and 12");
         }
-        if(message == ""){
+        else if(paymentInfo.expiryYear < 22){
+            setMessage("Expiry Year cannot be in the past");
+        }
+        else{
         const res = await makePayment({amount: amount*100});
         if(res.status == 200){
             setSuccessFlag(true);
@@ -127,13 +134,13 @@ const PaymentForm = () => {
         <div>{ !successFlag && destFlag &&
         <Paper>
         <form autoComplete="off" noValidate onSubmit={Submit}>
-        <Link to={`/flights/`}>
+        <Link to={`/usersearch`}>
             <button>
                 Home 
                 </button>
             </Link>
             <h1 variant="h5">Confirm Payment of {amount}€</h1>
-            <h1 variant="h5">{message}</h1>
+            <h4>{message}</h4>
             <TextField  name="Cardholder's Name" label="Cardholder's Name"   variant="outlined"  value={paymentInfo.name} onChange={(e) => setPaymentInfo({...paymentInfo, custName : e.target.value})}/><br/><br/>
             <TextField  name="Card Number"  variant="outlined" label="Card Number"  value={paymentInfo.cardNo} onChange={onChangeCard}/><br/>
             <TextField  name="CVV" type="password"  label="CVV" margin="dense" style={{width: 70}}  variant="outlined"  value={paymentInfo.cvv} onChange={onChangeCvv}/> 
@@ -146,6 +153,7 @@ const PaymentForm = () => {
     </Paper>}
     {successFlag && destFlag && <h3>Payment Successful, redirecting...</h3>}
     {!destFlag && <h2>hena</h2>}
+
     </div>
         )
 

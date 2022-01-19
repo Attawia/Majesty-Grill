@@ -22,13 +22,35 @@ const SignInForm2 = () => {
     const {reservation} = location.state;
 
     const goToSeating = () =>{
+        let priceDepFlight = 0;
+        let priceRetFlight = 0;
+        if(reservation.cabinDeparture == 'Economy'){
+            if(reservation.cabinReturn == 'Economy'){
+                priceDepFlight = depFlight.priceEconomy
+                priceRetFlight = retFlight.priceEconomy
+            }
+            else{
+                priceDepFlight = depFlight.priceEconomy
+                priceRetFlight = retFlight.priceBusiness
+            }
+        }
+        else{
+            if(reservation.cabinReturn == 'Economy'){
+                priceDepFlight = depFlight.priceBusiness
+                priceRetFlight = retFlight.priceEconomy
+            }
+            else{
+                priceDepFlight = depFlight.priceBusiness
+                priceRetFlight = retFlight.priceBusiness
+            }
+        }
+        let price = (priceDepFlight * reservation.passengers) + (priceRetFlight * reservation.passengers);
+        let to = "/departureSeats/";
 
         history.push({ 
-            pathname: "/departureSeats/" ,
-            state : {depFlight,retFlight,reservation}
+            pathname: "/payment2" ,
+            state : {depFlight,retFlight,reservation,price,to}
         });
-
-        window.location.reload();
     }
 
 
@@ -59,7 +81,7 @@ const SignInForm2 = () => {
             <TextField  name="Username"  variant="outlined" label="Username"  value={userData.username} onChange={(e) => setUserData({...userData, username : e.target.value})}/><br/><br/>
             <TextField  name="Password"  label="Password" type="password" variant="outlined"  value={userData.password} onChange={(e) => setUserData({...userData, password : e.target.value})}/><br/><br/>
             <Button onClick={Submit} className={classes.buttonSubmit}>Sign In</Button><br/><br/>
-            {/* Going to fake Register to create an account and then proceed to seating */}
+            {/* Going to fake Register to create an account and then proceed to payment then seating */}
             <Link to={{ 
                 pathname: "/Register2" ,
                 state : {depFlight,retFlight,reservation}

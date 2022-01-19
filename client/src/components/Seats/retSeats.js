@@ -4,7 +4,11 @@ import {useState,useEffect} from 'react';
 import {TextField,Button,Paper,Typography} from '@material-ui/core';
 import {useParams} from 'react-router-dom';
 import { Link,useHistory,useLocation} from 'react-router-dom';
+import { getUsername } from '../../api/auth';
+import { getEmailCaller } from '../../actions/ShowAllRes';
 import './seats.scss';
+import Navbar from '../Navbar/Navbar.js';
+import Footer from '../Footer/Footer.js';
 
 
 // let seatarray=[{seatName: "1",state:true},
@@ -34,18 +38,51 @@ const userName = 'Disha';
 const Seat =  () => {
   const history = useHistory();
   const location = useLocation();
+
   const [flag,setflag]=useState(false);
   const [display,setDisplay]=useState();
+  const [currUser,setCurrUser] = useState(null);
+  const [flag2, setFlag2] = useState(false);
+
   const {depFlight} = location.state;
   const {retFlight} = location.state;
   let {reservation} = location.state;
+
+  let email;
+
   let economy = 0;
   let business = 0;
   let total = business + economy;
   let id='';
   let limit = 0;
   let seatarray=[];
+
+  const getTheUser = async () =>
+  {
+      const theUser = await getUsername(); 
+       setCurrUser(theUser);
+       
+  }
+  
+
+  if(!flag2){
+    getTheUser();
+    setFlag2(true);
+ }
+
+
   useEffect(()=>{
+
+    
+    if(currUser){
+      getEmailCaller(currUser)
+         .then((result)=>{
+         email = result;
+ })
+ 
+}
+
+
     console.log(reservation);
     console.log(retFlight);
     economy = retFlight.economySeats;
@@ -176,12 +213,13 @@ const Seat =  () => {
   // });
   setflag(true);
 }
-  },[retFlight,reservation,display]);
+  },[retFlight,reservation,display,currUser]);
   useEffect(()=>{
     
     function setflag2func(){
+      console.log(reservation.cabinReturn);
       let j=1;
-      if(reservation.cabinDeparture=='Economy'){
+      if(reservation.cabinReturn=='Economy'){
         for(let i=1;i<=business;i++){
           document.getElementById(""+i).disabled="disabled";
         }
@@ -235,8 +273,10 @@ const Submit=(e)=>{
     const sent={_id:id,seats:reserved};
     reservation = {...reservation,seatReturn:reserved};
     console.log(reservation);
-    const x = axios.patch('http://localhost:5000/flights/reserveseats/',sent);
-    const y = axios.post('http://localhost:5000/flights/addreservation/',reservation);
+    axios.all([
+    axios.post('http://localhost:5000/sendemail/itineraryemail',{userEmail:email,reservation}),
+    axios.patch('http://localhost:5000/flights/reserveseats/',sent),
+    axios.post('http://localhost:5000/flights/addreservation/',reservation)]);
     history.push('/summaryreservation/');
   }
 
@@ -249,6 +289,7 @@ const Submit=(e)=>{
     
   return(
     <div>
+      <Navbar/>
       <button onClick={back}>Back</button>
       <u><h1>Please Select Return Flight Seats</h1></u>
       {display}

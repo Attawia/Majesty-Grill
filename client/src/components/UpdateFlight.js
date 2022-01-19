@@ -5,6 +5,8 @@ import react from 'react';
 import {TextField,Button,Paper,Typography} from '@material-ui/core';
 import {useParams} from 'react-router-dom';
 import { Link,useHistory} from 'react-router-dom';
+import Navbar from './Navbar/Navbar.js';
+import Footer from './Footer/Footer.js';
 
 const getPost = async (id) => {
     const res = await axios.post('http://localhost:5000/flights/getupdateflight',{_id:id});
@@ -59,6 +61,7 @@ const UpdateFlight =  () => {
    
     return(
         <div>
+            <Navbar/>
         {allowed && <Paper>
              <Link to={`/flights/${id}`}>
             <button>

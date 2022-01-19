@@ -4,7 +4,7 @@ import { changePassword, getUsername, isGuest } from "../../api/auth";
 import SelectedFlight from "../SelectedFlight/SelectedFlight";
 
 import './style.css';
-import {getEmailCaller, cancelReservation, getAllCaller, getAll, } from '../../actions/ShowAllRes'
+import {getEmailCaller, cancelReservation, getAllCaller, getAll, sendItinerary} from '../../actions/ShowAllRes'
 let seats = "";
 let count = 1;
 
@@ -40,6 +40,8 @@ const [flagAllowed, setAllowed] = useState(true);
 
 const [flag, setFlag] = useState(false);
 
+
+
 const getTheUser = async () =>
     {
         const theUser = await getUsername(); 
@@ -60,21 +62,6 @@ const getTheUser = async () =>
         guestUserCheck();
         setFlag(true);
      }
-
-       //btb2a rendered mara wa7da bs lma el curr user byeegy
-       //lazem tstna el curr user yeegy el awl 3shan mtb3tsh request b null
-    //    useEffect(()=>
-    //    {
-    //         if(currUser){
-    //              getEmailCaller(currUser)
-    //                 .then((result)=>{
-    //                 setUserEmail(result);
-    //         })
-            
-    //      }
-         
-    //     },[currUser])
-
 
 
 
@@ -141,10 +128,6 @@ console.log("after setAllowed: " + count);
 },[flagAllowed,loggedIN,currUser])
 
 
-//console.log("empty: "+empty)
-const change = ()=>{
-    setSelected(!selected);
-}
 
 console.log('here: ' + count++);
 
@@ -259,12 +242,12 @@ console.log('here: ' + count++);
 
                              <tr>
                                  <th>From</th>
-                                 <td>{reservation.from}</td>
+                                 <td>{reservation.to}</td>
                              </tr>
 
                              <tr>
                                  <th>To</th>
-                                 <td>{reservation.to}</td>
+                                 <td>{reservation.from}</td>
                              </tr>
                              
                         <tr>
@@ -314,25 +297,20 @@ console.log('here: ' + count++);
                         }
                         }}>Cancel Reservation</button>
 
+                        <button onClick={()=>{
+                            sendItinerary(data.userEmail, reservation)
+                        }}>Send My Itinerary</button>
+
 <Link to={{
     pathname: "/allReservations/selectedFlight",
     state: {
             type : "Departure",
             reservation,
-            edited : false,
-
-            flightNumber : reservation.flightDeparture,
-            from : reservation.from,
-            to: reservation.to,
-            time : reservation.timeDeparture,
-            price : reservation.priceDeparture,
-            cabin : reservation.cabinDeparture,
-            seats : reservation.seatDeparture,
-            criteria : {flightNo: reservation.flightDeparture}
-
-    }
+            edited : false
+            }
         }}>
         <button >Select Departure Flight </button>
+        
 </Link>
 
 <Link to={{
@@ -341,16 +319,7 @@ console.log('here: ' + count++);
             type : "Return",
             reservation,
             edited : false,
-
-            flightNumber : reservation.flightReturn,
-            from : reservation.to,
-            to: reservation.from,
-            time : reservation.timeReturn,
-            price : reservation.priceReturn,
-            cabin : reservation.cabinReturn,
-            seats : reservation.seatReturn,
-            criteria : {flightNo: reservation.flightReturn}
-    }
+             }
         }}>
         <button >Select Return Flight </button>
 </Link>
