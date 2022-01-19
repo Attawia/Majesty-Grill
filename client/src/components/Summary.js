@@ -151,9 +151,9 @@ function Summary(props){
                     <div class = "row">
                     <div class = "column">
                      <table border = '1'>
-                         <h2>Departure Flight Details</h2>
+                         <h2 className='SummaryHead'>Departure Flight Details</h2>
                          <tr>
-                             <th>Flight Number</th>
+                             <th  >Flight Number</th>
                              <td>{depFlight.flightNo}</td>
                          </tr>
                          
@@ -163,22 +163,22 @@ function Summary(props){
                          </tr>
                           
                          <tr>
-                             <th>To</th>
+                             <th >To</th>
                              <td>{depFlight.arrAirport}</td>
                          </tr>
                          
                          <tr>
-                             <th>Time</th>
-                             <td>{depFlight.departureTime}</td>
+                             <th >Time</th>
+                             <td>{depFlight.departureTime.substring(0,10)+' '+ depFlight.departureTime.substring(11,16)}</td>
                          </tr>
 
                          <tr>
-                             <th>Price</th>
+                             <th >Price</th>
                              <td>{depPrice}</td>
                          </tr>
 
                          <tr>
-                            <th>Cabin</th>
+                            <th >Cabin</th>
                              <td>{depCabin}</td>
                          </tr>
 
@@ -206,7 +206,7 @@ function Summary(props){
                          
                     <tr>
                         <th>Time</th>
-                        <td>{retFlight.departureTime}</td>
+                        <td>{retFlight.departureTime.substring(0,10)+' '+ retFlight.departureTime.substring(11,16)}</td>
                     </tr>
 
                     <tr>

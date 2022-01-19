@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { GetUserById } from "../../actions/index.js";
 import {isGuest,validateID} from "../../api/auth.js"
 import {getUsername} from './../../api/auth.js'
+import Navbar from '../Navbar/Navbar.js';
+import Footer from '../Footer/Footer.js';
 
 import api from "../../api/index.js";
 
@@ -62,7 +64,9 @@ const UserProfile = () => {
 
 
     return ( 
-    <div> {allowed && <div>
+    <div>
+        <Navbar/>
+         {allowed && <div>
         { backButtonAdmin && <Link to={`/flights/`}>
             <button>
                 Back
@@ -133,6 +137,7 @@ const UserProfile = () => {
                 </button>
             </Link>
             <h3>Forbidden</h3> </div>}
+            <Footer/>
     </div>
      );
 }

@@ -3,6 +3,8 @@ import axios from "axios";
 import {TextField,Button,Paper,Typography} from '@material-ui/core';
 import {Link} from "react-router-dom";
 import { authorize } from "../api/auth";
+import Navbar from './Navbar/Navbar.js'
+import Footer from "./Footer/Footer";
 
 
 const getAllFlights = async()=>{
@@ -11,7 +13,7 @@ const getAllFlights = async()=>{
 }
 
 const Home = () => {
-
+    const [footerVisible,setFooter]=useState(true);
     const[flights,setFlights] = useState([]);
 
     const [criteria,setCriteria] = useState({});
@@ -45,6 +47,7 @@ const Home = () => {
 
 
    const showAll = (e) =>{
+    setFooter(false);
     e.preventDefault();
     const newflights = async ()=>{const promise = await getAllFlights(); return promise;}
     const flightsarr = newflights();
@@ -56,7 +59,7 @@ const Home = () => {
 
     const showSearchedFlights = (e) =>{
         e.preventDefault();
-
+        if(footerVisible)setFooter(false);
         Object.keys(criteria).forEach(function(key){
             if (criteria[key] === '') {
               delete criteria[key];
@@ -73,19 +76,8 @@ const Home = () => {
 
     return (
         <div>
+            <Navbar/>
         {allowed && <div className="home">
-            <Link to={`/`}>
-            <button>
-                Sign Out 
-                </button>
-            </Link>
-            <p>      </p>
-            <Link to={`/users/profile/`}>
-                <button>
-                    View My Profile 
-                </button>
-            </Link>
-            &nbsp;&nbsp;&nbsp;
             <h1>HomePage</h1> 
         <form onSubmit={showSearchedFlights}>
             <label>Flight Number:      </label>
@@ -144,9 +136,10 @@ const Home = () => {
                 </button>
             </Link>
             <br></br>
-            <button>Search Flights</button>
+           
         </form>
-           <button onClick= {showAll}>Show All Flights</button>
+            <button onClick={showSearchedFlights}>Search Flights</button>
+           <div><button onClick= {showAll}>Show All Flights</button></div>
           {flights.map(flight => (
               <Link to={`/flights/${flight._id}`}>
             <div className="flights-preview" key={flight._id} >
@@ -160,11 +153,14 @@ const Home = () => {
                 <div className="flights-preview" key={searchedFlight._id} >
                     <h2>{searchedFlight.flightNo}</h2>
                     <p>{ searchedFlight.depAirport} =={">"} { searchedFlight.arrAirport} </p>
+                   
                 </div>
+                
             </Link>
           ))}
         </div>}
         {!allowed && <h3>Forbidden</h3>}
+        {footerVisible && <Footer/>}
     </div>
     );
       
