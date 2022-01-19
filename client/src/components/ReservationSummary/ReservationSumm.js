@@ -119,7 +119,7 @@ const ReservationSumm = () =>
 
                          <tr>
                          <th>Seat</th>
-                        <td> {summary.seatDeparture}</td>
+                        <td> {summary.seatDeparture.toString()}</td>
                          </tr>
                     </table>
                     </div>

@@ -66,12 +66,24 @@ export const updateReservation = async(req,res)=>{
 {
     const id = req.params.id;
 
-    Flight.findByIdAndDelete(id)
+    
+     Flight.findByIdAndDelete(id)
       .then((result)=>
       {
-          console.log(result);
+          
+         Reservation.deleteMany({ $or: [ { flightDeparture: result.flightNo }, { flightReturn: result.flightNo } ]})
+          .then((result)=>{
+              
+          })
+    
       })
       .catch(err=> console.log(err));
+
+      //
+       
+    
+    
+    
 }
 
 
@@ -199,7 +211,9 @@ export const updateFlight = async (req,res) =>{
     const updatedflight = req.body.flight;
     try{
         await Flight.findByIdAndUpdate(_id,updatedflight);
+        
         res.status(201).json(updatedflight);
+        
     }
     catch(error){
         res.status(409).json({message:error.message});

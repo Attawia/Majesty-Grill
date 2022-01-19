@@ -5,6 +5,9 @@ import logo from './logofinal.png';
 import name from './name.png';
 
 const Navbar = ()=>{
+  const clicked = ()=>{
+    localStorage.setItem('token',"");
+  }
     return(
 
         <nav className="navbar">
@@ -19,7 +22,7 @@ const Navbar = ()=>{
         <a href="#">My Reservations</a>
         </Link>
         <Link to={"/"}>
-        <a href="#">Sign Out</a>
+        <a href="#" onClick={clicked}>Sign Out</a>
         </Link>
       </div>
     </nav>
