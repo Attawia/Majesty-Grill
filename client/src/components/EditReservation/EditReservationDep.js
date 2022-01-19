@@ -4,6 +4,8 @@ import {TextField,Button,Paper,Typography, CircularProgress} from '@material-ui/
 import {Link, useLocation,useHistory} from "react-router-dom";
 import Popup from './../Popup.js'
 import {getUsername} from './../../api/auth.js'
+import Navbar from '../Navbar/Navbar.js';
+import Footer from '../Footer/Footer.js';
 
 let flag=false;
 const EditReservationDep = () => {
@@ -104,6 +106,10 @@ const EditReservationDep = () => {
 
     return (
         <div>
+            <Navbar/>
+            <Link to={`/UserSearch`}>
+                <button>Back</button>
+            </Link>
             <div>
          
 
@@ -140,7 +146,7 @@ const EditReservationDep = () => {
                 <div className="flights-preview" key={flight.flightNo}>
                     <h2>{flight.flightNo}</h2>
                     <h4>{ flight.depAirport} ===={">"} { flight.arrAirport} </h4>
-                    <h3>Price Difference:  ({flight.priceEconomy - (reservation.priceDeparture/reservation.passengers)})€    ~    ({flight.priceBusiness - (reservation.priceDeparture/reservation.passengers)})€</h3>
+                    <h3>Price Difference:  ({Math.max(0,Math.floor(flight.priceEconomy - (reservation.priceDeparture/reservation.passengers)))})€    ~    ({Math.max(0,Math.floor(flight.priceBusiness - (reservation.priceDeparture/reservation.passengers)))})€</h3>
                 </div>
             </Link>
           ))}
@@ -153,7 +159,7 @@ const EditReservationDep = () => {
                 <div className="flights-preview" key={flight.flightNo}>
                     <h2>{flight.flightNo}</h2>
                     <h4>{ flight.depAirport} ===={">"} { flight.arrAirport} </h4>
-                    <h3>Price Difference:  ({flight.priceEconomy - (reservation.priceReturn/reservation.passengers)})€    ~    ({flight.priceBusiness - (reservation.priceReturn/reservation.passengers)})€</h3>
+                    <h3>Price Difference:  ({Math.max(0,Math.floor(flight.priceEconomy - (reservation.priceReturn/reservation.passengers)))})€    ~    ({Math.max(0,Math.floor(flight.priceBusiness - (reservation.priceReturn/reservation.passengers)))})€</h3>
                 </div>
             </Link>
           ))}

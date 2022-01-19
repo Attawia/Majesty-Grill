@@ -2,6 +2,7 @@ import {React,useEffect,useState} from 'react'
 import Try from './Try';
 import {Link, useLocation,useHistory} from "react-router-dom";
 import './Popup.css'
+import {FaSearch,FaPlus,FaMinus,FaPlaneDeparture,FaPlaneArrival,FaPlane,FaLuggageCart,FaRegCalendarAlt} from "react-icons/fa"
 
 let aloo2 = false;
 let aloo = false;
@@ -48,16 +49,16 @@ const retEco=()=>{
              <div className="popup">
                <div className="popup-inner">
                 <button className="close-btn" onClick={() => history.go(-1)}>Close</button>   
-                <h4 id="details">Flight details</h4>
+                <h4 id="details"><FaPlane/> Flight details</h4>
                 <h6 id="number">Flight number:  {retFlight.flightNo}</h6>
-                <h6 id="departureBgad">Departure time:  {retFlight.departureTime}</h6>
-                <h6 id="arrivalBgad">Arrival time:  {retFlight.arrivalTime}</h6>
+                <h6 id="departureBgad">Departure time: <FaRegCalendarAlt/>  {retFlight.departureTime.substring(0,10)}  {retFlight.departureTime.substring(11,16)}</h6>
+                <h6 id="arrivalBgad">Arrival time: <FaRegCalendarAlt/>  {retFlight.arrivalTime.substring(0,10)}  {retFlight.arrivalTime.substring(11,16)}</h6>
                 <h6 id="duration">Flight duration:  {retFlight.tripDuration} Hours</h6>
-                <h6 id="depAirport">Departure airport:  {retFlight.depAirport}</h6>
-                <h6 id="arrAirport">Arrival airport: {retFlight.arrAirport}</h6>
-                <h6 id="baggage">Baggage allowance:  {retFlight.baggageAllowance}</h6>
-                <h6 id="priceEconomy">{retFlight.priceEconomy}€/Seat</h6>
-                <h6 id="priceBusiness">{retFlight.priceBusiness}€/Seat</h6>
+                <h6 id="depAirport"><FaPlaneDeparture/>  {retFlight.depAirport}</h6>
+                <h6 id="arrAirport"><FaPlaneArrival/>  {retFlight.arrAirport}</h6>
+                <h6 id="baggage"><FaLuggageCart/> Baggage allowance:  {retFlight.baggageAllowance}</h6>
+                <h6 id="priceEconomy">{Math.floor(retFlight.priceEconomy)}€/Seat</h6>
+                <h6 id="priceBusiness">{Math.floor(retFlight.priceBusiness)}€/Seat</h6>
 
                 <button className="business-seat"onClick={retBusiness}>Reserve Business</button>       
                 <button className="economy-seat"onClick={retEco}>Reserve Economy</button>   

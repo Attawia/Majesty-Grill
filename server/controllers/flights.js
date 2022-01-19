@@ -322,8 +322,55 @@ export const searchAllFlights = async (req,res) => {
     };
     
     export const searchFlights = async (req,res) => {
+        let criteria = req.body
         try {
-            const searchedFLights = await Flight.find(req.body);
+            let searchedFLights = [];
+
+            if("departureTime" in criteria){
+                if("arrivalTime" in criteria){
+                    let depTime = criteria.departureTime
+                    let arrTime = criteria.arrivalTime
+                    await delete criteria.departureTime
+                    await delete criteria.arrivalTime
+                    let f1 = await Flight.find({
+                        $or: [ { departureTime: { $gt: depTime } }, { departureTime: depTime } ],
+                        departureTime: { $lt: getNextDay(depTime) },
+                        $or: [ { arrivalTime: { $gt: arrTime } }, { arrivalTime: arrTime } ],
+                        arrivalTime: { $lt: getNextDay(arrTime) }
+                    });
+                    let f2 = await Flight.find(criteria);
+                    searchedFLights = getIntersection(f1,f2);
+                }
+                else{
+                    let depTime = criteria.departureTime
+                    await delete criteria.departureTime
+                    console.log(criteria)
+                    console.log(depTime)
+                    console.log(getNextDay(depTime))
+                    let f1 = await Flight.find({
+                        $or: [ { departureTime: { $gt: depTime } }, { departureTime: depTime } ],
+                        departureTime: { $lt: getNextDay(depTime) }
+                    });
+                    let f2 = await Flight.find(criteria);
+                    searchedFLights = getIntersection(f1,f2);
+                }
+            }
+            else{
+                if("arrivalTime" in criteria){
+                    let arrTime = criteria.arrivalTime
+                    await delete criteria.arrivalTime
+                    let f1 = await Flight.find({
+                        $or: [ { arrivalTime: { $gt: arrTime } }, { arrivalTime: arrTime } ],
+                        arrivalTime: { $lt: getNextDay(arrTime) }
+                    });
+                    let f2 = await Flight.find(criteria);
+                    searchedFLights = getIntersection(f1,f2);
+                }
+                else{
+                    searchedFLights = await Flight.find(criteria);
+                }
+            }
+
             res.status(200).json(searchedFLights);
         } catch (error) {
             res.status(404).json({message : error.message});
@@ -364,17 +411,6 @@ export const searchAllFlights = async (req,res) => {
                         departureTime: { $lt: getNextDay(depTime) }
                     });
                     let f2 = await Flight.find(criteria);
-                    /*console.log("/////////////////////////////////////////////////////////////")
-                    console.log(f1)
-                    console.log("/////////////////////////////////////////////////////////////")
-                    console.log("/////////////////////////////////////////////////////////////")
-                    console.log(f2)
-                    console.log("/////////////////////////////////////////////////////////////")
-                    let f1 = [1,2,3,4]
-                    let f2 = [3,4,5,6,7]*/
-                    /*console.log("/////////////////////////////////////////////////////////////")
-                    console.log(f1.concat(f2).unique())
-                    console.log("/////////////////////////////////////////////////////////////")*/
                     searchedFLights = getIntersection(f1,f2);
                 }
             }

@@ -41,6 +41,7 @@ const PaymentForm = () => {
 
 
 
+
     let [amount,setAmount] = react.useState(0);
 
     useEffect(()=>
@@ -94,6 +95,7 @@ const PaymentForm = () => {
             setSuccessFlag(true);
         }
         await timeout(1000);
+
         const reservation = reservationDest;
         const retFlight = retFlightDest;
         const depFlight = depFlightDest;

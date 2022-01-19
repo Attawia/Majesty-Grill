@@ -4,7 +4,7 @@ import {TextField,Button,Paper,Typography} from '@material-ui/core';
 import {Link, useLocation} from "react-router-dom";
 import Popup from './../Popup.js'
 import {getUsername} from './../../api/auth.js'
-import {FaSearch,FaPlus,FaMinus,FaPlaneDeparture,FaPlaneArrival,FaPlane} from "react-icons/fa"
+import {FaSearch,FaPlus,FaMinus,FaPlaneDeparture,FaPlaneArrival,FaPlane,FaLuggageCart,FaUserCircle,FaRegCalendarAlt} from "react-icons/fa"
 import Navbar from '../Navbar/Navbar.js';
 import Footer from '../Footer/Footer.js';
 import _ from 'lodash';
@@ -216,10 +216,10 @@ const UserSearch = () => {
                     state : {depFlight,flightType,displayNumberOfAdullts,displayNumberOfChildren}
                 }}>
                     <div className="flights-preview" key={depFlight.flightNo}>
-                        <h2 className="flight-number">{depFlight.departureTime.substring(0,10)}</h2>
+                        <h2 className="flight-number"><FaRegCalendarAlt/> {depFlight.departureTime.substring(0,10)}</h2>
                         <h2><FaPlaneDeparture/> { depFlight.depAirport}     {depFlight.departureTime.substring(11,16)}</h2>
                         <h2><FaPlaneArrival/> { depFlight.arrAirport}       {depFlight.arrivalTime.substring(11,16)}</h2>
-                        <h3>Price:  {depFlight.priceEconomy}€    ~    {depFlight.priceBusiness}€</h3>
+                        <h3>Price:  {Math.floor(depFlight.priceEconomy)}€    ~    {Math.floor(depFlight.priceBusiness)}€</h3>
                     </div>
                 </Link>
                 
