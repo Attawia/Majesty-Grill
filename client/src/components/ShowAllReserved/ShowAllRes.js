@@ -1,118 +1,158 @@
 import {  Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { changePassword, getUsername, isGuest } from "../../api/auth";
+import SelectedFlight from "../SelectedFlight/SelectedFlight";
 
-import axios from 'axios';
 import './style.css';
+import {getEmailCaller, cancelReservation, getAllCaller, getAll, sendItinerary} from '../../actions/ShowAllRes'
 let seats = "";
-
+let count = 1;
 
 const ShowAllReserved = () => {
-    
-const { currUser } = useParams();
 
-const [reservations, setReservations] = useState(null);
-const [cancel, setCancel] = useState(false);
-const [empty, setEmpty] = useState(false);
+
+
+// const [empty, setEmpty] = useState(false);
+//const [cancel, setCancel] = useState(false);
+
+// const [flagSummary,setFlagSummary] = useState(false);
+// const [reservations, setReservations] = useState(null);
+// const [userEmail, setUserEmail] = useState(null);
+
+
+
+const [data, setData] = useState({
+    empty : false,
+    cancel: false,
+    userEmail : null
+});
+
+const [resAndF, setRestAndF] = useState({
+    reservations : null,
+    flagSummary : false  
+})
+
+const [currUser,setCurrUser] = useState(null);
 const [loggedIN, setLogged] = useState(true);
-const [userEmail, setUserEmail] = useState(null);
-//-----------------------------
-//method that cancels reservation
+const [selected, setSelected] = useState(false);
+const [isPending, setIsPending] = useState(true);
+const [flagAllowed, setAllowed] = useState(true);
 
-//-----------------------------
+const [flag, setFlag] = useState(false);
 
-const getEmail = async()=>
-{
- const resp = await axios.get('http://localhost:5000/users/getEmail/' + currUser);
- return resp.data;
-}
-const getEmailCaller = async()=>
-{
- const Email = await getEmail(); 
- return Email;
-}
+
+
+const getTheUser = async () =>
+    {
+        const theUser = await getUsername(); 
+         setCurrUser(theUser);
+         console.log("after setCurrUser: " + count);
+    }
+    
+    const guestUserCheck = async () => {
+
+    const guestUser = await isGuest();
+
+    if(guestUser){setLogged(false)};
+    console.log("after setLogged: " + count);
+     }
+
+     if(!flag){
+        getTheUser();
+        guestUserCheck();
+        setFlag(true);
+     }
+
+
 
 useEffect(()=>
 {
-    getEmailCaller()
-     .then((result)=>
-     {
-         setUserEmail(result);
-         console.log("fel useEffect: " + userEmail)
-         
-     })
-},[])
-
-
-const getAll = async() =>
-{
-        const resp =  await axios.get('http://localhost:5000/users/AllReservations/' + currUser);
-        
-        return resp.data;
-}
-const getAllCaller = async () =>
-{
-   const Reservations = await getAll(); 
-   
-return Reservations;
-
-}
-
-
-if(loggedIN)
-{
-
- getAllCaller()
-  .then((result)=>
-  { 
-      if(result.length == 0) setEmpty(true);
-      else setReservations(result);
+    let email;
     
-  })
+    if(currUser){
+        getEmailCaller(currUser)
+           .then((result)=>{
+        //    setUserEmail(result);
+             email = result;
+   })
+   
+}
 
+if(loggedIN && flagAllowed && currUser)
+{
+setAllowed(false);
+console.log("after setAllowed: " + count);
+
+  getAllCaller(currUser).
+  then((result)=>{
+
+  
+  console.log(result);
+ 
+          //btkhosh el etnen dy fe render w dy fel ba3dha!!
+      if( result.length == 0) {
+        //   setEmpty(true);setIsPending(true);
+
+        console.log("if then: "+ count);
+        
+        setIsPending(false);
+        console.log("after setIsPending: " + count);
+        setData({empty : true});
+        console.log("after setData: " + count);
+    }
+      else if(!resAndF.flagSummary){ 
+        console.log("if else: " + count);
+        
+          //setIsPending(false);setEmpty(false);
+          //setReservations(result);setFlagSummary(true);
+          setIsPending(false);
+          console.log("after setIsPending: " + count);
+          setData({empty : false, 
+            
+            userEmail : email
+        });
+        console.log("after setCurrUser: " + count);
+
+          setRestAndF({reservations : result, flagSummary : true});
+        };
+        console.log("after setRest: " + count);
+          
+        
+    })
+    
+ 
 }
 
 //----------------------
-const cancelReservation = async(id, x)=>
-{
-    const {bookingNumber, totalPrice} = x;
-    console.log("inside cancelReservation: " + userEmail);    
 
-    axios.all([
-        
-      axios.post('http://localhost:5000/sendEmail/cancelResEmail', {userEmail, bookingNumber, totalPrice }),
-      axios.delete('http://localhost:5000/users/cancelRes/'+id)
-        
-    ])
-    .then(axios.spread((data1, data2)=>
-    {
-       console.log("data1: " + data1, "data2: " + data2);
-    }));
+},[flagAllowed,loggedIN,currUser])
 
-    setCancel(true);
 
-    setInterval(() => {
-        //setCancel(false);
-        window.location.reload();
-    }, 3000);
 
-    
-}
-
+console.log('here: ' + count++);
 
     return ( 
     <div>
         
+
+        <Link to={`/UserSearch`}>
+             <button>Back</button>
+        </Link>
+        
          {!loggedIN && <Link to={'/'}> Log in please!</Link> }
         
-        { empty && !cancel &&
+        
+          { isPending && <div>Loading...</div> }
+          
+        { !isPending && data.empty && !data.cancel &&
         <div class = "Msg-Error">
             <div class="alert error">
-                <strong>!!</strong> No Current Reservation
+                <strong>!!</strong> No Current Reservations
             </div>
         </div>
          }
 
-        { cancel && 
+        { data.cancel && 
             <div class = "Msg-Info">
      
 
@@ -127,18 +167,25 @@ const cancelReservation = async(id, x)=>
       </div>
       }
 
+
         
-        {reservations&& 
+        {resAndF.reservations&& 
             <div>
+
+
+
+
                 <h1 class = "centerElement">All Reservations </h1>  
                         
-                {reservations.map(reservation=>
+                {resAndF.reservations.map(reservation=>
                     (
                         
                         
                         <div> 
                          
+                        
                      <div class = "row">
+                     
                         <div class = "column">
                          <table border = '1'>
                              <caption>Departure Flight Details</caption>
@@ -195,12 +242,12 @@ const cancelReservation = async(id, x)=>
 
                              <tr>
                                  <th>From</th>
-                                 <td>{reservation.from}</td>
+                                 <td>{reservation.to}</td>
                              </tr>
 
                              <tr>
                                  <th>To</th>
-                                 <td>{reservation.to}</td>
+                                 <td>{reservation.from}</td>
                              </tr>
                              
                         <tr>
@@ -237,16 +284,50 @@ const cancelReservation = async(id, x)=>
                             cancelReservation(reservation._id, {
                                    bookingNumber : reservation.bookingNumber,
                                    totalPrice: reservation.totalPrice
-                                }
+                                }, data.userEmail
                                 );
+
+                                 setIsPending(false);
+                                setData({
+                                cancel: true});
+                                // setCancel(true);
+
                              
-                          //   console.log(x);
-                            //setCancelledReservation(x);
-                            
+                          
                         }
                         }}>Cancel Reservation</button>
+
+                        <button onClick={()=>{
+                            sendItinerary(data.userEmail, reservation)
+                        }}>Send My Itinerary</button>
+
+<Link to={{
+    pathname: "/allReservations/selectedFlight",
+    state: {
+            type : "Departure",
+            reservation,
+            edited : false
+            }
+        }}>
+        <button >Select Departure Flight </button>
+        
+</Link>
+
+<Link to={{
+    pathname: "/allReservations/selectedFlight",
+    state: {
+            type : "Return",
+            reservation,
+            edited : false,
+             }
+        }}>
+        <button >Select Return Flight </button>
+</Link>
+
+                     
                         
-                          
+                        
+
                     <br />
                     <hr />
                     <br />
@@ -259,6 +340,8 @@ const cancelReservation = async(id, x)=>
 
 
 }
+
+
 
     </div> );
 }

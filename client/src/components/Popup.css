@@ -16,7 +16,7 @@
     position: relative ;
     padding : 200px;
     width: 100%;
-    max-width : 640px;
+    max-width : 900px;
     background-color : #FFF;
 
 }
@@ -85,15 +85,21 @@
     top: 170px;
     font-size : 18px;
   }
+  #priceDifference {
+    position: absolute;
+    left: 43px;
+    top: 280px;
+    font-size : 18px;
+  }
   #priceEconomy {
     position: absolute;
-    left: 389px;
+    left: 440px;
     top: 280px;
     font-size : 18px;
   }
   #priceBusiness {
     position: absolute;
-    left: 589px;
+    left: 250px;
     top: 280px;
     font-size : 18px;
   }

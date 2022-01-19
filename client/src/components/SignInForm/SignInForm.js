@@ -4,6 +4,8 @@ import makeStyles from './styles';
 import {signIn} from '../../actions/SignInForm.js'
 import { Link } from 'react-router-dom';
 import { authorize,isGuest,getUsername } from '../../api/auth.js';
+import Navbar from '../Navbar/Navbar.js';
+import Footer from '../Footer/Footer.js';
 
 const FlightForm = () => {
     const [userData,setUserData] = react.useState({
@@ -23,7 +25,7 @@ const FlightForm = () => {
         }
         else{
             localStorage.setItem('token',flag);
-            window.location.href='/flights'; 
+            window.location.href='/userSearch'; 
         }
         
     }
@@ -36,24 +38,30 @@ const FlightForm = () => {
         }
         else{
             localStorage.setItem('token',flag.token);
-            window.location.href='/users/profile/'+flag.id; 
+            if(userData.username == 'Administrator')
+                window.location.href='/flights/';
+            else
+            window.location.href='/userSearch/';
         }
+        //sheel el if else w here
 
         
     };
     
     return(
     <Paper>
+        <Navbar/>
         <form autoComplete="off" noValidate onSubmit={Submit}>
             <h1>Sign In</h1>
             <Typography >{errorMessage}</Typography><br/>
             <TextField  name="Username"  variant="outlined" label="Username"  value={userData.username} onChange={(e) => setUserData({...userData, username : e.target.value})}/><br/><br/>
             <TextField  name="Password"  label="Password" type="password" variant="outlined"  value={userData.password} onChange={(e) => setUserData({...userData, password : e.target.value})}/><br/><br/>
-            <Button onClick={Submit} className={classes.buttonSubmit}>Sign In</Button><br/><br/>
-            <Button onClick={Guest} className={classes.buttonSubmit}>Continue as guest</Button><br/><br/>
+            <button onClick={Submit}>Sign In</button><br/><br/>
+            <button onClick={Guest} >Continue as guest</button><br/><br/>
             <Link to="/register">Not a user? Register Here!</Link>
 
         </form>
+        <Footer/>
     </Paper>
         )
 }

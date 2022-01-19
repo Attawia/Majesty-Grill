@@ -2,15 +2,32 @@ import {  useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from 'axios';
 import './style.css';
+import { getUsername, isGuest } from "../../api/auth";
+
 
 
 const ReservationSumm = () =>
 {
     //btgeeb el id el fel url
-    const { currUser } = useParams();
+    const [currUser,setCurrUser] = useState(null);
     const [summary, setSummary] = useState(null);
     const [loggedIN, setLogged] = useState(true);
+    const [flagAllowed, setAllowed] = useState(true);
+    const [flagSummary,setFlagSummary] = useState(false);
+    
+    const getTheUser = async () =>
+    {
+       const theUser = await getUsername(); 
+       setCurrUser(theUser);
+    }
+    
+    const guestUserCheck = async () => {
 
+    const guestUser = await isGuest();
+    if(guestUser){setLogged(false)};
+     }
+       getTheUser();
+       guestUserCheck();
 
     //btgeeb mn el server
     const getTheSummary = async() =>
@@ -21,20 +38,26 @@ const ReservationSumm = () =>
         return resp.data;
     }
 
-    if(loggedIN)
+    useEffect(()=>
+    {
+    if(loggedIN && flagAllowed)
     {
         const getSummary = async () =>
      {
         const theSummary = await getTheSummary(); 
         console.log("the summary in useEffect: " + theSummary);
 
- return theSummary;
+    return theSummary;
 
      }
   getSummary()
       .then((result)=>
       { 
-          setSummary(result);
+
+          if(!flagSummary){
+              setSummary(result);
+              setFlagSummary(true);
+        }
           console.log("the summary in the second method: " + JSON.stringify(result));
         
       })
@@ -42,6 +65,11 @@ const ReservationSumm = () =>
 
      
     }
+    
+
+    
+
+    },[flagAllowed,loggedIN,currUser])
 
 
     return(
@@ -49,7 +77,8 @@ const ReservationSumm = () =>
         <div>
                 {!loggedIN && <Link to={'/'}> Log in please!</Link> }
         
-                 { !summary && <div> could not fetch the data for that resource </div>}
+                { !summary && loggedIN && <div> could not fetch the data for that resource </div>}
+        
 
                  { summary && 
             <div> 
@@ -151,7 +180,9 @@ const ReservationSumm = () =>
                 <p >Number Of Passengers: {summary.passengers}</p>
                 </div>
                 
+                <Link to={'/usersearch'}>
                 <button>Back</button>
+                </Link>
                </div> 
                 
                 }

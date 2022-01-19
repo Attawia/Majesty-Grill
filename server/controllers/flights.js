@@ -1,6 +1,35 @@
 import Flight from '../models/Flight.js'
 import Reservation from '../models/Reservation.js'
 
+const getNextDay = (today) =>{
+    let split = today.split('-');
+    let year = split[0];
+    let month = split[1];
+    let day = split[2].split('T')[0];
+    let leapYear = ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
+
+    switch(month){
+        case '01':
+        case '03':
+        case '05':
+        case '07':
+        case '08':
+        case '10':if(day==31){day=1;month++}else{day++};break;
+        case '02':if(leapYear && day==29){day=1;month++}else if(!leapYear && day==28){day=1;month++}else{day++};break;
+        case '12':console.log("december");if(day==31){day=1;month=1;year++}else{day++};break;
+        default:if(day==30){day=1;month++}else{day++};break;
+    }
+    if((day+"").length == 1){
+        console.log("here");
+        day= "0" + day;
+    }
+    if((month+"").length == 1){
+        month= "0" + month;
+    }
+    let final = year + "-" + month + "-" + day + "T00:00:00.000Z";
+    return final;
+}
+
 export const getCreate = (req,res) => {
     res.send('page el create');
 
@@ -10,7 +39,10 @@ export const createFlight = async (req,res) => {
     let flight = req.body;
     let business = flight.businessSeats;    
     let economy = flight.economySeats;
-    flight={...flight,freeEconomySeats:economy,freeBusinessSeats:business,tripDuration:'2Hrs',priceEconomy:500,priceBusiness:1000};
+    let departure = new Date(flight.departureTime);
+    let arrival = new Date(flight.arrivalTime);
+    let duration = (arrival - departure) / 3600000;
+    flight={...flight,freeEconomySeats:economy,freeBusinessSeats:business,tripDuration:duration};
     const newFlight = new Flight(flight);
     let seats=[{seatName:1,state: false}];
     let i=2;
@@ -46,6 +78,19 @@ export const createFlight = async (req,res) => {
 
 }
 
+export const updateReservation = async(req,res)=>{
+    const _id=req.body._id;
+    const reservation = req.body.res;
+    try{
+        await Reservation.findByIdAndUpdate(_id,reservation);
+        res.status(201).json(newReservation);
+    }
+    catch(error){
+        res.status(409).json({message: error.message});
+    }
+
+}
+
  export const flightDelete=(req, res)=>
 {
     const id = req.params.id;
@@ -59,8 +104,39 @@ export const createFlight = async (req,res) => {
 }
 
 
-
-
+export const changeSeats=async(req,res)=>{
+    console.log('hi');
+   const _id=req.body._id;
+   const seats = req.body.seats;
+   const delseats = req.body.delseats;
+   console.log(seats);
+   console.log(delseats);
+   try{
+       const flight = await Flight.findById(_id);
+       const seatarray=flight.seats;
+       for(const seat of seatarray){
+           for(const seat1 of delseats){
+               if(seat1==seat.seatName){
+                   console.log('delete :' + seat1)
+                   seat.state=false;
+               }
+           }
+           for(const seat1 of seats){
+            if(seat1==seat.seatName){
+                console.log('add :' + seat1)
+                seat.state=true;    
+            }
+        }
+    }
+       flight.seats=seatarray;
+       console.log(flight);
+       await Flight.findByIdAndUpdate(_id,flight);
+       res.sendStatus(200);
+   }
+   catch(error){
+    res.status(409).json({message:error.message});
+   }  
+}
 export const reserveSeats= async(req,res)=>{
     const seats=req.body.seats;
     const _id= req.body._id;
@@ -83,8 +159,64 @@ export const reserveSeats= async(req,res)=>{
             }
         }
         flight.seats=seatarray;
+
+        await Flight.findByIdAndUpdate(_id,flight);
+    }
+    catch(error){
+        res.status(409).json({message:error.message});
+    }
+}
+
+export const emptySeats = async(req,res)=>{
+    const _id= req.body._id;
+    const seats = req.body.delseats;
+    console.log(seats);
+    try{
+        const flight =  await Flight.findById(_id);
+        let seatarray = flight.seats;
+        console.log('before');
+        console.log(seatarray);
+        for(const seat of seatarray){
+            for(const seat2 of seats){
+                if(seat2==seat.seatName){
+                    seat.state=false;
+                }
+            }
+        }
+        console.log('after');
+        console.log(seatarray);
+        flight.seats=seatarray;
         console.log(flight);
         await Flight.findByIdAndUpdate(_id,flight);
+        res.status(201);
+    }
+    catch(error){
+        res.status(409).json({message:error.message});
+    }
+}
+
+export const emptySeats2 = async(req,res)=>{
+    const flightNo = req.body.flightNo;
+    const seats = req.body.seats;
+    console.log(flightNo);
+    console.log(seats);
+    try{
+        const flightarray = await Flight.find({flightNo : flightNo});
+        const flight = flightarray[0];
+        let seatarray=flight.seats;
+        const _id = flight._id;
+        console.log(seatarray)
+        for(const seat of seatarray){
+            for(const seat2 of seats){
+                if(seat2==seat.seatName){
+                    seat.state=false;
+                }
+            }
+        }
+        console.log(seatarray);
+        flight.seats=seatarray;
+        await Flight.findByIdAndUpdate(_id,flight);
+        res.status(200);
     }
     catch(error){
         res.status(409).json({message:error.message});
@@ -129,37 +261,32 @@ export const searchAllFlights = async (req,res) => {
     export const searchFlights = async (req,res) => {
         try {
             const searchedFLights = await Flight.find(req.body);
-            
-            console.log(searchedFLights);
-        
             res.status(200).json(searchedFLights);
         } catch (error) {
             res.status(404).json({message : error.message});
         }
-        };
+    };
 
 
-        export const searchFlightsUser = async (req,res) => {
-            const wholeCriteria = req.body;
-            console.log(wholeCriteria);
-                const criteria = wholeCriteria.criteria
-            try {
-                
-                
-                 const searchedFLights = await Flight.find(criteria);
-
-                // for(let i = 0;i < searchedFLights.length;i++){
-                //     if(searchedFLights[i].freeEconomySeats < passengersNo && searchedFLights[i].freeBusinessSeats < passengersNo){
-                //         searchedFLights.splice(i,1);
-                //     }
-                // }
+    export const searchFlightsUser = async (req,res) => {
+        const wholeCriteria = req.body;
+            const criteria = wholeCriteria.criteria
+        try {
             
+                
+         const searchedFLights = await Flight.find(criteria);
+            // for(let i = 0;i < searchedFLights.length;i++){
+            //     if(searchedFLights[i].freeEconomySeats < passengersNo && searchedFLights[i].freeBusinessSeats < passengersNo){
+            //         searchedFLights.splice(i,1);
+            //     }
+            // }
         
-                res.status(200).json(searchedFLights);
-            } catch (error) {
-                res.status(404).json({message : error.message});
-            }
-        };
+    
+        res.status(200).json(searchedFLights);
+        } catch (error) {
+            res.status(404).json({message : error.message});
+        }
+    };
 
         export const searchReturnFlightsUser = async (req,res) => {
             const depFlight = req.body;
@@ -178,3 +305,65 @@ export const searchAllFlights = async (req,res) => {
                 res.status(404).json({message : error.message});
             }
         };
+
+        export const editReservationDep = async (req,res) => {
+            try {
+                if(req.body.type === 'Departure'){
+                    if(req.body.departureTime == ''){
+                        const searchedFLights = await Flight.find({
+                            departureTime: { $lt: req.body.timeRes },
+                            depAirport: req.body.depAirport,
+                            arrAirport: req.body.arrAirport
+                        });
+                        
+                        res.status(200).json(searchedFLights);
+                    }
+                    else{
+                        let date = req.body;
+                        let otherDate = getNextDay(date.departureTime);
+
+                        console.log(date.departureTime);
+                        console.log(otherDate);
+    
+                        const searchedFLights = await Flight.find({
+                            $or: [ { departureTime: { $gt: date.departureTime } }, { departureTime: date.departureTime } ],
+                            departureTime: { $lt: otherDate },
+                            depAirport: req.body.depAirport,
+                            arrAirport: req.body.arrAirport
+                        });
+                        
+                    
+                        res.status(200).json(searchedFLights);
+                    }
+                }
+                else{
+                    if(req.body.departureTime == ''){
+                        const searchedFLights = await Flight.find({
+                            departureTime: { $gt: req.body.timeRes },
+                            depAirport: req.body.depAirport,
+                            arrAirport: req.body.arrAirport
+                        });
+                        
+                        res.status(200).json(searchedFLights);
+                    }
+                    else{
+                        let date = req.body;
+                        let otherDate = getNextDay(date.departureTime);
+    
+                        const searchedFLights = await Flight.find({
+                            $or: [ { departureTime: { $gt: date.departureTime } }, { departureTime: date.departureTime } ],
+                            departureTime: { $lt: otherDate },
+                            depAirport: req.body.depAirport,
+                            arrAirport: req.body.arrAirport
+                        });
+                        
+                    
+                        res.status(200).json(searchedFLights);
+                    }
+                }
+                
+            } 
+            catch (error) {
+                res.status(404).json({message : error.message});
+            }
+            };

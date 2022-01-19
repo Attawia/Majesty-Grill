@@ -1,10 +1,12 @@
 import axios from 'axios';
-
+import { useEffect, useState } from "react";
+import { authorize } from "../api/auth";
 import react from 'react';
-import {useState} from 'react';
 import {TextField,Button,Paper,Typography} from '@material-ui/core';
 import {useParams} from 'react-router-dom';
 import { Link,useHistory} from 'react-router-dom';
+import Navbar from './Navbar/Navbar.js';
+import Footer from './Footer/Footer.js';
 
 const getPost = async (id) => {
     const res = await axios.post('http://localhost:5000/flights/getupdateflight',{_id:id});
@@ -26,7 +28,26 @@ const UpdateFlight =  () => {
     }   
     done = true;
 
-    
+    const [allowed,setAllowed] = useState(false);
+    const [alreadyChecked,setAlreadyChecked] = useState(false);
+
+    useEffect(()=>
+    {
+    const isAllowed = async () =>{
+        const flag = await authorize("/flights");
+        console.log(flag);
+        if(!alreadyChecked){
+            setAllowed(flag);
+            setAlreadyChecked(true);
+        }
+
+    }
+
+    isAllowed();
+    },[alreadyChecked])
+
+
+
    const Submit = (e) =>{
 
         e.preventDefault(); 
@@ -39,7 +60,9 @@ const UpdateFlight =  () => {
    }
    
     return(
-        <Paper>
+        <div>
+            <Navbar/>
+        {allowed && <Paper>
              <Link to={`/flights/${id}`}>
             <button>
                 Back 
@@ -58,7 +81,9 @@ const UpdateFlight =  () => {
             <button onClick={Submit}>Update</button>
 
         </form>
-    </Paper>
+    </Paper>}
+    {!allowed && <h3>Forbidden</h3>}
+    </div>
     )
 }
 export default UpdateFlight;

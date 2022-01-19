@@ -1,10 +1,14 @@
 import axios from 'axios';
 import react from 'react';
-import {useState} from 'react';
+import {useState,useEffect} from 'react';
 import {TextField,Button,Paper,Typography} from '@material-ui/core';
 import {useParams} from 'react-router-dom';
 import { Link,useHistory,useLocation} from 'react-router-dom';
+import { getUsername } from '../../api/auth';
+import { getEmailCaller } from '../../actions/ShowAllRes';
 import './seats.scss';
+import Navbar from '../Navbar/Navbar.js';
+import Footer from '../Footer/Footer.js';
 
 
 // let seatarray=[{seatName: "1",state:true},
@@ -28,21 +32,66 @@ import './seats.scss';
 //               {seatName: "19",state:true},
 //               {seatName: "20",state:false},];                    
 let final=[];
-let flag=false;
 let row=1;
+let set = false;
 const userName = 'Disha';
 const Seat =  () => {
   const history = useHistory();
   const location = useLocation();
+
+  const [flag,setflag]=useState(false);
+  const [display,setDisplay]=useState();
+  const [currUser,setCurrUser] = useState(null);
+  const [flag2, setFlag2] = useState(false);
+
   const {depFlight} = location.state;
   const {retFlight} = location.state;
   let {reservation} = location.state;
-  const economy = retFlight.economySeats;
-  const business = retFlight.businessSeats;
+
+  let email;
+
+  let economy = 0;
+  let business = 0;
   let total = business + economy;
-  let seatarray=retFlight.seats;
-  const id=retFlight._id;
-  const limit = reservation.Passengers;
+  let id='';
+  let limit = 0;
+  let seatarray=[];
+
+  const getTheUser = async () =>
+  {
+      const theUser = await getUsername(); 
+       setCurrUser(theUser);
+       
+  }
+  
+
+  if(!flag2){
+    getTheUser();
+    setFlag2(true);
+ }
+
+
+  useEffect(()=>{
+
+    
+    if(currUser){
+      getEmailCaller(currUser)
+         .then((result)=>{
+         email = result;
+ })
+ 
+}
+
+
+    console.log(reservation);
+    console.log(retFlight);
+    economy = retFlight.economySeats;
+    console.log(reservation);
+    business = retFlight.businessSeats;
+    let total = business + economy;
+    seatarray=retFlight.seats;
+    id=retFlight._id;
+    limit = reservation.passengers;
   if(!flag){
   for(let i=1;i<=economy+business;i++){
     if(i<=business && business-i+1>=6){
@@ -144,21 +193,59 @@ const Seat =  () => {
     }
     row++;
   }
-  document.addEventListener("DOMContentLoaded", function(event) {
-    let j=1;
-    if(reservation.cabinReturn=='Economy'){
-      for(let i=1;i<=business;i++){
-        document.getElementById(""+i).disabled="disabled";
-      }
-    }
-    else{
-      for(let i=business+1;i<=total;i++){
-        document.getElementById(""+i).disabled="disabled";
-      }
-    }
-  });
-  flag=true;
+
+
+    setDisplay(final);
+
+
+  // document.addEventListener("DOMContentLoaded", function(event) {
+  //   let j=1;
+  //   if(reservation.cabinReturn=='Economy'){
+  //     for(let i=1;i<=business;i++){
+  //       document.getElementById(""+i).disabled="disabled";
+  //     }
+  //   }
+  //   else{
+  //     for(let i=business+1;i<=total;i++){
+  //       document.getElementById(""+i).disabled="disabled";
+  //     }
+  //   }
+  // });
+  setflag(true);
 }
+  },[retFlight,reservation,display,currUser]);
+  useEffect(()=>{
+    
+    function setflag2func(){
+      console.log(reservation.cabinReturn);
+      let j=1;
+      if(reservation.cabinReturn=='Economy'){
+        for(let i=1;i<=business;i++){
+          document.getElementById(""+i).disabled="disabled";
+        }
+      }
+      else{
+        console.log(business);
+        console.log(total);
+        for(let i=business+1;i<=total;i++){
+          document.getElementById(""+i).disabled="disabled";
+          console.log(document.getElementById(""+i))
+        }
+      }
+      for(const seat of seatarray){
+        if(seat.state){
+          document.getElementById(""+j).disabled="disabled";
+        }
+        j++;
+      }
+      
+    }
+    
+    if(flag){
+      setflag2func();
+    }
+  
+  },[flag]);
 const back=(e)=>{
   history.go(-1);
 }
@@ -174,7 +261,7 @@ const Submit=(e)=>{
   }
   console.log(c);
   if(c!=limit){
-    window.confirm('Please Select '+limit+' Seats');
+    window.confirm('Please Select '+limit+' Seat(s)');
   }
   else{
     for(let j=1;j<=business+economy;j++){
@@ -185,9 +272,12 @@ const Submit=(e)=>{
     }
     const sent={_id:id,seats:reserved};
     reservation = {...reservation,seatReturn:reserved};
-    const x = axios.patch('http://localhost:5000/flights/reserveseats/',sent);
-    const y = axios.post('http://localhost:5000/flights/addreservation/',reservation);
-    history.push('/reservation/'+ userName );
+    console.log(reservation);
+    axios.all([
+    axios.post('http://localhost:5000/sendemail/itineraryemail',{userEmail:email,reservation}),
+    axios.patch('http://localhost:5000/flights/reserveseats/',sent),
+    axios.post('http://localhost:5000/flights/addreservation/',reservation)]);
+    history.push('/summaryreservation/');
   }
 
 
@@ -199,9 +289,10 @@ const Submit=(e)=>{
     
   return(
     <div>
+      <Navbar/>
       <button onClick={back}>Back</button>
       <u><h1>Please Select Return Flight Seats</h1></u>
-      {final}
+      {display}
       <button onClick={Submit}>Confirm and Proceed to Payment</button>
     </div>
   )

@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import {TextField,Button,Paper,Typography} from '@material-ui/core';
 import {Link} from "react-router-dom";
+import { authorize } from "../api/auth";
 
 
 const getAllFlights = async()=>{
@@ -13,14 +14,35 @@ const Home = () => {
 
     const[flights,setFlights] = useState([]);
 
-    const [criteria,setCriteria] = useState();
+    const [criteria,setCriteria] = useState({});
 
     const[searchedFlights,setSearchedFlights] = useState([]);
+
+    const [allowed,setAllowed] = useState(false);
+    const [alreadyChecked,setAlreadyChecked] = useState(false);
+    
+
+    useEffect(()=>
+    {
+    const isAllowed = async () =>{
+        const flag = await authorize("/flights");
+        console.log(flag);
+        if(!alreadyChecked){
+            setAllowed(flag);
+            setAlreadyChecked(true);
+        }
+
+    }
+
+    isAllowed();
+    },[alreadyChecked])
 
     const handleSearchButton = async(e) => {
         const res = await axios.post('http://localhost:5000/flights/searchFlights',criteria);
         return res.data;
     }
+
+
 
    const showAll = (e) =>{
     e.preventDefault();
@@ -50,13 +72,20 @@ const Home = () => {
     }
 
     return (
-        
-        <div className="home">
+        <div>
+        {allowed && <div className="home">
             <Link to={`/`}>
             <button>
                 Sign Out 
                 </button>
             </Link>
+            <p>      </p>
+            <Link to={`/users/profile/`}>
+                <button>
+                    View My Profile 
+                </button>
+            </Link>
+            &nbsp;&nbsp;&nbsp;
             <h1>HomePage</h1> 
         <form onSubmit={showSearchedFlights}>
             <label>Flight Number:      </label>
@@ -119,7 +148,7 @@ const Home = () => {
         </form>
            <button onClick= {showAll}>Show All Flights</button>
           {flights.map(flight => (
-              <Link to={`/flights/${flight._id+flight.flightNo}`}>
+              <Link to={`/flights/${flight._id}`}>
             <div className="flights-preview" key={flight._id} >
                 <h2>{flight.flightNo}</h2>
                 <p>{ flight.depAirport} =={">"} { flight.arrAirport} </p>
@@ -134,7 +163,9 @@ const Home = () => {
                 </div>
             </Link>
           ))}
-        </div>
+        </div>}
+        {!allowed && <h3>Forbidden</h3>}
+    </div>
     );
       
   
