@@ -155,5 +155,9 @@ const PaymentForm = () => {
 
         </form>
     }
-    {successFlag && destFlag && <h3>Payment Successful, redirecting...</h3>}
+    {successFlag && destFlag && <h5>Payment Successful, redirecting...</h5>}
     {!destFlag && <h2>hena</h2>}
+    </div>
+    );
+    }
+    export default PaymentForm;

@@ -17,7 +17,7 @@ const FlightForm = () => {
         arrivalTime : new Date(),
         economySeats : '',
         businessSeats :'',
-        firstSeats : '',
+        firstSeats : '0',
         depAirport :'',
         arrAirport : '',
         priceEconomy: '',
@@ -61,14 +61,14 @@ const FlightForm = () => {
                 arrivalTime : new Date(),
                 economySeats : '',
                 businessSeats :'',
-                firstSeats : '',
+                firstSeats : '0',
                 depAirport :'',
                 arrAirport : '',
                 priceEconomy: '',
                 priceBusiness: '',
                 baggageAllowance: '',
             });
-            setMessage("");
+            setMessage("Flight Successfuly Created!");
     }
     else{
         setMessage('Flight number already used')
@@ -87,7 +87,6 @@ const FlightForm = () => {
             <TextField  name="Arrival Time" type="datetime-local"  label="Arrival Time" InputLabelProps={{ shrink: true }}  variant="outlined"  value={flightData.arrivalTime} onChange={(e) => setFlightData({...flightData, arrivalTime : e.target.value})}/><br/><br/>
             <TextField  name="Economy Seats"  variant="outlined" label="Economy Seats"  value={flightData.economySeats} onChange={(e) => setFlightData({...flightData, economySeats : e.target.value})}/><br/><br/>
             <TextField  name="Business Seats"  variant="outlined" label="Business Seats"  value={flightData.businessSeats} onChange={(e) => setFlightData({...flightData,businessSeats : e.target.value})}/><br/><br/>
-            <TextField  name="First Class Seats"  variant="outlined" label="First Class Seats"  value={flightData.firstSeats} onChange={(e) => setFlightData({...flightData, firstSeats : e.target.value})}/><br/><br/>
             <TextField  name="Departure Airport"  variant="outlined" label="Departure Airport"  value={flightData.depAirport} onChange={(e) => setFlightData({...flightData, depAirport : e.target.value})}/><br/><br/>
             <TextField  name="Arrival Airport"  variant="outlined" label="Arrival Airport"  value={flightData.arrAirport} onChange={(e) => setFlightData({...flightData, arrAirport : e.target.value})}/><br/><br/>
             <TextField  name="Price Economy"  variant="outlined" label="Price Economy"  value={flightData.priceEconomy} onChange={(e) => setFlightData({...flightData, priceEconomy : e.target.value})}/><br/><br/>

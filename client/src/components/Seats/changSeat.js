@@ -163,6 +163,7 @@ useEffect(()=>{
     let j=1;
     console.log(reservation.cabinDeparture);
     dakhal = true;
+    if(type=='Departure'){
     if(reservation.cabinDeparture=='Economy'){
       for(let i=1;i<=business;i++){
         document.getElementById(""+i).disabled="disabled";
@@ -175,6 +176,21 @@ useEffect(()=>{
         document.getElementById(""+i).disabled="disabled";
       }
     }
+  }
+  else{
+    if(reservation.cabinReturn=='Economy'){
+      for(let i=1;i<=business;i++){
+        document.getElementById(""+i).disabled="disabled";
+      }
+    }
+    else{
+      console.log(business);
+      console.log(total);
+      for(let i=business+1;i<=total;i++){
+        document.getElementById(""+i).disabled="disabled";
+      }
+    }
+  }
     for(const seat of seatarray){
       if(seat.state){
         document.getElementById(""+j).disabled="disabled";
