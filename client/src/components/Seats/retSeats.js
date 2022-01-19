@@ -213,12 +213,13 @@ const Seat =  () => {
   // });
   setflag(true);
 }
-  },[retFlight,reservation,display]);
+  },[retFlight,reservation,display,currUser]);
   useEffect(()=>{
     
     function setflag2func(){
+      console.log(reservation.cabinReturn);
       let j=1;
-      if(reservation.cabinDeparture=='Economy'){
+      if(reservation.cabinReturn=='Economy'){
         for(let i=1;i<=business;i++){
           document.getElementById(""+i).disabled="disabled";
         }
@@ -293,7 +294,6 @@ const Submit=(e)=>{
       <u><h1>Please Select Return Flight Seats</h1></u>
       {display}
       <button onClick={Submit}>Confirm and Proceed to Payment</button>
-      <Footer/>
     </div>
   )
 

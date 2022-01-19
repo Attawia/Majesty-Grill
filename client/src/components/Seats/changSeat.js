@@ -18,7 +18,7 @@ let dakhal = false;
 const Seat =  () => {
   const history = useHistory();
   const location = useLocation();
-  const [display,setDisplay]=useState();
+  let [display,setDisplay]=useState();
   const[flag,setflag]=useState(false);
   let{flight}=location.state;
   flight=flight[0];
@@ -239,7 +239,6 @@ const Submit=async(e)=>{
       <u><h1>Please Select New {type} Flight Seats</h1></u>
       {display}
       <button onClick={Submit}>Update {type} Flight Seats</button>
-      <Footer/>
     </div>
   )
 }  

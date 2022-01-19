@@ -229,7 +229,6 @@ const Submit=(e)=>{
       <u><h1>Please Select New {type} Flight Seats</h1></u>
       {display}
       <button onClick={Submit}>Confirm New {type} Flight Seats</button>
-      <Footer/>
     </div>
   )
 

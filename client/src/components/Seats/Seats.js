@@ -193,9 +193,11 @@ const Seat =  () => {
     }
     row++;
   }
+ // final.push(<Footer/>);
+
   console.log('here1' + set);
 
-  
+    
     setDisplay(final);
   
   console.log('here' + set);
@@ -298,7 +300,7 @@ const Submit=(e)=>{
       <u><h1>Please Select Departure Flight Seats</h1></u>
       {display}
       <button onClick={Submit}>Confirm Departure Flight Seats</button>
-      <Footer/>
+      
     </div>
   )
 
