@@ -7,10 +7,10 @@ export const register = async (req,res) => {
     const user = req.body;
     user.password = await bcrypt.hash(user.password,10);
     const newUser = new User(user);
-    const alreadyUsername = await User.find({username: newUser.username});
-    const alreadyPassport = await User.find({passportNo : newUser.passportNo});
-    const alreadyTelephone = await User.find({telephoneNo: newUser.telephoneNo});
-    const alreadyEmail = await User.find({email: newUser.email});
+    const alreadyUsername = await User.findOne({username: newUser.username});
+    const alreadyPassport = await User.findOne({passportNo : newUser.passportNo});
+    const alreadyTelephone = await User.findOne({telephoneNo: newUser.telephoneNo});
+    const alreadyEmail = await User.findOne({email: newUser.email});
     if(!!alreadyUsername || !!alreadyEmail || !!alreadyTelephone || !!alreadyPassport){res.send(false)}
     else{
         await newUser.save();
