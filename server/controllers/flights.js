@@ -94,8 +94,10 @@ export const createFlight = async (req,res) => {
  export const addReservation= async (req,res)=>{
     let reservation= req.body;
     const newReservation= new Reservation(reservation);
+    console.log(newReservation);
     try{
-        await newReservation.save();
+        const save=await newReservation.save();
+        console.log('here' + save);
         res.status(201).json(newReservation);
     }
     catch(error){
