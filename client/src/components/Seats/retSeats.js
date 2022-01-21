@@ -34,7 +34,6 @@ import Footer from '../Footer/Footer.js';
 let final=[];
 let row=1;
 let set = false;
-const userName = 'Disha';
 const Seat =  () => {
   const history = useHistory();
   const location = useLocation();
@@ -273,7 +272,7 @@ const Submit=(e)=>{
       }
     }
     const sent={_id:id,seats:reserved};
-    reservation = {...reservation,seatReturn:reserved};
+    reservation = {...reservation,seatReturn:reserved,userName:currUser};
     console.log(reservation);
     axios.all([
     axios.post('http://localhost:5000/sendemail/itineraryemail',{userEmail:email, reservation}),
