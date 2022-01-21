@@ -11,7 +11,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/Attawia/Majesty-Grill">
-    <img src="client/src/components/Navbar/logofinal.png" alt="Logo" width="80" height="80">
+    <img src="client/src/components/Navbar/logo.png" alt="Logo" width="120" height="120">
   </a>
 
 <h3 align="center">Majesty Airlines</h3>
@@ -160,11 +160,11 @@ As a registered user you can:
 This project was originally created as a university project for |CSEN704| Advanced Computer lab , MET - CSEN 7th semester.
 The team consists of the following members:
 
-1. Ahmed Attawia
-2. Abdelrahman Hany
-3. Omar Darwish
-4. Mohamed Zaki
-5. Youssef Amro
+1. Ahmed Attawia - 46-4982
+2. Abdelrahman Hany - 46-2085
+3. Omar Darwish - 46-1299
+4. Mohamed Zaki - 46-1939
+5. Youssef Amro - 46-3138
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
