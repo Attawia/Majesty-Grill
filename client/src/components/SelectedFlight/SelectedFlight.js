@@ -80,6 +80,15 @@ getTheFlight()
       window.location.reload();
       
  }
+ function toBebo(){
+    const type = typeDest;
+    const edited = editedDest;
+    const reservation = reservationDest;
+    history.push({
+        pathname: "/editreservation",
+        state:{type,reservation}
+      }); 
+ }
  
     return(
         
@@ -150,16 +159,9 @@ getTheFlight()
 
             <div>
                <ul>
-               <Link to={
-                   //mstny path mn beebo
-                   {
-                   pathname: '/editreservationDest',
-                   state: {reservationDest, typeDest}
-                   }
 
-               }>
-               <li> <button>Edit</button></li>
-               </Link>
+               <li> <button onClick={toBebo}>Edit</button></li>
+
 
                
                

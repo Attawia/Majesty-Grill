@@ -148,8 +148,8 @@ const PaymentForm = () => {
             <Footer/>
         </form>
     }
-    {successFlag && destFlag && <h3>Payment Successful, redirecting...</h3>}
-    {!destFlag && <h3>Hena</h3>}
+    {successFlag && destFlag && <h5>Payment Successful, redirecting...</h5>}
+    {!destFlag && <h3>Forbidden</h3>}
 
     </div>
         )

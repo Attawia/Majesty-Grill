@@ -6,6 +6,7 @@ import Popup from './../Popup.js'
 import {getUsername} from './../../api/auth.js'
 import Navbar from '../Navbar/Navbar.js';
 import Footer from '../Footer/Footer.js';
+import {FaSearch,FaPlus,FaMinus,FaPlaneDeparture,FaPlaneArrival,FaPlane,FaLuggageCart,FaUserCircle,FaRegCalendarAlt} from "react-icons/fa"
 
 let flag=false;
 const EditReservationDep = () => {
@@ -144,8 +145,10 @@ const EditReservationDep = () => {
                 state : {flight,type,reservation}//hahot hena el flight elly howa ekhtarha
                 }}>
                 <div className="flights-preview" key={flight.flightNo}>
-                    <h2>{flight.flightNo}</h2>
-                    <h4>{ flight.depAirport} ===={">"} { flight.arrAirport} </h4>
+                    <h2 className="flight-number"><FaRegCalendarAlt/> {flight.departureTime.substring(0,10)}</h2>
+                    <h2>{ flight.flightNo}</h2>
+                    <h2><FaPlaneDeparture/> { flight.depAirport}     {flight.departureTime.substring(11,16)}</h2>
+                    <h2><FaPlaneArrival/> { flight.arrAirport}       {flight.arrivalTime.substring(11,16)}</h2>
                     <h3>Price Difference:  ({Math.max(0,Math.floor(flight.priceEconomy - (reservation.priceDeparture/reservation.passengers)))})€    ~    ({Math.max(0,Math.floor(flight.priceBusiness - (reservation.priceDeparture/reservation.passengers)))})€</h3>
                 </div>
             </Link>
@@ -157,8 +160,10 @@ const EditReservationDep = () => {
                 state : {flight,type,reservation}//hahot hena el flight elly howa ekhtarha
                 }}>
                 <div className="flights-preview" key={flight.flightNo}>
-                    <h2>{flight.flightNo}</h2>
-                    <h4>{ flight.depAirport} ===={">"} { flight.arrAirport} </h4>
+                    <h2 className="flight-number"><FaRegCalendarAlt/> {flight.departureTime.substring(0,10)}</h2>
+                    <h2>{ flight.flightNo}</h2>
+                    <h2><FaPlaneDeparture/> { flight.depAirport}     {flight.departureTime.substring(11,16)}</h2>
+                    <h2><FaPlaneArrival/> { flight.arrAirport}       {flight.arrivalTime.substring(11,16)}</h2>
                     <h3>Price Difference:  ({Math.max(0,Math.floor(flight.priceEconomy - (reservation.priceReturn/reservation.passengers)))})€    ~    ({Math.max(0,Math.floor(flight.priceBusiness - (reservation.priceReturn/reservation.passengers)))})€</h3>
                 </div>
             </Link>
